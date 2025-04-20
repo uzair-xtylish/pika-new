@@ -7,7 +7,7 @@ module.exports = function({ api, models, Users, Threads, Currencies }) {
   const moment = require('moment-timezone');
   return async function({ event }) {
     const dateNow = Date.now();
-    const time = moment.tz('Asia/Ho_Chi_minh').format('HH:MM:ss - DD/MM/YYYY');
+    const time = moment.tz('Asia/Karachi').format('HH:MM:ss - DD/MM/YYYY');
     const upt = process.uptime() + global.config.UPTIME,
       gio = Math.floor(upt / (60 * 60)),
       phut = Math.floor((upt % (60 * 60)) / 60),
@@ -49,7 +49,7 @@ module.exports = function({ api, models, Users, Threads, Currencies }) {
     );
     if (!prefixRegex.test(body)) return;
     const adminbot = require('./../../config.json');
-    let getDay = moment.tz('Asia/Ho_Chi_Minh').day();
+    let getDay = moment.tz('Asia/Karachi').day();
     let usgPath = __dirname + '/usages.json';
     if (!fs.existsSync(usgPath)) fs.writeFileSync(usgPath, JSON.stringify({}));
     let usages = JSON.parse(fs.readFileSync(usgPath));
@@ -73,7 +73,7 @@ module.exports = function({ api, models, Users, Threads, Currencies }) {
         adminbot.adminPaOnly == true
       )
         return api.sendMessage(
-          '[ 𝗠𝗢𝗗𝗘 ] - Chỉ 𝗔𝗱𝗺𝗶𝗻 bot mới có thể chat riêng bot ❤️',
+          '[ 𝗠𝗢𝗗𝗘 ] - Only bot admin can chat privately with bot ❤️',
           threadID,
           messageID
         );
@@ -88,7 +88,7 @@ module.exports = function({ api, models, Users, Threads, Currencies }) {
         res.data.status == true
       )
         return api.sendMessage(
-          '[ 𝗠𝗢𝗗𝗘 ] - Chỉ 𝗔𝗱𝗺𝗶𝗻 bot mới có thể sử dụng bot',
+          '[ 𝗠𝗢𝗗𝗘 ] - Only bot admin can use bot',
           threadID,
           messageID
         );
@@ -108,7 +108,7 @@ module.exports = function({ api, models, Users, Threads, Currencies }) {
         res.data.status == true
       )
         return api.sendMessage(
-          '[ 𝗠𝗢𝗗𝗘 ] - Chỉ 𝗔𝗱𝗺𝗶𝗻 or 𝗡𝗴𝘂̛𝗼̛̀𝗶 𝘁𝗵𝘂𝗲̂ 𝗯𝗼𝘁 mới có thể sử dụng bot',
+          '[ 𝗠𝗢𝗗𝗘 ] - Only admin or bot renter can use bot',
           threadID,
           messageID
         );
@@ -125,7 +125,7 @@ module.exports = function({ api, models, Users, Threads, Currencies }) {
       event.isGroup == true
     )
       return api.sendMessage(
-        '[ 𝗠𝗢𝗗𝗘 ] - Chỉ 𝗾𝘁𝘃 𝗕𝗼𝘅 mới được sử dụng bot!!',
+        '[ 𝗠𝗢𝗗𝗘 ] - Only qtv Box can use bot!!',
         event.threadID,
         event.messageID
       );
@@ -185,7 +185,7 @@ module.exports = function({ api, models, Users, Threads, Currencies }) {
       !['daily', 'check', 'setluot', 'cmd', 'luotdung'].includes(commandName)
     )
       return api.sendMessage(
-        '𝗟𝘂̛𝗼̛̣𝘁 𝗱𝘂̀𝗻𝗴 𝗯𝗼𝘁 của bạn đã hết\nDùng /𝗱𝗮𝗶𝗹𝘆 để nhận thêm lượt hoặc 𝗺𝘂𝗮 𝗹𝘂̛𝗼̛̣𝘁 𝗱𝘂̀𝗻𝗴 lệnh /𝗹𝘂𝗼𝘁𝗱𝘂𝗻𝗴 ',
+        'Your bots uses are used up\nUse /daily to get more uses or buy uses with /luotdung ',
         threadID,
         messageID
       );
@@ -272,15 +272,15 @@ responseType: "stream"
     else if (!ADMINBOT.includes(senderID) && find) permssion = 1;
     var quyenhan = '';
     if (command.config.hasPermssion == 1) {
-      quyenhan = '𝗤𝘂𝗮̉𝗻 𝗧𝗿𝗶̣ 𝗩𝗶𝗲̂𝗻';
+      quyenhan = 'Administrator';
     } else if (command.config.hasPermssion == 2) {
-      quyenhan = '𝗡𝗴𝘂̛𝗼̛̀𝗶 𝗧𝗵𝘂𝗲̂ 𝗕𝗼𝘁';
+      quyenhan = 'Bot renter';
     } else if (command.config.hasPermssion == 3) {
       quyenhan = '𝗔𝗱𝗺𝗶𝗻 𝗣𝗿𝗲𝗺𝗶𝘂𝗺';
     }
     if (command.config.hasPermssion > permssion)
       return api.sendMessage(
-        `━━━[ 𝗖𝗔̉𝗡𝗛 𝗕𝗔́𝗢 ]━━━\n\nLệnh '${command.config.name}' Chỉ Được Dùng Với Những Người Có Quyền Hạn Là ${quyenhan}`,
+        `━━━[ Warning ]━━━\n\nCommand '${command.config.name}' For Authorized Use Only ${quyenhan}`,
         event.threadID,
         event.messageID
       );
@@ -293,8 +293,8 @@ responseType: "stream"
       dateNow < timestamps.get(senderID) + expirationTime
     )
       return api.sendMessage(
-        `〈 𝗦𝗨̛̉ 𝗗𝗨̣𝗡𝗚 𝗤𝗨𝗔́ 𝗡𝗛𝗔𝗡𝗛 〉\n\n→ 𝗕𝗮̣𝗻 đ𝗮𝗻𝗴 𝘁𝗿𝗼𝗻𝗴 𝘁𝗵𝗼̛̀𝗶 𝗴𝗶𝗮𝗻 𝗰𝗵𝗼̛̀!\n→ 𝗩𝘂𝗶 𝗹𝗼̀𝗻𝗴 𝘁𝗵𝘂̛̉ 𝗹𝗮̣𝗶 𝘀𝗮𝘂 ${(
-          (timestamps.get(senderID) + expirationTime - dateNow) / 1000).toString().slice(0, 5)}𝘀 𝗻𝘂̛̃𝗮 𝗻𝗵𝗲́`, threadID, messageID);
+        `〈 Use branch 〉\n\n→ You are on hold!\n→ Please try again later ${(
+          (timestamps.get(senderID) + expirationTime - dateNow) / 1000).toString().slice(0, 5)}more`, threadID, messageID);
 
     var getText2;
     if (
@@ -342,7 +342,7 @@ responseType: "stream"
             args.join(' '),
             Date.now() - dateNow
           ),
-          '[ DEV MODE ]'
+          '[ 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 ]'
         );
       return;
     } catch (e) {

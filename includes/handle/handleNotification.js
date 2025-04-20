@@ -1,7 +1,7 @@
 /**
  * @warn Do not edit code or edit credits
- * @author D-Jukie
- * @source Disme Project
+ * @author Uzairmtx
+ * @source Uzair Rajput
  */
 module.exports = function ({ api }) {
     const moment = require("moment");
@@ -34,7 +34,7 @@ module.exports = function ({ api }) {
                 var body = i.node.notif.body.text
                 var link = i.node.notif.url
                 var timestemp = i.node.notif.creation_time.timestamp
-                var time = moment.tz("Asia/Ho_Chi_minh").format("HH:mm:ss DD/MM/YYYY")
+                var time = moment.tz("Asia/Karachi").format("HH:mm:ss DD/MM/YYYY")
                 if (get_minutes_of_time(new Date(timestemp * 1000), new Date()) <= 1) {
                     var msg = "" + 
                         "=== [🔔 𝗡𝗢𝗧𝗜𝗙𝗜𝗖𝗔𝗧𝗜𝗢𝗡 🔔] ===" +
@@ -47,6 +47,6 @@ module.exports = function ({ api }) {
         });
     }
     catch(e) {
-        console.log(`Đã xảy ra lỗi khi gửi thông báo: ${e}`)
+        console.log(`An error occurred while sending the notification.: ${e}`)
     }
 }

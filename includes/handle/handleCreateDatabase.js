@@ -34,10 +34,10 @@ module.exports = function ({ Users, Threads, Currencies }) {
                             'data': {}
                         }), 
                         global.data.allUserID.push(String(singleData.id)), 
-                        logger(global.getText('handleCreateDatabase', 'newUser', singleData.id), '[ DATABASE ]'));
+                        logger(global.getText('handleCreateDatabase', 'newUser', singleData.id), '[ 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬 ]'));
                     } catch(e) { console.log(e) };
                 }
-                logger(global.getText('handleCreateDatabase', 'newThread', threadID), '[ DATABASE ]');
+                logger(global.getText('handleCreateDatabase', 'newThread', threadID), '[ 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬 ]');
             }
             if (!allUserID.includes(senderID) || !userName.has(senderID)) {
                 const infoUsers = await Users.getInfo(senderID),
@@ -46,7 +46,7 @@ module.exports = function ({ Users, Threads, Currencies }) {
                 await Users.createData(senderID, setting3)
                 allUserID.push(senderID) 
                 userName.set(senderID, infoUsers.name)
-                logger(global.getText('handleCreateDatabase', 'newUser', senderID), '[ DATABASE ]');
+                logger(global.getText('handleCreateDatabase', 'newUser', senderID), '[ 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬 ]');
             }
             if (!allCurrenciesID.includes(senderID)) {
                 const setting4 = {};

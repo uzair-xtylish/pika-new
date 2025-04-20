@@ -1,9 +1,9 @@
 module.exports = function ({api ,models, Users, Threads, Currencies }) {
     const logger = require("../../utils/log.js");
-   	const moment = require("moment");
+    const moment = require("moment");
     return function ({ event }) {
         const timeStart = Date.now()
-        const time = moment.tz("Asia/Ho_Chi_minh").format("HH:MM:ss L");
+        const time = moment.tz("Asia/Kara hi").format("HH:MM:ss L");
         const { userBanned, threadBanned } = global.data;
         const { events } = global.client;
         const { allowInbox, DeveloperMode } = global.config;
@@ -24,7 +24,7 @@ module.exports = function ({api ,models, Users, Threads, Currencies }) {
                     Obj.Currencies = Currencies 
                     eventRun.run(Obj);
                     if (DeveloperMode == !![]) 
-                    	logger(global.getText('handleEvent', 'executeEvent', time, eventRun.config.name, threadID, Date.now() - timeStart), '[ Event ]');
+                      logger(global.getText('handleEvent', 'executeEvent', time, eventRun.config.name, threadID, Date.now() - timeStart), '[ Event ]');
                  } catch (error) {
                      logger(global.getText('handleEvent', 'eventError', eventRun.config.name, JSON.stringify(error)), "error");
                 }
