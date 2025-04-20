@@ -16,7 +16,7 @@ const CFonts = require('cfonts');
 // Create website for dashboard / uptime //
 /////////////////////////////////////////////////////////////
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '/index.html'));
+    res.sendFile(path.join(__dirname, '/𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿.html'));
 });
 app.listen(port);
 
