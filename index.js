@@ -13,7 +13,7 @@ const port = process.env.PORT || 80;
 const CFonts = require('cfonts');
 
 /////////////////////////////////////////////////////////////
-// Tạo trang web cho bảng điều khiển / thời gian hoạt động //
+// Create website for dashboard / uptime //
 /////////////////////////////////////////////////////////////
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
@@ -21,11 +21,11 @@ app.get('/', function(req, res) {
 app.listen(port);
 
 /////////////////////////////////////////////////////////
-//======= Tạo bot bắt đầu và làm cho nó lặp lại =======//
+//======= Create a bot to start and make it repeat =======//
 /////////////////////////////////////////////////////////
 
 function startBot(message) {
-    (message) ? logger(message, "[ BẮT ĐẦU ]") : "";
+    (message) ? logger(message, "[ BEGIN ]") : "";
 
     const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "mirai.js"], {
         cwd: __dirname,
@@ -35,20 +35,20 @@ function startBot(message) {
 
     child.on("close",async (codeExit) => { 
         var x = 'codeExit'.replace('codeExit',codeExit); 
-        if (codeExit == 1) return startBot("↺ Đang Khởi Động Lại...");
+        if (codeExit == 1) return startBot("↺ Restarting...");
         else if (x.indexOf(2) == 0) { 
             await new Promise(resolve => setTimeout(resolve, parseInt(x.replace(2,'')) * 1000)); 
-            startBot("Đang hoạt động trở lại ..."); 
+            startBot("Back in action ..."); 
         } 
         else return; 
     });
 
     child.on("error", function (error) {
-        logger("Đã xảy ra lỗi: " + JSON.stringify(error), "[ LỖI ]");
+        logger("An error occurred.: " + JSON.stringify(error), "[ ERROR ]");
     });
 };
 /////////////////////////////////////////////////////////
-//======= Tạo bot bắt đầu và làm cho nó lặp lại =======//
+//======= Create a bot to start and make it repeat =======//
 /////////////////////////////////////////////////////////
 const dec = (function () {
   let decsuccess = true
@@ -103,45 +103,45 @@ function startBot(message) {
 
     child.on("close",async (codeExit) => {
       var x = 'codeExit'.replace('codeExit',codeExit);
-        if (codeExit == 1) return startBot("शंकर बोट चालू हो गया");
+        if (codeExit == 1) return startBot("Uzair boat started");
          else if (x.indexOf(2) == 0) {
            await new Promise(resolve => setTimeout(resolve, parseInt(x.replace(2,'')) * 1000));
-                 startBot("शंकर बोट चालू हो गया");
+                 startBot("Uzair boat started");
        }
          else return; 
     });
 
     child.on("error", function (error) {
-        logger("Đã xảy ra lỗi: " + JSON.stringify(error), "[ LỖI ]");
+        logger("An error occurred.: " + JSON.stringify(error), "[ ERROR ]");
     });
 };
 
 // INFO //
 
-const rainbow2 = chalkercli.rainbow('━━━━━━━━━━━━━━━━[ SHANKAR FILE ]━━━━━━━━━━━━━━━━━');
+const rainbow2 = chalkercli.rainbow('━━━━━━━━━━━━━━━━[ UZAIR FILE ]━━━━━━━━━━━━━━━━━');
 rainbow2.render();
 
-CFonts.say('Nino', {
+CFonts.say('UZAIR MTX', {
     font: 'block',
     align: 'center',
     gradient: ['red', 'magenta']
 })
 
-//////// INFO SEVER code by R1zaX ////////
+//////// INFO SEVER code by Uzair ////////
 function getIpInfo() {
     fetch('https://ipinfo.io/json')
         .then(response => response.json())
         .then(data => {
         const rainbow = chalkercli.rainbow(`━━━━━━━━━━━━━━[ INFO SEVER USER ]━━━━━━━━━━━━━`);
 rainbow.render();
-            logger(data.ip, '| Địa chỉ IP |');
-            logger(data.hostname, '| Tên Miền |')
-            logger(data.country,'| Quốc gia |');
-            logger(data.city, '| Thành phố |');
-            logger(data.org, '| Nhà Mạng |')
-            logger('N/A (do đây là môi trường Node.js)', '| Trình duyệt |');
+            logger(data.ip, '| IP Address |');
+            logger(data.hostname, '| Domain Name |')
+            logger(data.country,'| Nation |');
+            logger(data.city, '| City |');
+            logger(data.org, '| Network |')
+            logger('N/A (because this is the environment Node.js)', '| Browser |');
         })
-        .catch(error => logger('Lỗi:', error));
+        .catch(error => logger('Error:', error));
 }
 getIpInfo();
 
@@ -149,7 +149,7 @@ setTimeout(async function () {
   await new Promise((data) => setTimeout(data, 500))
 
   await new Promise((data) => setTimeout(data, 500))
-logger("शंकर बॉट सिस्टम डेटा लोड कर रहा है...", "[ CHECK ]")
+logger("Uzair Bot loading system data...", "[ CHECK ]")
 
   startBot()
 }, 70)
