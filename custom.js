@@ -4,18 +4,18 @@ module.exports = async ({ api }) => {
     autoRestart: {
       status: true,
       time: 1, //40 minutes
-      note: 'Để tránh sự cố, hãy bật khởi động lại bot định kỳ'
+      note: 'To avoid problems, enable periodic bot restarts'
     },
     accpetPending: {
       status: true,    
       time: 30, //30 minutes
-      note: 'Phê duyệt tin nhắn chờ sau một thời gian nhất định'
+      note: 'Approve pending messages after a certain time'
     }
   }
   function autoRestart(config) {
     if(config.status) {
       setInterval(async () => {
-        logger(`Bắt đầu khởi động lại hệ thống!`, "[ Auto Restart ]")
+        logger(`Start system reboot!`, "[ Auto Restart ]")
         process.exit(1)
       }, config.time * 60 * 1000)
     }
@@ -28,7 +28,7 @@ module.exports = async ({ api }) => {
               ...(await api.getThreadList(1, null, ['OTHER']))
           ];
           if (list[0]) {    
-              api.sendMessage('[ 𝗖𝗛𝗘𝗖𝗞 ] Bạn đã được phê duyệt cho hàng đợi. (Đây là một tin nhắn tự động)', list[0].threadID);
+              api.sendMessage('[ 𝗖𝗛𝗘𝗖𝗞 ] You have been approved for the queue. (This is an automated message.)', list[0].threadID);
           }
       }, config.time * 60 * 1000)
     }
