@@ -10,10 +10,10 @@ function randomColor() {
 module.exports = (data, option) => {
   switch (option) {
     case "warn":
-        console.log(chalk.bold.hex("#ff0000").bold('» SHANKAR « ') + data);
+        console.log(chalk.bold.hex("#ff0000").bold('» 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 « ') + data);
       break;
     case "error":
-      console.log(chalk.bold.hex("#ff0000").bold('» SHANKAR « ') + data);
+      console.log(chalk.bold.hex("#ff0000").bold('» 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 « ') + data);
       break;
     default:
         console.log(chalk.bold.hex(randomColor()).bold(`${option} ➟ `) + data);
@@ -24,13 +24,13 @@ module.exports = (data, option) => {
 module.exports.loader = (data, option) => {
   switch (option) {
     case "warn":
-      console.log(chalk.bold.hex(randomColor()).bold("〈 Shankar 〉") + chalk.bold.hex("#8B8878").bold(data))
+      console.log(chalk.bold.hex(randomColor()).bold("〈 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 〉") + chalk.bold.hex("#8B8878").bold(data))
       break;
     case "error":
-    console.log(chalk.bold.hex(randomColor()).bold("〈 Shankar 〉") + data);
+    console.log(chalk.bold.hex(randomColor()).bold("〈 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 〉") + data);
       break;
     default:
-      console.log(chalk.bold.hex(randomColor()).bold("〈 Shankar 〉") + chalk.bold.hex(randomColor()).bold(data));
+      console.log(chalk.bold.hex(randomColor()).bold("〈 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿 〉") + chalk.bold.hex(randomColor()).bold(data));
       break;
   }
 }
