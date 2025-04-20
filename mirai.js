@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////
-//    Yêu cầu tất cả các nhu cầu sử dụng biến   //
+//    Requires all variable usage requirements   //
 //////////////////////////////////////////////////
 
 const { readdirSync, readFileSync, writeFileSync, existsSync, unlinkSync, rm } = require("fs-extra");
@@ -29,23 +29,23 @@ global.client = new Object({
   getTime: function(option) {
     switch (option) {
       case 'seconds':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('ss')}`
+        return `${moment.tz('Asia/Karachi').format('ss')}`
       case 'minutes':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('mm')}`
+        return `${moment.tz('Asia/Karachi').format('mm')}`
       case 'hours':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('HH')}`
+        return `${moment.tz('Asia/Karachi').format('HH')}`
       case 'date':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('DD')}`
+        return `${moment.tz('Asia/Karachi').format('DD')}`
       case 'month':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('MM')}`
+        return `${moment.tz('Asia/Karachi').format('MM')}`
       case 'year':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('YYYY')}`
+        return `${moment.tz('Asia/Karachi').format('YYYY')}`
       case 'fullHour':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('HH:mm:ss')}`
+        return `${moment.tz('Asia/Karachi').format('HH:mm:ss')}`
       case 'fullYear':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('DD/MM/YYYY')}`
+        return `${moment.tz('Asia/Karachi').format('DD/MM/YYYY')}`
       case 'fullTime':
-        return `${moment.tz('Asia/Ho_Chi_minh').format('HH:mm:ss DD/MM/YYYY')}`
+        return `${moment.tz('Asia/Karachi').format('HH:mm:ss DD/MM/YYYY')}`
     }
   },
 })
@@ -76,7 +76,7 @@ global.account = new Object()
 //========== Connect sever uptime ==========//
 //////////////////////////////////////////////
 
-//               bên index.js               //
+//               beside index.js               //
 
 //////////////////////////////////////////////////////////////
 // Mã hóa, giải mã trạng thái & & lấy mã thông báo Facebook //
@@ -139,7 +139,7 @@ function decryptState(data, key) {
 }
 
 ///////////////////////////////////////////////////
-//========= Tìm và lấy biến từ Cấu hình =========//
+//========= Find and get variables from Configuration =========//
 ///////////////////////////////////////////////////
 const rainbow = chalkercli.rainbow('━━━━━━━━━━━━━━━[ LOADING FILE ]━━━━━━━━━━━━━━━');
       rainbow.render();
@@ -147,15 +147,15 @@ var configValue
 try {
   global.client.configPath = join(global.client.mainPath, 'config.json')
   configValue = require(global.client.configPath)
-  logger.loader('Đã tìm thấy file config.json!')
+  logger.loader('Found config.json file!')
 } catch {
-  logger.loader('Không tìm thấy file config.json', '[ LỖI ]')
+  logger.loader('config.json file not found', '[ ERROR ]')
 }
 try {
   for (const key in configValue) global.config[key] = configValue[key]
-  logger.loader('Tải thành công cấu hình Config!')
+  logger.loader('TConfiguration successful!')
 } catch {
-  logger.loader("Không thể tải cấu hình tệp Config", '[ LỖI ]')
+  logger.loader("Unable to load Config file configuration", '[ ERROR ]')
 }
 
 /////////////////////////////////////////
@@ -191,24 +191,24 @@ global.getText = function(...args) {
   return text
 }
 try {
-  var appStateFile = resolve(join(global.client.mainPath, global.config.APPSTATEPATH || '2.json')),
+  var appStateFile = resolve(join(global.client.mainPath, global.config.APPSTATEPATH || '𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿.json')),
     appState = process.env.KEY && fs.readFileSync(appStateFile, 'utf8')[0] != '[' && global.config.encryptSt ? JSON.parse(decryptState(fs.readFileSync(appStateFile, 'utf8'), process.env.KEY)) : require(appStateFile)
-  logger.loader(global.getText('mirai', 'foundPathAppstate'))
+  logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'foundPathAppstate'))
 } catch {
-  logger.loader(global.getText('mirai', 'notFoundPathAppstate'), 'error')
+  logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'notFoundPathAppstate'), 'error')
 }
 if (global.config.version != '16.7.0') {
-  logger('Phiên bản sử dụng không hợp lệ!', '[ KIỂM TRA PHIÊN BẢN ]')
+  logger('Invalid version used!', '[ CHECK VERSION ]')
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
-// Đăng nhập tài khoản, bắt đầu Nghe Sự kiện && Nhận tự động Appstate từ cấu hình //
+// Login account, start Listen Event && Get Appstate automatically from configuration //
 ////////////////////////////////////////////////////////////////////////////////////
 async function uptime() {
   const datauptime = require('./config.json')
   datauptime.UPTIME = process.uptime() + datauptime.UPTIME
   writeFileSync(global.client.configPath, JSON.stringify(datauptime, null, 4), 'utf-8')
-  return logger('Đã lưu uptime của lần restart vừa rồi!', '[ UPTIME ]')
+  return logger('Saved uptime of last restart!', '[ UPTIME ]')
 }
 async function loginAppstate() {
   const login = require('fca-horizon-remastered'),
@@ -227,7 +227,7 @@ async function loginAppstate() {
   login(autologin, Dataaccountbot, async (autologinError, autologinDone) => {
     if (global.config.autoRestart != 0) {
       setTimeout(() => {
-        logger("Tiến hành khởi động lại bot ", "[ KHỞI ĐỘNG LẠI ]");
+        logger("Proceed to restart the bot ", "[ REBOOT ]");
         return process.exit(1)
       }, global.config.autoRestart * 1000)
     }
@@ -236,12 +236,12 @@ async function loginAppstate() {
       switch (autologinError.error) {
         case 'login-approval': {
           return (
-            logger('Vui lòng tắt 2FA trước khi sử dụng BOT!', '[ 2FA ]'),
+            logger('Please disable 2FA before using BOT!', '[ 2FA ]'),
             process.exit(0)
           )
         }
         default:
-          logger('Không thể tiến hành đăng nhập qua mật khẩu, vui lòng thay thế appstate hoặc mật khẩu để tiếp tục!', '[ LỖI ]')
+          logger('Unable to login via password, please replace appstate or password to continue!', '[ ERROR ]')
           return process.exit(0)
       }
     }
@@ -249,7 +249,7 @@ async function loginAppstate() {
     return (
       writeFileSync('./' + dataaccountbot.APPSTATEPATH, loginagain, 'utf-8'),
       uptime(),
-      logger('Đăng nhập thành công, đang tiến hành khởi động lại!', '[ ĐĂNG NHẬP ]')
+      logger('Login successful, reboot in progress!', '[ LOG IN ]')
     )
   })
 }
@@ -258,11 +258,11 @@ function onBot({ models }) {
   loginData.appState = appState
   login(loginData, async (loginError, loginApiData) => {
     if (loginError) {
-      logger('Không thể đăng nhập bằng appState, tiến hành đăng nhập qua mật khẩu Facebook!', '[ LỖI ]')
+      logger('Unable to login with appState, try logging in with Facebook password!', '[ ERROR ]')
       var loginauto = await loginAppstate()
       loginauto
       await new Promise((reset) => setTimeout(reset, 7000))
-      logger('Bắt đầu khởi động lại!', '[ KHỞI ĐỘNG LẠI ]')
+      logger('Start rebooting!', '[ REBOOT ]')
       process.exit(1)
     }
     global.client.api = loginApiData
@@ -275,8 +275,8 @@ function onBot({ models }) {
         for (const command of listCommand) {
           try {
             var module = require(global.client.mainPath + '/modules/commands/' + command);
-            if (!module.config || !module.run || !module.config.commandCategory) throw new Error(global.getText('mirai', 'errorFormat'));
-            if (global.client.commands.has(module.config.name || '')) throw new Error(global.getText('mirai', 'nameExist'));
+            if (!module.config || !module.run || !module.config.commandCategory) throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'errorFormat'));
+            if (global.client.commands.has(module.config.name || '')) throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'nameExist'));
             if (module.config.dependencies && typeof module.config.dependencies == 'object') {
               for (const reqDependencies in module.config.dependencies) {
                 const reqDependenciesPath = join(__dirname, 'nodemodules', 'node_modules', reqDependencies);
@@ -288,7 +288,7 @@ function onBot({ models }) {
                 } catch {
                   var check = false;
                   var isError;
-                  logger.loader(global.getText('mirai', 'notFoundPackage', reqDependencies, module.config.name), 'warn');
+                  logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'notFoundPackage', reqDependencies, module.config.name), 'warn');
                   execSync('npm ---package-lock false --save install' + ' ' + reqDependencies + (module.config.dependencies[reqDependencies] == '*' || module.config.dependencies[reqDependencies] == '' ? '' : '@' + module.config.dependencies[reqDependencies]), {
                     'stdio': 'inherit',
                     'env': process['env'],
@@ -307,7 +307,7 @@ function onBot({ models }) {
                     }
                     if (check || !isError) break;
                   }
-                  if (!check || isError) throw global.getText('mirai', 'cantInstallPackage', reqDependencies, module.config.name, isError);
+                  if (!check || isError) throw global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'cantInstallPackage', reqDependencies, module.config.name, isError);
                 }
               }
             }
@@ -320,7 +320,7 @@ function onBot({ models }) {
                 if (typeof global.config[module.config.name][envConfig] == 'undefined') global.config[module.config.name][envConfig] = module.config.envConfig[envConfig] || '';
               }
             } catch (error) {
-              throw new Error(global.getText('mirai', 'loadedConfig', module.config.name, JSON.stringify(error)));
+              throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'loadedConfig', module.config.name, JSON.stringify(error)));
             }
             if (module.onLoad) {
               try {
@@ -329,14 +329,14 @@ function onBot({ models }) {
                 moduleData.models = models;
                 module.onLoad(moduleData);
               } catch (_0x20fd5f) {
-                throw new Error(global.getText('mirai', 'cantOnload', module.config.name, JSON.stringify(_0x20fd5f)), 'error');
+                throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'cantOnload', module.config.name, JSON.stringify(_0x20fd5f)), 'error');
               };
             }
             if (module.handleEvent) global.client.eventRegistered.push(module.config.name);
             global.client.commands.set(module.config.name, module);
             // logger(` ${module.config.name} succes`, "[ COMMAND ]");
           } catch (error) {
-            logger(` Code Lệnh ${(command)} Không Thể Tải!`, "[ COMMAND ]");
+            logger(` Code Command ${(command)} Unable to Download!`, "[ COMMAND ]");
           };
         }
       }(),
@@ -345,8 +345,8 @@ function onBot({ models }) {
         for (const ev of events) {
           try {
             var event = require(global.client.mainPath + '/modules/events/' + ev);
-            if (!event.config || !event.run) throw new Error(global.getText('mirai', 'errorFormat'));
-            if (global.client.events.has(event.config.name) || '') throw new Error(global.getText('mirai', 'nameExist'));
+            if (!event.config || !event.run) throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'errorFormat'));
+            if (global.client.events.has(event.config.name) || '') throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'nameExist'));
             if (event.config.dependencies && typeof event.config.dependencies == 'object') {
               for (const dependency in event.config.dependencies) {
                 const _0x21abed = join(__dirname, 'nodemodules', 'node_modules', dependency);
@@ -358,7 +358,7 @@ function onBot({ models }) {
                 } catch {
                   let check = false;
                   let isError;
-                  logger.loader(global.getText('mirai', 'notFoundPackage', dependency, event.config.name), 'warn');
+                  logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'notFoundPackage', dependency, event.config.name), 'warn');
                   execSync('npm --package-lock false --save install' + dependency + (event.config.dependencies[dependency] == '*' || event.config.dependencies[dependency] == '' ? '' : '@' + event.config.dependencies[dependency]), {
                     'stdio': 'inherit',
                     'env': process['env'],
@@ -378,7 +378,7 @@ function onBot({ models }) {
                     }
                     if (check || !isError) break;
                   }
-                  if (!check || isError) throw global.getText('mirai', 'cantInstallPackage', dependency, event.config.name);
+                  if (!check || isError) throw global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'cantInstallPackage', dependency, event.config.name);
                 }
               }
             }
@@ -391,31 +391,31 @@ function onBot({ models }) {
                 if (typeof global.config[event.config.name][configevent] == 'undefined') global.config[event.config.name][configevent] = event.config.envConfig[configevent] || '';
               }
             } catch (error) {
-              throw new Error(global.getText('mirai', 'loadedConfig', event.config.name, JSON.stringify(error)));
+              throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'loadedConfig', event.config.name, JSON.stringify(error)));
             }
             if (event.onLoad) try {
               const eventData = {};
               eventData.api = loginApiData, eventData.models = models;
               event.onLoad(eventData);
             } catch (error) {
-              throw new Error(global.getText('mirai', 'cantOnload', event.config.name, JSON.stringify(error)), 'error');
+              throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'cantOnload', event.config.name, JSON.stringify(error)), 'error');
             }
             global.client.events.set(event.config.name, event);
           } catch (error) {
-            logger.loader(global.getText('mirai', 'failLoadModule', event.config.name, error), 'error');
+            logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'failLoadModule', event.config.name, error), 'error');
           }
         }
       }()
 const rainbow3 = chalkercli.rainbow('━━━━━━━━━━━━━━━━[ START FILE ]━━━━━━━━━━━━━━━━');
       rainbow3.render();
-    logger.loader(global.getText('mirai', 'finishLoadModule', global.client.commands.size, global.client.events.size))
-    logger.loader('Thời gian khởi động: ' + (Date.now() - global.client.timeStart) / 1000 + 's')
+    logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'finishLoadModule', global.client.commands.size, global.client.events.size))
+    logger.loader('Startup time: ' + (Date.now() - global.client.timeStart) / 1000 + 's')
     writeFileSync(global.client.configPath, JSON.stringify(global.config, null, 4), 'utf8');
     const listenerData = { api: loginApiData, models: models }
     const listener = require('./includes/listen')(listenerData)
     async function listenerCallback(error, message) {
       if (error) {
-        logger('Acc bị logout, đang tiến hành đăng nhập lại!', '[ ĐĂNG NHẬP ]')
+        logger('Account is logged out, trying to log back in!', '[ LOG IN ]')
         var _0x50d0db = await loginAppstate()
         _0x50d0db
         await new Promise((data) => setTimeout(data, 7000))
@@ -456,7 +456,7 @@ function getdatatoken(done) {
 }
 
 //////////////////////////////////////////////
-//======= Kết nối với Cơ sở dữ liệu ========//
+//======= Connect to Database ========//
 //////////////////////////////////////////////
 (async () => {
   try {
@@ -496,11 +496,11 @@ function getdatatoken(done) {
       }
       global.modelAntiSt = dataModel;
       await sequelize2.sync({ force: false });
-      logger.loader('Kết nối thành công dữ liệu ANTI SETTING', '[ CONNECT ]');
+      logger.loader('Successfully connected ANTI SETTING data', '[ CONNECT ]');
     }
     catch (error) {
       global.client.loggedMongoose = false;
-      logger.loader('Không thể kết nối dữ liệu ANTI SETTING', '[ CONNECT ]');
+      logger.loader('Unable to connect ANTI SETTING data', '[ CONNECT ]');
       console.log(error);
     }
 
@@ -509,12 +509,12 @@ function getdatatoken(done) {
     authentication.Sequelize = Sequelize;
     authentication.sequelize = sequelize;
     const models = require('./includes/database/model')(authentication);
-    logger(global.getText('mirai', 'successConnectDatabase'), '[ DATABASE ]');
+    logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'successConnectDatabase'), '[ DATABASE ]');
     const botData = {};
     botData.models = models
     onBot(botData);
   } catch (error) {
-    logger(global.getText('mirai', 'successConnectDatabase', JSON.stringify(error)), '[ CƠ SỞ DỮ LIỆU ]')
+    logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'successConnectDatabase', JSON.stringify(error)), '[ DATABASE ]')
   }
   if (global.config.autoClear != 0) {
     const fileV = [];
@@ -526,11 +526,11 @@ function getdatatoken(done) {
           fs.unlinkSync(`./modules/commands/cache/` + fileD)
         }
         catch {
-          logger("Lỗi khi xóa tập tin: " + fileD, "[ LỖI ]")
+          logger("Error while deleting file: " + fileD, "[ ERROR ]")
         }
       }
     };
-    logger(`Đã xóa các tập tin có đuôi: ${fileV.join(", ")}`, "[ DỌN DẸP ]")
+    logger(`Deleted files with the extension: ${fileV.join(", ")}`, "[ CLEAN UP ]")
   }
 })()
 
