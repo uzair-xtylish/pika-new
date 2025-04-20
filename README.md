@@ -1,7 +1,7 @@
 ## introduce
 <div align="center">
-  <h1>Mirai Bot V2 mod by R1zaX</h1>
- <strong>Source code Mirai Project</strong> được <strong>R1zaX</strong> mod lại.
+  <h1>Uzair Bot V2 mod by Uzair Rajput</h1>
+ <strong>Source code Uzair Rajput Project</strong> Okay <strong>Uzair Mtx</strong> mod again.
 </div>
 	
 </p>
@@ -11,35 +11,34 @@
 
 <div align="center">
 
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://nodejs.org/en/)
+[![imgur](https://i.imgur.com/bry06Cj.jpeg)
 
 
-### Yêu cầu
+### Request
 
-- Tắt 2FA trước khi sử dụng!
+- Turn off 2FA before use!
 
-### Tính năng
+### Features
 
-- ~~Giảm dung lượng file bot~~
-- Hạn chế bị block tính năng
-- ~~Có thể chạy 24/7 (yêu cầu VPS & acc không checkpoints)~~
-- Check các lỗi có trong file
-- Check API die trong file
-- Tải file lên bot bằng link google drive (tiện ích cho điện thoại không kéo được file)
-- Download video Tiktok, Youtube không cần KEY API.
-- Có thể đăng nhập bằng appState hoặc tài khoản và mật khẩu;   
-- Encode appState, tự động đăng nhập khi gặp vấn đề về login (trừ trường hợp checkpoints);
-- Các graph facebook được sử dụng nhiều hơn do có thể lấy accessToken của account bot
+- ~~Reduce bot file size~~
+- Limit feature blocking
+- ~~Can run 24/7 (requires VPS & account without checkpoints))~~
+- Check for errors in the file
+- Check API die in file
+- Upload file to bot using google drive link (mobile utility cannot drag file))
+- Download Tiktok, Youtube videos without API KEY.
+- Can login with appState or account and password;   
+- Encode appState, automatically log in when there is a login problem (except for checkpoints));
+- Facebook graphs are used more because they can get the accessToken of bot accounts.
 
 ## Contributing
 
-Sự đóng góp của bạn sẽ khiến cho project ngày càng tốt hơn, các bước để bạn có thể đóng góp
-
-1. Fork project này
-2. Tạo một branch mới chứa tính năng của bạn (`git checkout -b feature/AmazingFeature`)
-3. Commit những gì bạn muốn đóng góp (`git commit -m 'Add some AmazingFeature'`)
-4. Đẩy branch chứa tính năng của bạn lên (`git push origin feature/AmazingFeature`)
-5. Tạo một pull request mới và sự đóng góp của bạn đã sẵn sàng để có thể đóng góp!
+Your contribution will make the project better and better, steps for you to contributeYour contribution will make the project better and better, steps for you to contribute
+1. Fork this project
+2. Create a new branch containing your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit what you want to contribute (`git commit -m 'Add some AmazingFeature'`)
+4. Push the branch containing your feature (`git push origin feature/AmazingFeature`)
+5. Create a new pull request and your contribution is ready to be contributed.!
 
 <!-- LICENSE -->
 ## License
@@ -49,4 +48,4 @@ This project is licensed under the GNU General Public License v3.0 License - see
 <!-- CONTACT -->
 ## Contact
 
-R1zaX - [Facebook](https://www.facebook.com/RqzaX.VqnThuqn.040) - [GitHub](https://github.com/RqzaX040)
+Mtxuzair - [Facebook](https://www.facebook.com/Mtxuzair) - [GitHub](https://github.com/sehar1267)
