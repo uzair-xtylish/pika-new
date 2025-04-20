@@ -27,7 +27,7 @@ app.listen(port);
 function startBot(message) {
     (message) ? logger(message, "[ BẮT ĐẦU ]") : "";
 
-    const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿.js"], {
+    const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "mirai.js"], {
         cwd: __dirname,
         stdio: "inherit",
         shell: true
@@ -93,9 +93,9 @@ function getdatatoken(done) {
   }
 
 function startBot(message) {
-    (message) ? logger(message, "[ MIRAI BOT ]") : "";
+    (message) ? logger(message, "[ UZAIR BOT ]") : "";
 
-    const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿.js"], {
+    const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "mirai.js"], {
         cwd: __dirname,
         stdio: "inherit",
         shell: true
