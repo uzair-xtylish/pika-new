@@ -3,7 +3,7 @@ module.exports.config = {
   name: "stickerbot",
   version: "1.0.1",
   hasPermssion: 0,
-  credits: "SHANKAR",
+  credits: "uzairrajput",
   usePrefix: false,
   description: "goibot",
   commandCategory: "system",
