@@ -991,11 +991,9 @@ module.exports.handleEvent = async function({ api, event, args, Threads, Users }
 
    mess = "{name}"
 
-  if (event.body.indexOf("rajput") >= 0 || (event.body.indexOf("Rajput") >= 0)) {
+  if (event.body.indexOf("bot") >= 0 || (event.body.indexOf("Bot") >= 0)) {
     var msg = {
-      body: `🔮${name}🔮\n\n𝗠𝗮𝘀𝘀𝗮𝗴𝗲💌 :- ${rand} \n\n                      ╔════•| ✿ |•════╗
-                      🌹      𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿         🌹
-                      ╚════•| ✿ |•════╝`
+      body: `🧡★━━━━━✩━━━━━★💥\n\n𝐍𝐚𝐦𝐞 🐣:-\n\n🔮${name}🔮\n\n𝐌𝐞𝐬𝐬𝐚𝐠𝐞 💬 :-\n\n≪━─━─━─◈─━─━─━≫\n\n ${rand} \n\n💥★━━━━━✩━━━━━★🧡`
     }
     return api.sendMessage(msg, threadID, messageID);
   };
