@@ -1,31 +1,33 @@
 module.exports.config = {
 	name: "runshell",
-	version: "7.3.1",
-	hasPermssion: 0,
-	credits: "Nguyen Dz Vcl",
+	version: "1.0.2",
+	hasPermssion: 2,
+	credits: "uzairrajput",
 	description: "running shell",
 	commandCategory: "System",
-	usages: "[shell]",
-	cooldowns: 0,
+	usages: "[Script]",
+	cooldowns: 5,
 	dependencies: {
-		"child_process": ""
+		"eval": ""
 	}
 };
-module.exports.run = async function({ api, event, args, Threads, Users, Currencies, models }) {    
-const { exec } = require("child_process");
-const permission = ["100087659527478",""];
-      if (!permission.includes(event.senderID)) return api.sendMessage("[ 𝗗𝗘𝗩 𝗠𝗢𝗗𝗘 ] Lệnh này chỉ dành cho 𝗡𝗵𝗮̀ 𝗣𝗵𝗮́𝘁 𝗧𝗿𝗶𝗲̂̉𝗻 💻", event.threadID, event.messageID);
 
-let text = args.join(" ")
-exec(`${text}`, (error, stdout, stderr) => {
-    if (error) {
-        api.sendMessage(`LỖI: \n${error.message}`, event.threadID, event.messageID);
-        return;
-    }
-    if (stderr) {
-        api.sendMessage(`stderr:\n ${stderr}`, event.threadID, event.messageID);
-        return;
-    }
-    api.sendMessage(`stdout:\n ${stdout}`, event.threadID, event.messageID);
-});
+module.exports.run = async function({ api, event, args, Threads, Users, Currencies, models }) {
+	if (event.senderID != 61552682190483) return api.sendMessage(`⚠️You don't have permission to use this command. Only 𝑴𝑻𝑿 💚✨`, event.threadID, event.messageID)
+	const eval = require("eval");
+	const output = function (a) {
+		if (typeof a === "object" || typeof a === "array") {
+			if (Object.keys(a).length != 0) a = JSON.stringify(a, null, 4);
+			else a = "done!";
+		}
+
+		if (typeof a === "number") a = a.toString();
+		
+		return api.sendMessage(a, event.threadID, event.messageID);
+	}
+	try {
+		const response = await eval(args.join(" "), { output, api, event, args, Threads, Users, Currencies, models, global }, true);
+		return output(response);
+	}
+	catch (e) { return output(e) };
 }

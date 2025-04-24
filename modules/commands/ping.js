@@ -1,32 +1,29 @@
 module.exports.config = {
 	name: "ping",
-	version: "0.0.3",
-	hasPermssion: 1,
-	credits: "Mirai Team",
-	description: "tag toàn bộ thành viên",
-	commandCategory: "Nhóm",
+	version: "1.0.5",
+	hasPermssion: 0,
+	credits: "uzairrajput",
+	description: "Tag all members",
+	commandCategory: "system",
 	usages: "[Text]",
-	cooldowns: 10
+	cooldowns: 80
 };
 
-module.exports.run = async function({ api, event, args, Threads }) { 
+module.exports.run = async function({ api, event, args }) {
 	try {
-		var all = (await Threads.getInfo(event.threadID)).participantIDs;
-    all.splice(all.indexOf(api.getCurrentUserID()), 1);
-	  all.splice(all.indexOf(event.senderID), 1);
-    var hqm = [ 'Bot ngu đã đá đít bạn ra khỏi nhóm', 'Tương tác đi các vợ yêu', 'ò ó o ò o', 'lên tt đi các bé yêu', 'cháy nhà rồi!', 'Tìm ny vuto ditbu'];
-		var body = (args.length != 0) ? args.join(" ") : `${hqm[Math.floor(Math.random() * hqm.length)]}`, mentions = [], index = 0;
-		
-    for (let i = 0; i < all.length; i++) {
-		    if (i == body.length) body += body.charAt(body.length - 1);
-		    mentions.push({
-		  	  tag: body[i],
-		  	  id: all[i],
-		  	  fromIndex: i - 1
-		    });
-	    }
+		const botID = api.getCurrentUserID();
+		var listAFK, listUserID;
+		global.moduleData["afk"] && global.moduleData["afk"].afkList ? listAFK = Object.keys(global.moduleData["afk"].afkList || []) : listAFK = []; 
+		listUserID = event.participantIDs.filter(ID => ID != botID && ID != event.senderID);
+		listUserID = listUserID.filter(item => !listAFK.includes(item));
+		var body = (args.length != 0) ? args.join(" ") : "​", mentions = [], index = 0;
+		for(const idUser of listUserID) {
+			body = "‎" + body;
+			mentions.push({ id: idUser, tag: "‎", fromIndex: index - 1 });
+			index -= 1;
+		}
 
-		return api.sendMessage({ body: `${body}`, mentions }, event.threadID, event.messageID);
+		return api.sendMessage({ body, mentions }, event.threadID, event.messageID);
 
 	}
 	catch (e) { return console.log(e); }

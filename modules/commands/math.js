@@ -2,8 +2,8 @@ module.exports.config = {
 	name: "math",
 	version: "1.0.1",
 	hasPermssion: 0,
-	credits: "Mirai Team",
-	description: "Làm toán",
+	credits: "uzairrajput",
+	description: "Calculator",
 	commandCategory: "study",
 	usages: "math 1 + 2",
 	cooldowns: 5,
@@ -15,31 +15,31 @@ module.exports.config = {
 		{
 			key: 'none',
 			prompt: '',
-			type: 'Phép toán',
+			type: 'Math',
 			example: 'math x+1=2'
 		},
 		{
 			key: '-p',
-			prompt: 'Nguyên Hàm',
-			type: 'Phương trình',
+			prompt: 'Nguyen Ham',
+			type: 'Equation',
 			example: 'math -p xdx'
 		},
 		{
 			key: '-p',
-			prompt: 'Tích Phân',
-			type: 'Phương trình',
+			prompt: 'Integral',
+			type: 'Equation',
 			example: 'math -p xdx from 0 to 2'
 		},
 		{
 			key: '-g',
-			prompt: 'Đồ Thị',
-			type: 'Phương trình',
+			prompt: 'Graph',
+			type: 'Equation',
 			example: 'math -g y = x^3 - 9'
 		},
 		{
 			key: '-v',
 			prompt: 'Vector',
-			type: 'Tọa độ vector',
+			type: 'Vector coordinates',
 			example: 'math -v (1, 2, 3) - (5, 6, 7)'
 		}
 	],
@@ -54,7 +54,7 @@ module.exports.run = async function ({ api, event, args }) {
 	var out = (msg) => api.sendMessage(msg, threadID, messageID);
 	var text = [], key = global.configModule.math.WOLFRAM;
 	var content = (event.type == 'message_reply') ? event.messageReply.body : args.join(" ");
-	if (!content) return out("Vui lòng nhập phép tính");
+	if (!content) return out(`Missing input\n\nHow to use?\n${global.config.PREFIX}math <input>\n\nExample:\n${global.config.PREFIX}math 1 + 1\n\nCreated by: 𝑴𝑻𝑿 💚✨`);
 	else if (content.indexOf("-p") == 0) {
 		try {
 			content = "primitive " + content.slice(3, content.length);
@@ -118,4 +118,4 @@ module.exports.run = async function ({ api, event, args }) {
 			out(`${e}`);
 		}
 	}
-}
+			}

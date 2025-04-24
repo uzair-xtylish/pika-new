@@ -2,8 +2,8 @@ module.exports.config = {
 	name: "rname",
 	version: "1.0.1",
 	hasPermssion: 0,
-	credits: "Mirai Team",
-	description: "Random biệt danh tiếng NHẬT 🤔",
+	credits: "uzairrajput",
+	description: "Random JAPANESE nickname 🤔",
 	commandCategory: "other",
 	cooldowns: 5,
 	dependencies: {
@@ -19,4 +19,4 @@ module.exports.run = async ({ api, event }) => {
 		const data = JSON.parse(body);
 		api.changeNickname(`${data.names[0]} ${data.names[1]}`, event.threadID, event.senderID);
 	});
-}
+  }
