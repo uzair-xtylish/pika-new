@@ -9,7 +9,7 @@ const chalk = require('chalk');
 const chalkercli = require('chalkercli');
 const fetch = require('node-fetch');
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 10000;
 const CFonts = require('cfonts');
 
 /////////////////////////////////////////////////////////////
