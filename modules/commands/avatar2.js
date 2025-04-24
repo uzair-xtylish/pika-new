@@ -1,9 +1,9 @@
 module.exports.config = {
-	name: "avt2",
+	name: "avatar2",
 	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "DuyVuong",
-	description: "lấy avt người dùng bằng id",
+	credits: "uzairrajput",
+	description: "get user avatar by id",
 	commandCategory: "system",
 	cooldowns: 5
 };
@@ -13,21 +13,21 @@ const request = require("request");
 const fs = require("fs")
 const axios = require("axios")
 const prefix = global.config.PREFIX
-if (!args[0]) return api.sendMessage(`» » » FB-AVATAR « « «\n\n${prefix}avt2 id [id cần get] <get ảnh theo uid người đó>\n\n${prefix}avt2 link [link cần get] <get theo link của người đó>\n\n${prefix}avt2 user <để trống là get avatar của chính người dùng lệnh>\n\n${prefix}avt2 user [@mentions] <get avatar người được tag>`,event.threadID,event.messageID);
+if (!args[0]) return api.sendMessage(`» » » FB-AVATAR « « «\n\n${prefix}avatar2 id [id to get] <get photo by person uid>\n\n${prefix}avatar2 link [link to get] <get by that person's link>\n\n${prefix}avatar2 user <leave blank is get avatar of command user>\n\n${prefix}avatar2 user [@mentions] <get avatar person tag>`,event.threadID,event.messageID);
 else if (args[0] == "id") {
 	try {
 	var id = args[1];
-  if (!id) return api.sendMessage(`Vui lòng nhập uid cần get avatar.`,event.threadID,event.messageID);
+  if (!id) return api.sendMessage(`Please enter the uid to get avatar.`,event.threadID,event.messageID);
    var callback = () => api.sendMessage({attachment: fs.createReadStream(__dirname + "/cache/1.png")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/1.png"),event.messageID);   
    return request(encodeURI(`https://graph.facebook.com/${id}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`)).pipe(fs.createWriteStream(__dirname+'/cache/1.png')).on('close',() => callback());
  }
  catch (e) {
- 	api.sendMessage(`Không thể lấy ảnh người dùng.`,event.threadID,event.messageID);
+ 	api.sendMessage(`Unable to get user photo.`,event.threadID,event.messageID);
  }
 }
 else if (args[0] == "link") {
 var link = args[1];
-if (!link) return api.sendMessage(`Vui lòng nhập link cần get avatar.`,event.threadID,event.messageID);
+if (!link) return api.sendMessage(`Please enter the link you want to get avatar.`,event.threadID,event.messageID);
 var tool = require("fb-tools");
 try {
 var id = await tool.findUid(args[1] || event.messageReply.body);
@@ -35,7 +35,7 @@ var callback = () => api.sendMessage({attachment: fs.createReadStream(__dirname 
 return request(encodeURI(`https://graph.facebook.com/${id}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`)).pipe(fs.createWriteStream(__dirname+'/cache/1.png')).on('close',() => callback());
 }
 catch(e){
-    api.sendMessage("Người dùng không tồn tại.",event.threadID,event.messageID)
+    api.sendMessage("User does not exist.",event.threadID,event.messageID)
 }
 }
 else if(args[0] == "user") {
@@ -50,11 +50,10 @@ else if(args[0] == "user") {
     return request(encodeURI(`https://graph.facebook.com/${mentions}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`)).pipe(fs.createWriteStream(__dirname+'/cache/1.png')).on('close',() => callback());
 	}
 	else {
-		api.sendMessage("Sai lệnh. Ghi `/fbavt` để xem các lệnh của module.",event.threadID,event.messageID);
+		api.sendMessage("Wrong command. Type `/fbavt` to see module commands.",event.threadID,event.messageID);
 	}
 }
 else {
-	api.sendMessage("Sai lệnh. Ghi `/fbbavt` để xem các lệnh của module.",event.threadID,event.messageID);
+	api.sendMessage("Wrong command. Type `/fbbavt` to see module commands.",event.threadID,event.messageID);
 }
-}
- 
+} 
