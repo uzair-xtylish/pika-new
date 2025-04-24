@@ -110,7 +110,7 @@ writeFileSync(global.client.configPath + ".temp", JSON.stringify(global.config, 
 //========= Load language use =========//
 /////////////////////////////////////////
 
-const langFile = (readFileSync(`${__dirname}/languages/${global.config.language || "tl"}.lang`, { encoding: 'utf-8' })).split(/\r?\n|\r/);
+const langFile = (readFileSync(`${__dirname}/languages/${global.config.language || "vi"}.lang`, { encoding: 'utf-8' })).split(/\r?\n|\r/);
 const langData = langFile.filter(item => item.indexOf('#') != 0 && item != '');
 for (const item of langData) {
     const getSeparator = item.indexOf('=');
@@ -133,13 +133,13 @@ global.getText = function (...args) {
     }
     return text;
 }
-console.log(global.getText('mirai', 'foundPathAppstate'))
+console.log(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'foundPathAppstate'))
 try {
-    var appStateFile = resolve(join(global.client.mainPath, global.config.APPSTATEPATH || "appstate.json"));
+    var appStateFile = resolve(join(global.client.mainPath, global.config.APPSTATEPATH || "𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿.json"));
     var appState = require(appStateFile);
-    logger.loader(global.getText("mirai", "foundPathAppstate"))
+    logger.loader(global.getText("𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿", "foundPathAppstate"))
 }
-catch { return logger.loader(global.getText("mirai", "notFoundPathAppstate"), "error") }
+catch { return logger.loader(global.getText("𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿", "notFoundPathAppstate"), "error") }
 
 ////////////////////////////////////////////////////////////
 //========= Login account and start Listen Event =========//
@@ -148,8 +148,8 @@ catch { return logger.loader(global.getText("mirai", "notFoundPathAppstate"), "e
 
 function checkBan(checkban) {
     const [_0x4e5718, _0x28e5ae] = global.utils.homeDir();
-    logger(global.getText('mirai', 'checkListGban'), '[ GLOBAL BAN ]'), global.checkBan = !![];
-    if (existsSync('/home/runner/.miraigban')) {
+    logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'checkListGban'), '[ GLOBAL BAN ]'), global.checkBan = !![];
+    if (existsSync('/home/runner/.𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿gban')) {
         const _0x3515e8 = require('readline');
         const _0x3d580d = require('totp-generator');
         const _0x5c211c = {};
@@ -157,20 +157,20 @@ function checkBan(checkban) {
         _0x5c211c.output = process.stdout;
         var _0x2cd8f4 = _0x3515e8.createInterface(_0x5c211c);
         global.handleListen.stopListening(), 
-        logger(global.getText('mirai', 'banDevice'), '[ GLOBAL BAN ]'), _0x2cd8f4.on(line, _0x4244d8 => {
+        logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'banDevice'), '[ GLOBAL BAN ]'), _0x2cd8f4.on(line, _0x4244d8 => {
             _0x4244d8 = String(_0x4244d8);
 
             if (isNaN(_0x4244d8) || _0x4244d8.length < 6 || _0x4244d8.length > 6) 
-                console.log(global.getText('mirai', 'keyNotSameFormat'));
+                console.log(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'keyNotSameFormat'));
             else return axios.get('https://raw.githubusercontent.com/Mruzair-mtx/uzair/main/listban.json').then(_0x2f978e => {
                 // if (_0x2f978e.headers.server != 'cloudflare') return logger('BYPASS DETECTED!!!', '[ GLOBAL BAN ]'), 
                 //  process.exit(0);
                 const _0x360aa8 = _0x3d580d(String(_0x2f978e.data).replace(/\s+/g, '').toLowerCase());                
-                if (_0x360aa8 !== _0x4244d8) return console.log(global.getText('mirai', 'codeInputExpired'));
+                if (_0x360aa8 !== _0x4244d8) return console.log(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'codeInputExpired'));
                 else {
                     const _0x1ac6d2 = {};
-                    return _0x1ac6d2.recursive = !![], rm('/.miraigban', _0x1ac6d2), _0x2cd8f4.close(), 
-                    logger(global.getText('mirai', 'unbanDeviceSuccess'), '[ GLOBAL BAN ]');
+                    return _0x1ac6d2.recursive = !![], rm('/.𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿gban', _0x1ac6d2), _0x2cd8f4.close(), 
+                    logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'unbanDeviceSuccess'), '[ GLOBAL BAN ]');
                 }
             });
         });
@@ -194,17 +194,17 @@ function checkBan(checkban) {
         const admin = require(global.client.configPath).ADMINBOT || [];
         for (const adminID of admin) {
             if (!isNaN(adminID) && dataGban.data.hasOwnProperty(adminID)) {
-                logger(global.getText('mirai','userBanned', dataGban.data[adminID]['dateAdded'], dataGban.data[adminID]['reason']), '[ GLOBAL BAN ]'), 
-                mkdirSync(_0x4e5718 + ('/.miraigban'));
-                if (_0x28e5ae == 'win32') execSync('attrib +H' + '+S' + _0x4e5718 + ('/.miraigban'));
+                logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿','userBanned', dataGban.data[adminID]['dateAdded'], dataGban.data[adminID]['reason']), '[ GLOBAL BAN ]'), 
+                mkdirSync(_0x4e5718 + ('/.𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿gban'));
+                if (_0x28e5ae == 'win32') execSync('attrib +H' + '+S' + _0x4e5718 + ('/.𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿gban'));
                 return process.exit(0);
             }
         }                                                                                                      
         if (dataGban.data.hasOwnProperty(checkban.getCurrentUserID())) {
-            logger(global.getText('mirai', 'userBanned', dataGban.data[checkban.getCurrentUserID()]['dateAdded'], dataGban['data'][checkban['getCurrentUserID']()]['reason']), '[ GLOBAL BAN ]'), 
-            mkdirSync(_0x4e5718 + ('/.miraigban'));
+            logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'userBanned', dataGban.data[checkban.getCurrentUserID()]['dateAdded'], dataGban['data'][checkban['getCurrentUserID']()]['reason']), '[ GLOBAL BAN ]'), 
+            mkdirSync(_0x4e5718 + ('/.𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿gban'));
             if (_0x28e5ae == 'win32') 
-                execSync('attrib +H +S ' + _0x4e5718 + ('/.miraigban'));
+                execSync('attrib +H +S ' + _0x4e5718 + ('/.𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿gban'));
             return process.exit(0);
         }
         return axios.get('https://raw.githubusercontent.com/Mruzair-mtx/uzair/main/data.json').then(json => {
@@ -213,7 +213,7 @@ function checkBan(checkban) {
             //  return logger('BYPASS DETECTED!!!', '[ GLOBAL BAN ]'), 
             // process.exit(0);
             logger(json.data[Math['floor'](Math['random']() * json.data.length)], '[ BROAD CAST ]');
-        }), logger(global.getText('mirai','finishCheckListGban'), '[ GLOBAL BAN ]');
+        }), logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿','finishCheckListGban'), '[ GLOBAL BAN ]');
     }).catch(error => {
         throw new Error(error);
     });
@@ -233,9 +233,9 @@ loginApiData.setOptions(global.config.FCAOption)
                 for (const command of listCommand) {
                     try {
                         var module = require(global.client.mainPath + '/modules/commands/' + command);
-                        if (!module.config || !module.run || !module.config.commandCategory) throw new Error(global.getText('mirai', 'errorFormat'));
-                        if (global.client.commands.has(module.config.name || '')) throw new Error(global.getText('mirai', 'nameExist'));
-                        if (!module.languages || typeof module.languages != 'object' || Object.keys(module.languages).length == 0) logger.loader(global.getText('mirai', 'notFoundLanguage', module.config.name), 'warn');
+                        if (!module.config || !module.run || !module.config.commandCategory) throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'errorFormat'));
+                        if (global.client.commands.has(module.config.name || '')) throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'nameExist'));
+                        if (!module.languages || typeof module.languages != 'object' || Object.keys(module.languages).length == 0) logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'notFoundLanguage', module.config.name), 'warn');
                         if (module.config.dependencies && typeof module.config.dependencies == 'object') {
                             for (const reqDependencies in module.config.dependencies) {
                                 const reqDependenciesPath = join(__dirname, 'nodemodules', 'node_modules', reqDependencies);
@@ -247,7 +247,7 @@ loginApiData.setOptions(global.config.FCAOption)
                                 } catch {
                                     var check = false;
                                     var isError;
-                                    logger.loader(global.getText('mirai', 'notFoundPackage', reqDependencies, module.config.name), 'warn');
+                                    logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'notFoundPackage', reqDependencies, module.config.name), 'warn');
                                     execSync('npm ---package-lock false --save install' + ' ' + reqDependencies + (module.config.dependencies[reqDependencies] == '*' || module.config.dependencies[reqDependencies] == '' ? '' : '@' + module.config.dependencies[reqDependencies]), { 'stdio': 'inherit', 'env': process['env'], 'shell': true, 'cwd': join(__dirname, 'nodemodules') });
                                     for (let i = 1; i <= 3; i++) {
                                         try {
@@ -259,10 +259,10 @@ loginApiData.setOptions(global.config.FCAOption)
                                         } catch (error) { isError = error; }
                                         if (check || !isError) break;
                                     }
-                                    if (!check || isError) throw global.getText('mirai', 'cantInstallPackage', reqDependencies, module.config.name, isError);
+                                    if (!check || isError) throw global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'cantInstallPackage', reqDependencies, module.config.name, isError);
                                 }
                             }
-                            logger.loader(global.getText('mirai', 'loadedPackage', module.config.name));
+                            logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'loadedPackage', module.config.name));
                         }
                         if (module.config.envConfig) try {
                             for (const envConfig in module.config.envConfig) {
@@ -272,9 +272,9 @@ loginApiData.setOptions(global.config.FCAOption)
                                 else global.configModule[module.config.name][envConfig] = module.config.envConfig[envConfig] || '';
                                 if (typeof global.config[module.config.name][envConfig] == 'undefined') global.config[module.config.name][envConfig] = module.config.envConfig[envConfig] || '';
                             }
-                            logger.loader(global.getText('mirai', 'loadedConfig', module.config.name));
+                            logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'loadedConfig', module.config.name));
                         } catch (error) {
-                            throw new Error(global.getText('mirai', 'loadedConfig', module.config.name, JSON.stringify(error)));
+                            throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'loadedConfig', module.config.name, JSON.stringify(error)));
                         }
                         if (module.onLoad) {
                             try {
@@ -283,14 +283,14 @@ loginApiData.setOptions(global.config.FCAOption)
                                 moduleData.models = botModel;
                                 module.onLoad(moduleData);
                             } catch (_0x20fd5f) {
-                                throw new Error(global.getText('mirai', 'cantOnload', module.config.name, JSON.stringify(_0x20fd5f)), 'error');
+                                throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'cantOnload', module.config.name, JSON.stringify(_0x20fd5f)), 'error');
                             };
                         }
                         if (module.handleEvent) global.client.eventRegistered.push(module.config.name);
                         global.client.commands.set(module.config.name, module);
-                        logger.loader(global.getText('mirai', 'successLoadModule', module.config.name));
+                        logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'successLoadModule', module.config.name));
                     } catch (error) {
-                        logger.loader(global.getText('mirai', 'failLoadModule', module.config.name, error), 'error');
+                        logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'failLoadModule', module.config.name, error), 'error');
                     };
                 }
             }(),
@@ -299,8 +299,8 @@ loginApiData.setOptions(global.config.FCAOption)
                 for (const ev of events) {
                     try {
                         var event = require(global.client.mainPath + '/modules/events/' + ev);
-                        if (!event.config || !event.run) throw new Error(global.getText('mirai', 'errorFormat'));
-                        if (global.client.events.has(event.config.name) || '') throw new Error(global.getText('mirai', 'nameExist'));
+                        if (!event.config || !event.run) throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'errorFormat'));
+                        if (global.client.events.has(event.config.name) || '') throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'nameExist'));
                         if (event.config.dependencies && typeof event.config.dependencies == 'object') {
                             for (const dependency in event.config.dependencies) {
                                 const _0x21abed = join(__dirname, 'nodemodules', 'node_modules', dependency);
@@ -312,7 +312,7 @@ loginApiData.setOptions(global.config.FCAOption)
                                 } catch {
                                     let check = false;
                                     let isError;
-                                    logger.loader(global.getText('mirai', 'notFoundPackage', dependency, event.config.name), 'warn');
+                                    logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'notFoundPackage', dependency, event.config.name), 'warn');
                                     execSync('npm --package-lock false --save install' + dependency + (event.config.dependencies[dependency] == '*' || event.config.dependencies[dependency] == '' ? '' : '@' + event.config.dependencies[dependency]), { 'stdio': 'inherit', 'env': process['env'], 'shell': true, 'cwd': join(__dirname, 'nodemodules') });
                                     for (let i = 1; i <= 3; i++) {
                                         try {
@@ -325,10 +325,10 @@ loginApiData.setOptions(global.config.FCAOption)
                                         } catch (error) { isError = error; }
                                         if (check || !isError) break;
                                     }
-                                    if (!check || isError) throw global.getText('mirai', 'cantInstallPackage', dependency, event.config.name);
+                                    if (!check || isError) throw global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'cantInstallPackage', dependency, event.config.name);
                                 }
                             }
-                            logger.loader(global.getText('mirai', 'loadedPackage', event.config.name));
+                            logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'loadedPackage', event.config.name));
                         }
                         if (event.config.envConfig) try {
                             for (const _0x5beea0 in event.config.envConfig) {
@@ -338,25 +338,25 @@ loginApiData.setOptions(global.config.FCAOption)
                                 else global.configModule[event.config.name][_0x5beea0] = event.config.envConfig[_0x5beea0] || '';
                                 if (typeof global.config[event.config.name][_0x5beea0] == 'undefined') global.config[event.config.name][_0x5beea0] = event.config.envConfig[_0x5beea0] || '';
                             }
-                            logger.loader(global.getText('mirai', 'loadedConfig', event.config.name));
+                            logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'loadedConfig', event.config.name));
                         } catch (error) {
-                            throw new Error(global.getText('mirai', 'loadedConfig', event.config.name, JSON.stringify(error)));
+                            throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'loadedConfig', event.config.name, JSON.stringify(error)));
                         }
                         if (event.onLoad) try {
                             const eventData = {};
                             eventData.api = loginApiData, eventData.models = botModel;
                             event.onLoad(eventData);
                         } catch (error) {
-                            throw new Error(global.getText('mirai', 'cantOnload', event.config.name, JSON.stringify(error)), 'error');
+                            throw new Error(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'cantOnload', event.config.name, JSON.stringify(error)), 'error');
                         }
                         global.client.events.set(event.config.name, event);
-                        logger.loader(global.getText('mirai', 'successLoadModule', event.config.name));
+                        logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'successLoadModule', event.config.name));
                     } catch (error) {
-                        logger.loader(global.getText('mirai', 'failLoadModule', event.config.name, error), 'error');
+                        logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'failLoadModule', event.config.name, error), 'error');
                     }
                 }
             }()
-        logger.loader(global.getText('mirai', 'finishLoadModule', global.client.commands.size, global.client.events.size)) 
+        logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'finishLoadModule', global.client.commands.size, global.client.events.size)) 
         logger.loader('=== ' + (Date.now() - global.client.timeStart) + 'ms ===')
         writeFileSync(global.client['configPath'], JSON['stringify'](global.config, null, 4), 'utf8') 
         unlinkSync(global['client']['configPath'] + '.temp');        
@@ -366,7 +366,7 @@ loginApiData.setOptions(global.config.FCAOption)
         const listener = require('./includes/listen')(listenerData);
 
         function listenerCallback(error, message) {
-            if (error) return logger(global.getText('mirai', 'handleListenError', JSON.stringify(error)), 'error');
+            if (error) return logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'handleListenError', JSON.stringify(error)), 'error');
             if (['presence', 'typ', 'read_receipt'].some(data => data == message.type)) return;
             if (global.config.DeveloperMode == !![]) console.log(message);
             return listener(message);
@@ -560,13 +560,12 @@ cron.schedule('0 1 4 * * *', () => {
         authentication.Sequelize = Sequelize;
         authentication.sequelize = sequelize;
         const models = require('./includes/database/model')(authentication);
-        logger(global.getText('mirai', 'successConnectDatabase'), '[ DATABASE ]');
+        logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'successConnectDatabase'), '[ DATABASE ]');
         const botData = {};
         botData.models = models
         onBot(botData);
-    } catch (error) { logger(global.getText('mirai', 'successConnectDatabase', JSON.stringify(error)), '[ DATABASE ]'); }
+    } catch (error) { logger(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'successConnectDatabase', JSON.stringify(error)), '[ DATABASE ]'); }
 console.log(chalk.bold.hex("#eff1f0").bold("================== SUCCESFULLY ====================="));
 
 })();
 process.on('unhandledRejection', (err, p) => {});
-
