@@ -2,9 +2,8 @@ module.exports.config = {
   name: "hi",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Sam",
+  credits: "uzairrajput",
   description: "hi gửi sticker",
-  usePrefix: true,
   commandCategory: "QTV BOX",
   usages: "[text]",
   cooldowns: 5
@@ -19,15 +18,13 @@ module.exports.handleEvent = async ({ event, api, Users }) => {
     "hiii",
     "helloo",
     "loe",
-    "hy",
-    "hyy",
+    "low",
+    "lo",
     "hey",
     "heyy",
     "loe po",
     "low po",
     "hai",
-    "hlo",
-    "Hlo",
     "chào",
     "chao",
     "hí",
@@ -52,11 +49,11 @@ module.exports.handleEvent = async ({ event, api, Users }) => {
       "184002922217363", "184023658881956", "184003212217334", "184002655550723", "184003438883978", "2379545595403511", "1926234657415528", "4046655705381617", "4046877352026119", "4046884992025355", "4070816262965561"
     ];
     let sticker = data[Math.floor(Math.random() * data.length)];
-let juswa = ["have you eaten?", "what are you doing?", "how are you Friend?", "I'm a chat bot nice to meet you", "I'm updating my commands, what are you doing?", "Can you interact with me using sim command?","You're so beautiful/handsome binibini/ginoo", "I love you mwa */kiss your forehead.","are you bored? talk to my admin Hemang", "how are you my dear", "eat some sweets", "are you ok?", "be safe", "Kesa gya aaj ka din tumhara","Khana pina ho gya","Kya kr rhe ho","Kafi garmi h Delhi m",""];
+let juswa = ["Are you ok?", "how are you today?",];
  let juswa1 = juswa[Math.floor(Math.random() * juswa.length)];
 
     let moment = require("moment-timezone");
-    let hours = moment.tz('Asia/Colombo').format('HHmm');
+    let hours = moment.tz('Asia/Karachi').format('HHmm');
     let session = (
     hours > 0001 && hours <= 400 ? "bright morning" : 
     hours > 401 && hours <= 700 ? "morning" :
@@ -73,7 +70,7 @@ let juswa = ["have you eaten?", "what are you doing?", "how are you Friend?", "I
       tag: name,
       id: event.senderID
     })
-    let msg = {body: `Hi ${name}, have a good ${session} Dost, ${juswa1}`, mentions}
+    let msg = {body: `Hi ${name}, have a good ${session} baby, ${juswa1}`, mentions}
     api.sendMessage(msg, event.threadID, (e, info) => {
       setTimeout(() => {
         api.sendMessage({sticker: sticker}, event.threadID);
@@ -87,23 +84,23 @@ module.exports.languages = {
   "vi": {
     "on": "Bật",
     "off": "Tắt",
-    "successText": `${this.config.name} thành công`,
-  },
-  "en": {
-    "on": "on",
-    "off": "off",
-    "successText": `${this.config.name} success!`,
-  }
+		"successText": `${this.config.name} thành công`,
+	},
+	"en": {
+		"on": "on",
+		"off": "off",
+		"successText": `${this.config.name} success!`,
+	}
 }
 
 module.exports.run = async ({ event, api, Threads, getText }) => {
   let { threadID, messageID } = event;
   let data = (await Threads.getData(threadID)).data;
-  if (typeof data["hi"] == "undefined" || data["hi"] == true) data["hi"] = false;
-  else data["hi"] = true;
-  await Threads.setData(threadID, {
-    data
-  });
-  global.data.threadData.set(threadID, data);
-  return api.sendMessage(`${(data["hi"] == false) ? getText("off") : getText("on")} ${getText("successText")}`, threadID, messageID);
+	if (typeof data["hi"] == "undefined" || data["hi"] == true) data["hi"] = false;
+	else data["hi"] = true;
+	await Threads.setData(threadID, {
+		data
+	});
+	global.data.threadData.set(threadID, data);
+	return api.sendMessage(`${(data["hi"] == false) ? getText("off") : getText("on")} ${getText("successText")}`, threadID, messageID);
       }

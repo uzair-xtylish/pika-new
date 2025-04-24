@@ -1,40 +1,22 @@
-const axios = require("axios");
-class Imgur {
-  constructor() {
-    this.clientId = "fc9369e9aea767c", this.client = axios.create({
-      baseURL: "https://api.imgur.com/3/",
-      headers: {
-        Authorization: `Client-ID ${this.clientId}`
-      }
-    })
-  }
-  async uploadImage(url) {
-    return (await this.client.post("image", {
-      image: url
-    })).data.data.link
-  }
+module.exports.config = {
+    name: "imgur",
+    version: "1.0.0",
+    hasPermssion: 2,
+    credits: "uzairrajput",
+    description: "imgur upload",
+    commandCategory: "link",
+    usages: `Please reply to image\n\nHow to use?\n${global.config.PREFIX}imgur [reply] <img>\n\nExample:\n${global.config.PRFIX}imgur <img reply>\n`,
+    cooldowns: 1,
+    dependencies: {
+  "axios": "",}
+};
+ 
+module.exports.run = async ({ api, event }) => {
+const axios = global.nodemodule['axios'];  
+var ZiaRein = event.messageReply.attachments[0].url || args.join(" ");
+    if(!ZiaRein) return api.sendMessage(`Please reply to image\n\nHow to use?\n${global.config.PREFIX}imgur [reply] <img>\n\nExample:\n${global.config.PRFIX}imgur <img reply>\n\nCreated by: 𝑴𝑻𝑿 💚✨`, event.threadID, event.messageID)
+const res = await axios.get(`https://api.phamvandien.xyz/imgur?link=${encodeURIComponent(ZiaRein)}`);    
+var ZiaReinn = res.data.uploaded.image;
+    return api.sendMessage(ZiaReinn, event.threadID, event.messageID);
+ 
 }
-class Modules extends Imgur {
-  constructor() {
-    super()
-  }
-  get config() {
-    return {
-      name: "imgur",
-      description: "Upload image to imgur",
-      version: "1.0.0",
-      credits: "Thiệu Trung Kiên",
-      cooldown: 5,
-      usage: "imgur <url>",
-      commandCategory: "Công cụ",
-      hasPermssion: 0
-    }
-  }
-  run = async ({ api, event }) => {
-    var array = [];
-    if ("message_reply" != event.type || event.messageReply.attachments.length < 0) return api.sendMessage("[⚜️]➜ Vui lòng reply vào bức ảnh bạn cần tải lên", event.threadID, event.messageID);
-    for (let { url } of event.messageReply.attachments) await this.uploadImage(url).then((res => array.push(res))).catch((err => console.log(err)));
-    return api.sendMessage(`[ 𝗜𝗠𝗚𝗨𝗥 𝗨𝗣𝗟𝗢𝗔𝗗 ]\n➝ 𝗧𝗵𝗮̀𝗻𝗵 𝗰𝗼̂𝗻𝗴: ${array.length} ảnh\n➝ 𝗧𝗵𝗮̂́𝘁 𝗯𝗮̣𝗶: ${array.length - event.messageReply.attachments.length}\n➝ Link ảnh:\n${array.join("\n")}`, event.threadID, event.messageID)
-  }
-}
-module.exports = new Modules;

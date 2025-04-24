@@ -1,52 +1,39 @@
 module.exports.config = {
-    name: "kick",
-    version: "1.0.0",
-    hasPermssion: 1,
-    credits: "D-Jukie",
-    description: "Xoá người bạn cần xoá khỏi nhóm bằng cách tag hoặc reply",
-    commandCategory: "Nhóm",
-    usages: "[tag/reply/all]",
-    cooldowns: 0
+	name: "kick",
+	version: "1.0.1", 
+	hasPermssion: 1,
+	credits: "uzairrajput",
+	description: "Clear the person you need to remove from the group by tag",
+	commandCategory: "System", 
+	usages: "[tag]", 
+	cooldowns: 0,
 };
 
-module.exports.run = async function ({
-    args,
-    api,
-    event,
-    Threads
-}) {
-    var {
-        participantIDs
-    } = (await Threads.getData(event.threadID)).threadInfo;
-    const botID = api.getCurrentUserID();
-    try {
-        if (args.join().indexOf('@') !== -1) {
-            var mention = Object.keys(event.mentions);
-            for (let o in mention) {
-                setTimeout(() => {
-                    return api.removeUserFromGroup(mention[o], event.threadID)
-                }, 1000)
-            }
-        } else {
-        if (event.type == "message_reply") {
-                uid = event.messageReply.senderID
-                return api.removeUserFromGroup(uid, event.threadID)
-            } else {
-                if (!args[0]) return api.sendMessage(`Vui lòng tag hoặc reply người cần kick`, event.threadID, event.messageID)
-                else {
-                    if (args[0] == "all") {
-                        const listUserID = event.participantIDs.filter(ID => ID != botID && ID != event.senderID);
-                        for (let idUser in listUserID) {
-                            setTimeout(() => {
-                                return api.removeUserFromGroup(idUser, event.threadID)
-                            }, 300)
-                        }
-                    }
-                }
-            }
-        }
-      
-    } catch {
-        return api.sendMessage('TEST', event.threadID, event.messageID);
-    }
+module.exports.languages = {
+	"vi": {
+		"error": "Đã có lỗi xảy ra, vui lòng thử lại sau",
+		"needPermssion": "Cần quyền quản trị viên nhóm\nVui lòng thêm và thử lại!",
+		"missingTag": "Bạn phải tag người cần kick"
+	},
+	"en": {
+		"error": "Error! An error occurred. Please try again later!",
+		"needPermssion": "Need group admin\nPlease add and try again!",
+		"missingTag": "You need tag some person to kick"
+	}
+}
+
+module.exports.run = async function({ api, event, getText, Threads }) {
+	var mention = Object.keys(event.mentions);
+	try {
+		let dataThread = (await Threads.getData(event.threadID)).threadInfo;
+		if (!dataThread.adminIDs.some(item => item.id == api.getCurrentUserID())) return api.sendMessage(getText("needPermssion"), event.threadID, event.messageID);
+		if(!mention[0]) return api.sendMessage("You have to tag the need to kick",event.threadID);
+		if (dataThread.adminIDs.some(item => item.id == event.senderID)) {
+			for (const o in mention) {
+				setTimeout(() => {
+					api.removeUserFromGroup(mention[o],event.threadID) 
+				},3000)
+			}
+		}
+	} catch { return api.sendMessage(getText("error"),event.threadID) }
 }

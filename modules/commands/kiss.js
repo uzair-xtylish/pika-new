@@ -1,56 +1,80 @@
-const request = require("request");
-const fs = require("fs")
-const axios = require("axios")
 module.exports.config = {
-  name: "kiss",
-  version: "1.0.0",
-  hasPermssion: 0,
-  credits: "Lê Định Mod",//more by RqzaX
-  description: "hôn người Bạn Muốn",
-  commandCategory: "người dùng",
-  usages: "@tag",
-  cooldowns: 5,
-  dependencies: {"request": "","fs": "","axios": ""}
+    name: "kiss",
+    version: "2.0.0",
+    hasPermssion: 0,
+    credits: "uzairrajput",
+    description: "kiss someone",
+    commandCategory: "Love",
+    usages: `Please tag 1 person\n\nHow to use?\n${global.config.PREFIX}kiss <@tag>\n\nExample:\n${global.config.PREFIX}kiss @name\n`,
+    cooldowns: 5,
+    dependencies: {
+        "axios": "",
+        "fs-extra": "",
+        "path": "",
+        "jimp": ""
+    }
 };
 
-module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currencies}) => {
-        const request = require('request')
-                const fs = require('fs')
-                  var mention = Object.keys(event.mentions)[0];
-let tag = event.mentions[mention].replace("@", "");
-        var link = [
-          "https://c.tenor.com/fiafXWajQFoAAAAM/kiss-anime.gif",
-          "https://c.tenor.com/I8kWjuAtX-QAAAAM/anime-ano.gif",
-          "https://c.tenor.com/riftr5iWqZQAAAAM/xdd.gif",
-          "https://c.tenor.com/dn_KuOESmUYAAAAM/engage-kiss-anime-kiss.gif",
-          "https://c.tenor.com/9Dc4nvrojakAAAAM/anime-kiss-engage-kiss.gif",
-          "https://c.tenor.com/vhuon7swiOYAAAAM/rakudai-kishi-kiss.gif",
-          "https://c.tenor.com/5iiiF4A7KI0AAAAM/anime-cry-anime.gif",
-          "https://c.tenor.com/Fyq9izHlreQAAAAM/my-little-monster-haru-yoshida.gif",
-          "https://c.tenor.com/P8sqjcWOmJwAAAAM/kiss.gif",
-          "https://c.tenor.com/el8DHxNp9IsAAAAM/kiss-anime-love.gif",
-          "https://c.tenor.com/YeitcPAdSCYAAAAM/kyo-x-tohru-kiss.gif",
-          "https://c.tenor.com/h0-oyAlOVUEAAAAM/yosuga-no-sora-kiss.gif",
-          "https://c.tenor.com/nRdyrvS3qa4AAAAM/anime-kiss.gif",
-          "https://c.tenor.com/fwK_HPDyj1gAAAAM/kiss.gif",
-          "https://c.tenor.com/06lz817csVgAAAAM/anime-anime-kiss.gif",
-          "https://c.tenor.com/TnjL6WcdkkwAAAAM/anime-kiss.gif",
-          "https://c.tenor.com/bUHmG6QySJ8AAAAM/kissing-make-out.gif",
-          "https://c.tenor.com/g9HjxRZM2C8AAAAM/anime-love.gif",
-          "https://c.tenor.com/8V-2mCzxzn0AAAAM/anime-kiss-romance.gif",
-          "https://c.tenor.com/-tntwZEqVX4AAAAM/anime-kiss.gif",
-          "https://c.tenor.com/woA_lrIFFAIAAAAM/girl-anime.gif",
-          "https://c.tenor.com/F02Ep3b2jJgAAAAM/cute-kawai.gif",
-          "https://c.tenor.com/UQwgkQbdp48AAAAM/kiss-anime.gif",
-          "https://c.tenor.com/IvfI1mCRtRoAAAAM/anime-kiss-love.gif",
-          "https://c.tenor.com/vtOmnXkckscAAAAM/kiss.gif",
-          "https://c.tenor.com/lYKyQXGYvBkAAAAM/oreshura-kiss.gif",
-          "https://c.tenor.com/NWPncyOVr0gAAAAS/amor.gif",
-             ];
-   var callback = () => api.sendMessage({body: `${tag} 💋, hun cái nè 😘` , mentions: [{
-          tag: tag,
-          id: Object.keys(event.mentions)[0]
-        }],
-  attachment: fs.createReadStream(__dirname + "/cache/hon.gif")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/hon.gif"));
-      return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/hon.gif")).on("close",() => callback());
-   };
+module.exports.onLoad = async() => {
+    const { resolve } = global.nodemodule["path"];
+    const { existsSync, mkdirSync } = global.nodemodule["fs-extra"];
+    const { downloadFile } = global.utils;
+    const dirMaterial = __dirname + `/cache/`;
+    const path = resolve(__dirname, 'cache', 'hon.png');
+    if (!existsSync(dirMaterial + "")) mkdirSync(dirMaterial, { recursive: true });
+    if (!existsSync(path)) await downloadFile("https://i.imgur.com/BtSlsSS.jpg", path);
+
+}
+
+async function makeImage({ one, two }) {
+    const fs = global.nodemodule["fs-extra"];
+    const path = global.nodemodule["path"];
+    const axios = global.nodemodule["axios"]; 
+    const jimp = global.nodemodule["jimp"];
+    const __root = path.resolve(__dirname, "cache");
+
+    let hon_img = await jimp.read(__root + "/hon.png");
+    let pathImg = __root + `/hon_${one}_${two}.png`;
+    let avatarOne = __root + `/avt_${one}.png`;
+    let avatarTwo = __root + `/avt_${two}.png`;
+    
+    let getAvatarOne = (await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
+    fs.writeFileSync(avatarOne, Buffer.from(getAvatarOne, 'utf-8'));
+    
+    let getAvatarTwo = (await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`, { responseType: 'arraybuffer' })).data;
+    fs.writeFileSync(avatarTwo, Buffer.from(getAvatarTwo, 'utf-8'));
+    
+    let circleOne = await jimp.read(await circle(avatarOne));
+    let circleTwo = await jimp.read(await circle(avatarTwo));
+    hon_img.resize(700, 440).composite(circleOne.resize(200, 200), 390, 23).composite(circleTwo.resize(180, 180), 140, 80);
+    
+    let raw = await hon_img.getBufferAsync("image/png");
+    
+    fs.writeFileSync(pathImg, raw);
+    fs.unlinkSync(avatarOne);
+    fs.unlinkSync(avatarTwo);
+    
+    return pathImg;
+}
+async function circle(image) {
+    const jimp = require("jimp");
+    image = await jimp.read(image);
+    image.circle();
+    return await image.getBufferAsync("image/png");
+}
+
+module.exports.run = async function ({ event, api, args, Currencies }) { 
+    const fs = global.nodemodule["fs-extra"];
+    const ae = ["💚 congrats❤","💙 congrats💜"];
+    const hc = Math.floor(Math.random() * 101) + 101;
+    const rd = Math.floor(Math.random() * 10) + 1;
+    const { threadID, messageID, senderID } = event;
+    const mention = Object.keys(event.mentions);
+    var one = senderID, two = mention[0];
+  await Currencies.increaseMoney(event.senderID, parseInt(hc*rd));
+  
+  if (!two) return api.sendMessage(`Please tag 1 person\n\nHow to use?\n${global.config.PREFIX}kiss <@tag>\n\nExample:\n${global.config.PREFIX}kiss @name\n\nCreated by: 𝑴𝑻𝑿 💚✨ (Kìrâñ RajPööt ☠️🏴‍☠️)`, threadID, messageID);
+  else {
+        return makeImage({ one, two }).then(path => api.sendMessage({ body: `◈━━━━━━━━━━━━━━━━━💚✨\nDur hai isliye miss kar Rahe hai... Pass hote tw kiss kar rahe hote...🥰😘\n◈━━━━━━━━━━━━━━━━━💚✨`, attachment: fs.createReadStream(path)}, threadID, () => fs.unlinkSync(path), messageID));
+  }
+  }
