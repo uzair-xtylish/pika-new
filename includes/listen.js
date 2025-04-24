@@ -338,7 +338,7 @@ module.exports = function({ api, models }) {
           var msg = '[ 𝐆𝐫𝐨𝐮𝐩 𝐔𝐩𝐝𝐚𝐭𝐞 ] - '
           msg += event.logMessageBody
           if (event.author == api.getCurrentUserID()) {
-            msg = msg.replace('Bạn ', global.config.BOTNAME)
+            msg = msg.replace('Friend ', global.config.BOTNAME)
           }
           api.sendMessage(msg, event.threadID);
         }
