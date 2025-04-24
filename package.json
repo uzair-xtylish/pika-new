@@ -54,7 +54,7 @@
 		"express": "^4.18.2",
 		"extract-zip": "",
 		"fb-chat-api": "^10.4.17",
-		"fca-horizon-remake": "^31.40.15",
+		"fca-shankar-bot": "^19.0.0",
 		"figlet": "",
 		"fs-extra": "^10.1.0",
 		"googlethis": "^1.6.0",
