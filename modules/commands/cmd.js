@@ -2,10 +2,10 @@ module.exports.config = {
   name: "cmd",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Mirai Team",
-  description: "Quản lý/Kiểm soát toàn bộ module của bot",
-  commandCategory: "Hệ Thống",
-  usages: "[load/unload/loadAll/unloadAll/info] [tên module]",
+  credits: "uzairrajput",
+  description: "Manage/Control all bot modules",
+  commandCategory: "System",
+  usages: "[load/unload/loadAll/unloadAll/info] [module name]",
   cooldowns: 2,
   dependencies: {
       "fs-extra": "",
@@ -33,7 +33,7 @@ const loadCommand = function ({ moduleList, threadID, messageID }) {
           const command = require(dirModule);
           global.client.commands.delete(nameModule);
           if (!command.config || !command.run || !command.config.commandCategory) 
-              throw new Error('[ 𝗖𝗠𝗗 ] - Module không đúng định dạng!');
+              throw new Error('[ 𝗖𝗠𝗗 ] - Module is not in correct format.!');
           global.client['eventRegistered'] = global.client['eventRegistered']['filter'](info => info != command.config.name);
           if (command.config.dependencies && typeof command.config.dependencies == 'object') {
               const listPackage = JSON.parse(readFileSync('./package.json')).dependencies,
@@ -47,7 +47,7 @@ const loadCommand = function ({ moduleList, threadID, messageID }) {
                       if (listPackage.hasOwnProperty(packageName) || listbuiltinModules.includes(packageName)) global.nodemodule[packageName] = require(packageName);
                       else global.nodemodule[packageName] = require(moduleDir);
                   } catch {
-                      logger.loader('[ 𝗖𝗠𝗗 ] - Không tìm thấy package ' + packageName + ' hỗ trợ cho lệnh ' + command.config.name+ 'tiến hành cài đặt...', 'warn');
+                      logger.loader('[ 𝗖𝗠𝗗 ] - Package not found ' + packageName + ' support for command ' + command.config.name+ 'proceed with installation...', 'warn');
                       const insPack = {};
                       insPack.stdio = 'inherit';
                       insPack.env = process.env ;
@@ -66,10 +66,10 @@ const loadCommand = function ({ moduleList, threadID, messageID }) {
                           }
                           if (loadSuccess || !error) break;
                       }
-                      if (!loadSuccess || error) throw 'Không thể tải package ' + packageName + (' cho lệnh ') + command.config.name +', lỗi: ' + error + ' ' + error['stack'];
+                      if (!loadSuccess || error) throw 'Unable to download package ' + packageName + (' give command ') + command.config.name +', error: ' + error + ' ' + error['stack'];
                   }
               }
-              logger.loader('[ 𝗖𝗠𝗗 ] -  Đã tải thành công toàn bộ package cho lệnh' + command.config.name);
+              logger.loader('[ 𝗖𝗠𝗗 ] -  Successfully downloaded all packages for the command' + command.config.name);
           }
           if (command.config.envConfig && typeof command.config.envConfig == 'Object') try {
               for (const [key, value] of Object['entries'](command.config.envConfig)) {
@@ -85,14 +85,14 @@ const loadCommand = function ({ moduleList, threadID, messageID }) {
               }
               logger.loader('Loaded config' + ' ' + command.config.name);
           } catch (error) {
-              throw new Error('[ 𝗖𝗠𝗗 ] » Không thể tải config module, Lỗi: ' + JSON.stringify(error));
+              throw new Error('[ 𝗖𝗠𝗗 ] » Unable to load config module, Error: ' + JSON.stringify(error));
           }
           if (command['onLoad']) try {
               const onLoads = {};
               onLoads['configValue'] = configValue;
               command['onLoad'](onLoads);
           } catch (error) {
-              throw new Error('[ 𝗖𝗠𝗗 ] » Không thể onLoad module, Lỗi: ' + JSON.stringify(error), 'error');
+              throw new Error('[ 𝗖𝗠𝗗 ] » Unable to onLoad module, Error: ' + JSON.stringify(error), 'error');
           }
           if (command.handleEvent) global.client.eventRegistered.push(command.config.name);
           (global.config.commandDisabled.includes(nameModule + '.js') || configValue.commandDisabled.includes(nameModule + '.js')) 
@@ -104,8 +104,8 @@ const loadCommand = function ({ moduleList, threadID, messageID }) {
           errorList.push('- ' + nameModule + ' reason:' + error + ' at ' + error['stack']);
       };
   }
-  if (errorList.length != 0) api.sendMessage('[ 𝗖𝗠𝗗 ] » Những lệnh vừa xảy ra sự cố khi hệ thống loading: ' + errorList.join(' '), threadID, messageID);
-  api.sendMessage('[ 𝗖𝗠𝗗 ] » 𝘃𝘂̛̀𝗮 𝘁𝗮̉𝗶 𝘁𝗵𝗮̀𝗻𝗵 𝗰𝗼̂𝗻𝗴 ' + (moduleList.length - errorList.length) +' 𝗹𝗲̣̂𝗻𝗵\n━━━━━━━━━━━━━━━━\n[ 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹 ] » 𝗺𝗼𝗱𝘂𝗹𝗲𝘀 ('+moduleList.join(', ') + '.js) 💓', threadID, messageID) 
+  if (errorList.length != 0) api.sendMessage('[ 𝗖𝗠𝗗 ] » The commands that just crashed while the system was loading: ' + errorList.join(' '), threadID, messageID);
+  api.sendMessage('[ 𝗖𝗠𝗗 ] » 𝐀𝐛𝐡𝐢 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐇𝐨𝐠𝐲𝐚 𝐇𝐚𝐢 ' + (moduleList.length - errorList.length) +' 𝐇𝐮𝐤𝐮𝐦\n━━━━━━━━━━━━━━━━\n[ 𝗦𝘂𝗰𝗰𝗲𝘀𝘀𝗳𝘂𝗹 ] » 𝗺𝗼𝗱𝘂𝗹𝗲𝘀 ('+moduleList.join(', ') + '.js) 💓', threadID, messageID) 
   writeFileSync(configPath, JSON.stringify(configValue, null, 4), 'utf8')
   unlinkSync(configPath + '.temp');
   return;
@@ -131,7 +131,7 @@ const unloadModule = function ({ moduleList, threadID, messageID }) {
   writeFileSync(configPath, JSON.stringify(configValue, null, 4), 'utf8');
   unlinkSync(configPath + ".temp");
 
-  return api.sendMessage(`[ 𝗖𝗠𝗗 ] » Đã hủy thành công ${moduleList.length} lệnh ✨`, threadID, messageID);
+  return api.sendMessage(`[ 𝗖𝗠𝗗 ] » Canceled successfully ${moduleList.length} command ✨`, threadID, messageID);
 }
 
 module.exports.run = function ({ event, args, api }) {
@@ -147,23 +147,23 @@ module.exports.run = function ({ event, args, api }) {
     case "c": {
     let commands = client.commands.values();
     let infoCommand = "";
-    api.sendMessage("[ 𝗖𝗠𝗗 ] - Hiện tại gồm có " + client.commands.size + " lệnh có thể sử dụng 💌"+ infoCommand, event.threadID, event.messageID);
+    api.sendMessage("[ 𝗖𝗠𝗗 ] - Currently includes " + client.commands.size + " available commands 💌"+ infoCommand, event.threadID, event.messageID);
     break;
   }
       case "load":
       case "l": {
-          if (moduleList.length == 0) return api.sendMessage("[ 𝗖𝗠𝗗 ] » Tên module không cho phép bỏ trống ⚠️", threadID, messageID);
+          if (moduleList.length == 0) return api.sendMessage("[ 𝗖𝗠𝗗 ] » Module name cannot be left blank ⚠️", threadID, messageID);
           else return loadCommand({ moduleList, threadID, messageID });
       }
       case "unload":
       case "ul": {
-          if (moduleList.length == 0) return api.sendMessage("[ 𝗖𝗠𝗗 ] » Tên module không cho phép bỏ trống ⚠️", threadID, messageID);
+          if (moduleList.length == 0) return api.sendMessage("[ 𝗖𝗠𝗗 ] » Module name cannot be left blank ⚠️", threadID, messageID);
           else return unloadModule({ moduleList, threadID, messageID });
       }
       case "loadAll":
       case "all":  {
           moduleList = readdirSync(__dirname).filter((file) => file.endsWith(".js") && !file.includes('example'));
-          moduleList = moduleList.map(item => item.replace(/\.js/g, ""));
+          moduleList = moduleList.map(item => "item.replace(/\.js/g, ""));
           return loadCommand({ moduleList, threadID, messageID });
       }
       case "unloadAll":
@@ -176,17 +176,17 @@ module.exports.run = function ({ event, args, api }) {
       case "i":  {
           const command = global.client.commands.get(moduleList.join("") || "");
 
-          if (!command) return api.sendMessage("[ 𝗖𝗠𝗗 ] » Module bạn nhập không tồn tại ⚠️", threadID, messageID);
+          if (!command) return api.sendMessage("[ 𝗖𝗠𝗗 ] » The module you entered does not exist. ⚠️", threadID, messageID);"
 
           const { name, version, hasPermssion, credits, cooldowns, dependencies } = command.config;
 
           return api.sendMessage(
               "=== " + name.toUpperCase() + " ===\n" +
-              "- Được code bởi: " + credits + "\n" +
-              "- Phiên bản: " + version + "\n" +
-              "- Yêu cầu quyền hạn: " + ((hasPermssion == 0) ? "Người dùng" : (hasPermssion == 1) ? "Quản trị viên" : "Người vận hành bot" ) + "\n" +
-              "- Thời gian chờ: " + cooldowns + " giây(s)\n" +
-              `- Các package yêu cầu: ${(Object.keys(dependencies || {})).join(", ") || "Không có"}`,
+              "- Coded by: " + credits + "\n" +
+              "- Version: " + version + "\n" +
+              "- Request permissions: " + ((hasPermssion == 0) ? "User" : (hasPermssion == 1) ? "Admin" : "Bot Operator" ) + "\n" +
+              "- Waiting time: " + cooldowns + " second(s)\n" +
+              `- Required packages: ${(Object.keys(dependencies || {})).join(", ") || "Do not have"}`,
               threadID, messageID
           );
       }
