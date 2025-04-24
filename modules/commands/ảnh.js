@@ -2,9 +2,9 @@ module.exports.config = {
   name: "ảnh",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Adonis",
-  description: "xem ảnh hiện có trên bot",
-  commandCategory: "Dành cho người dùng",
+  credits: "uzairrajput",
+  description: "View existing photos on bot",
+  commandCategory: "For users",
   usages: "image",
   cooldowns: 0,
   dependencies: {
@@ -20,7 +20,7 @@ module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currenc
     const request = require('request');
     const fs = require('fs-extra');
 
-     if (args.length == 0) return api.sendMessage(` 🎭 Danh sách các ảnh hiện có  🎭 \n\n1. ảnh gái \n2. ảnh trai \n3. ảnh mông \n4. ảnh naughty \n5. ảnh nude\n6. ảnh cosplay\n7. ảnh anime\n8. ảnh sexy\n9. ảnh kana\n10. vú < 18 + >\n11. ảnh hentai\n\nDùng -ảnh  < ảnh bạn cần xem >\n
+     if (args.length == 0) return api.sendMessage(` 🎭 List of available images  🎭 \n\n1. girl photo \n2. boy photo \n3. butt photo \n4. naughty photo \n5. nude photo\n6. cosplay photo\n7. anime pictures\n8. sexy photo\n9. photo\n10. breast < 18 + >\n11. hentai pictures\n\nUse -photo  < pictures you need to see >\n
 `, event.threadID, event.messageID);
 
      if (args[0] == "vú") {
