@@ -2,6 +2,7 @@
     "language": "en",
     "keyActive": "",
     "version": "16.7.0",
+    "port": 3000,
     "notiGroup": false,
     "NOTIFICATION": false,
     "DeveloperMode": false,
@@ -32,7 +33,7 @@
     "PASSWORD": "",
     "OTPKEY": "",
     "BOTNAME": "pika",
-    "PREFIX": ".",
+    "PREFIX": "#",
     "ADMINBOT": [
         "61552682190483",
         "100085739395197",
@@ -59,7 +60,7 @@
             "storage": "data.sqlite"
         }
     },
-    "APPSTATEPATH": "2.json",
+    "APPSTATEPATH": "𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿.json",
     "FCAOption": {
         "forceLogin": true,
         "listenEvents": true,
