@@ -2,7 +2,7 @@ module.exports.config = {
   name: "help",
   version: "1.0.2",
   hasPermission: 0,
-  credits: "SHANKAR",
+  credits: "uzairrajput",
   description: "Beginner's Guide",
   commandCategory: "guide",
   usePrefix: false,
@@ -161,13 +161,13 @@ module.exports.run = async function ({ api, event, args, getText }) {
     const fs = require("fs-extra");
     const imgP = [];
     const img = [
-      "https://i.imgur.com/eoXVwMh.jpg",
-      "https://i.imgur.com/BOkF9m9.jpg",
-      "https://i.imgur.com/OilNd5P.jpg",
-      "https://i.imgur.com/ncymGUq.jpg",
-      "https://i.imgur.com/tBO112a.jpg",
-      "https://i.imgur.com/j9DbX1t.jpg",
-      "https://i.imgur.com/5HLlftL.jpg"
+      "https://i.imgur.com/wGfZvyM.jpeg",
+      "https://i.imgur.com/1H9EP10.jpeg",
+      "https://i.imgur.com/n3DRSFF.jpeg",
+      "https://i.imgur.com/QCl2drY.jpeg",
+      "https://i.imgur.com/pUPzmf5.jpeg",
+      "https://i.imgur.com/w8J9I5z.jpeg",
+      "https://i.imgur.com/eVRjaAh.jpeg"
     ];
     const path = __dirname + "/cache/menu.png";
     const rdimg = img[Math.floor(Math.random() * img.length)];
@@ -180,7 +180,7 @@ module.exports.run = async function ({ api, event, args, getText }) {
     imgP.push(fs.createReadStream(path));
     const config = require("./../../config.json")
     const msgg = {
-  body: `╭──────────────╮\n│𝐒𝐇𝐀𝐍𝐊𝐀𝐑 𝐏𝐑𝐎𝐉𝐄𝐂𝐓│\n╰──────────────╯\n‣ Bot Owner: SHANKAR-SUMAN\n\n` + msg + `\n◖Total pages available: ${totalPages}.\n` + `\n╭ ──── ╮\n│ GUIDE │\n╰ ──── ╯\n` + getText("guideList", config.PREFIX),
+  body: `╭──────────────╮\n│𝑴𝑻𝑿 💚✨ 𝐏𝐑𝐎𝐉𝐄𝐂𝐓 │\n╰──────────────╯\n‣ Bot Owner: 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿\n\n` + msg + `\n◖Total pages available: ${totalPages}.\n` + `\n╭ ──── ╮\n│ GUIDE │\n╰ ──── ╯\n` + getText("guideList", config.PREFIX),
   attachment: imgP,
 };
 
