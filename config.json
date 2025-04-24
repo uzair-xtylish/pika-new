@@ -2,11 +2,10 @@
     "language": "en",
     "keyActive": "",
     "version": "16.7.0",
-    "port": 3000,
     "notiGroup": false,
     "NOTIFICATION": false,
     "DeveloperMode": false,
-    "autoCreateDB": false,
+    "autoCreateDB": true,
     "allowInbox": false,
     "accpetPending": false,
     "iconUnsend": {
@@ -15,7 +14,7 @@
     },
     "autoClear": [],
     "adminOnly": false,
-    "duyetbox": false,
+    "duyetbox": true,
     "encryptSt": false,
     "UPTIME": 180167.04491070402,
     "autoRestart": 0,
@@ -23,8 +22,8 @@
         "cap.js"
     ],
     "eventDisabled": [
-        "",
-        ""
+        "antibdbot.js",
+        "rule.js"
     ],
     "configApi": {
         "domain": "https://api.blacksky04.repl.co"
@@ -32,8 +31,8 @@
     "EMAIL": "",
     "PASSWORD": "",
     "OTPKEY": "",
-    "BOTNAME": "☆ 𝐏𝐢𝐤𝐚 ☆",
-    "PREFIX": "#",
+    "BOTNAME": "pika",
+    "PREFIX": ".",
     "ADMINBOT": [
         "61552682190483",
         "100085739395197",
@@ -60,7 +59,7 @@
             "storage": "data.sqlite"
         }
     },
-    "APPSTATEPATH": "shankarstate.json",
+    "APPSTATEPATH": "2.json",
     "FCAOption": {
         "forceLogin": true,
         "listenEvents": true,
