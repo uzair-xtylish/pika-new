@@ -1,29 +1,27 @@
-const fs = require('fs');
 module.exports.config = {
-	name: "unsendReaction", // Tên lệnh, được sử dụng trong việc gọi lệnh
-	version: "1.0.0", // phiên bản của module này
-	hasPermssion: 2, // Quyền hạn sử dụng, với 0 là toàn bộ thành viên, 1 là quản trị viên trở lên, 2 là admin/owner
-	credits: "MAVERICK", // Công nhận module sở hữu là ai
-	description: "cũng là unsend nhưng bằng reaction", // Thông tin chi tiết về lệnh
-	commandCategory: "Tiện ích", // Thuộc vào nhóm nào: system, other, game-sp, game-mp, random-img, edit-img, media, economy, ...
-	usages: "[on/off]", // Cách sử dụng lệnh
-	cooldowns: 5, // Thời gian một người có thể lặp lại lệnh
+	name: "unsend",
+	version: "1.0.1",
+	hasPermssion: 2,
+	credits: "uzairrajput",
+	description: "Remove bot messages",
+	commandCategory: "system",
+	usages: "unsend",
+	cooldowns: 0
 };
 
-module.exports.run = async({ api, event, args }) => {
-    const { threadID, messageID } = event;
-    let path = __dirname + "/hethong/unsendReaction.json";
-    if(!fs.existsSync(path)) fs.writeFileSync(path, JSON.stringify({}));
-    let data = JSON.parse(fs.readFileSync(path));
-    if(!data[threadID]) data[threadID] = { data: false };
-   if (args.join() == "") { 
-	  return api.sendMessage(`» Vui lòng chọn [ on / off ].`, event.threadID, event.messageID)} 
-    if(args[0] == "on") { 
-        data[threadID].data = true; 
-        api.sendMessage("» Đã bật chế độ unsendReaction.", threadID); 
-    } else if(args[0] == "off") { 
-        data[threadID].data = false; 
-        api.sendMessage("» Đã tắt chế độ unsendReaction.", threadID);
-    }
-    fs.writeFileSync(path, JSON.stringify(data, null, 4));
+module.exports.languages = {
+	"vi": {
+		"returnCant": "Không thể gỡ tin nhắn của người khác.",
+		"missingReply": "Hãy reply tin nhắn cần gỡ."
+	},
+	"en": {
+		"returnCant": "Can't to unsend message from other user.",
+		"missingReply": "Reply to the message you want to unsend."
+	}
 }
+
+module.exports.run = function({ api, event, getText }) {
+	if (event.messageReply.senderID != api.getCurrentUserID()) return api.sendMessage(getText("returnCant"), event.threadID, event.messageID);
+	if (event.type != "message_reply") return api.sendMessage(getText("missingReply"), event.threadID, event.messageID);
+	return api.unsendMessage(event.messageReply.messageID);
+	}

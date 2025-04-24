@@ -1,11 +1,10 @@
-
 module.exports.config = {
   name: "unban",
   version: "1.0.0",
-  hasPermssion: 3,
-  credits: "ManhG",
-  description: "Gỡ ban nhóm và người dùng trong 1 nốt nhạc",
-  commandCategory: "Hệ thống admin-bot",
+  hasPermssion: 2,
+  credits: "uzairrajput",//Mod by uzairrajput 
+  description: "Remove groups and users in 1 note",
+  commandCategory: "Admin",
   usages: "unban",
   cooldowns: 2,
   denpendencies: {}
@@ -13,12 +12,12 @@ module.exports.config = {
 
 module.exports.run = async ({ event, api, Users, Threads, args }) => {
   var { threadID, messageID, senderID } = event;
-
+  
   const { commands } = global.client;
   const command = commands.get(("unban").toLowerCase());
   const credit = command.config.credits;
-  var mangG = "ManhG";
-  if(credit != mangG) return api.sendMessage(`Sai credit!`, event.threadID, event.messageID);
+  var uzairrajput = "uzairrajput";
+  if(credit != uzairrajput) return api.sendMessage(`uzairrajput urf mtx credit! again laga ke ao ye command jab use ho sakti hai warna ghanta bhi nahi hogi`, event.threadID, event.messageID);
   
   const threadSetting = global.data.threadData.get(parseInt(event.threadID)) || {};
   const prefix = (threadSetting.hasOwnProperty("PREFIX")) ? threadSetting.PREFIX : global.config.PREFIX;
@@ -36,7 +35,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Users.setData(idad, { data });
           global.data.userBanned.delete(idad, 1);
         }
-        api.sendMessage("Đã gỡ ban cho toàn bộ Admin Bot", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all Admin Bot", threadID, messageID)
         break;
       }
 
@@ -51,7 +50,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Users.setData(idNDH, { data });
           global.data.userBanned.delete(idNDH, 1);
         }
-        api.sendMessage("Đã gỡ ban cho toàn bộ Người hỗ trợ", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all Supporters", threadID, messageID)
         break;
       }
 
@@ -68,7 +67,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Threads.setData(singleThread, { data });
           global.data.userBanned.delete(singleThread, 1);
         }
-        api.sendMessage("Đã gỡ ban cho toàn nhóm trên server", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for the entire group on the server", threadID, messageID)
         break;
       }
 
@@ -82,7 +81,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
         data.dateAdded = null;
         await Threads.setData(idbox, { data });
         global.data.userBanned.delete(idbox, 1);
-        api.sendMessage("Đã gỡ ban cho nhóm này", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - The ban has been removed for this group", threadID, messageID)
         break;
       }
 
@@ -98,7 +97,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Users.setData(singleUser, { data });
           global.data.userBanned.delete(singleUser, 1);
         }
-        api.sendMessage("Đã gỡ ban cho toàn bộ người dùng trên server", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all users on the server", threadID, messageID)
         break;
       }
 
@@ -122,7 +121,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
             global.data.userBanned.delete(idad, 1);
           }
         }
-        api.sendMessage('Đã gỡ ban cho toàn bộ Quản trị viên trên server', threadID, messageID);
+        api.sendMessage('𝗠𝗢𝗗𝗘- Banned for all Administrators on the server', threadID, messageID);
         break;
       }
 
@@ -141,7 +140,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           await Users.setData(idQtv, { data });
           global.data.userBanned.delete(idQtv, 1);
         }
-        api.sendMessage("Đã gỡ ban cho toàn bộ Quản trị viên nhóm này", threadID, messageID)
+        api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all Admins of this group", threadID, messageID)
         break;
       }
 
@@ -162,7 +161,7 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
             await Users.setData(idMember, { data });
             global.data.userBanned.delete(idMember, 1);
           }
-          return api.sendMessage("Đã gỡ ban cho toàn bộ thành viên trong nhóm này", threadID, messageID);
+          return api.sendMessage("𝗠𝗢𝗗𝗘 - Banned for all members of this group", threadID, messageID);
         }
         if (args.join().indexOf('@') !== -1) {
           var mentions = Object.keys(event.mentions)
@@ -174,13 +173,14 @@ module.exports.run = async ({ event, api, Users, Threads, args }) => {
           data.dateAdded = null;
           await Users.setData(userID, { data });
           global.data.userBanned.delete(userID, 1);
-          return api.sendMessage(`Người dùng ${nameUser} đã được gỡ ban`, threadID, messageID)
+          return api.sendMessage(`𝗠𝗢𝗗𝗘 - User ${nameUser} ban has been removed`, threadID, messageID)
         }
         break;
       }
 
     default:
-      api.sendMessage(`[⚜️] 𝗨𝗡𝗕𝗔𝗡 𝗖𝗢𝗡𝗙𝗜𝗚 [⚜️]\n◆━━━━━━━━━━━━━━━◆\n\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗮𝗱𝗺𝗶𝗻 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝘁𝗼𝗮̀𝗻 𝗯𝗼̣̂ 𝗔𝗱𝗺𝗶𝗻 𝗕𝗼𝘁\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗻𝗱𝗵 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝘁𝗼𝗮̀𝗻 𝗯𝗼̣̂ 𝗡𝗴𝘂̛𝗼̛̀𝗶 𝗵𝗼̂̃ 𝘁𝗿𝗼̛̣\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗮𝗹𝗹𝗯𝗼𝘅 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝘁𝗼𝗮̀𝗻 𝗯𝗼̣̂ 𝗻𝗵𝗼́𝗺 𝘁𝗿𝗲̂𝗻 𝘀𝗲𝗿𝘃𝗲𝗿\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗯𝗼𝘅 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝗻𝗵𝗼́𝗺 𝗵𝗶𝗲̣̂𝗻 𝘁𝗮̣𝗶 ( 𝟭 𝗻𝗵𝗼́𝗺 )\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗮𝗹𝗹𝘂𝘀𝗲𝗿 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝘁𝗼𝗮̀𝗻 𝗯𝗼̣̂ 𝗻𝗴𝘂̛𝗼̛̀𝗶 𝗱𝘂̀𝗻𝗴 𝘁𝗿𝗲̂𝗻 𝘀𝗲𝗿𝘃𝗲𝗿\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗮𝗹𝗹𝗾𝘁𝘃 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝘁𝗼𝗮̀𝗻 𝗯𝗼̣̂ 𝗤𝘂𝗮̉𝗻 𝘁𝗿𝗶̣ 𝘃𝗶𝗲̂𝗻 𝘁𝗿𝗲̂𝗻 𝘀𝗲𝗿𝘃𝗲𝗿\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗾𝘁𝘃 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝘁𝗼𝗮̀𝗻 𝗯𝗼̣̂ 𝗤𝘂𝗮̉𝗻 𝘁𝗿𝗶̣ 𝘃𝗶𝗲̂𝗻 ( 𝟭 𝗻𝗵𝗼́𝗺 )\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗺𝗲𝗺𝗯𝗲𝗿 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝘁𝗼𝗮̀𝗻 𝗯𝗼̣̂ 𝘁𝗵𝗮̀𝗻𝗵 𝘃𝗶𝗲̂𝗻 𝘁𝗿𝗼𝗻𝗴 𝗻𝗵𝗼́𝗺 ( 𝟭 𝗻𝗵𝗼́𝗺 )\n[👉] - 𝘂𝗻𝗯𝗮𝗻 𝗺𝗲𝗺𝗯𝗲𝗿 𝘁𝗮𝗴 => 𝗚𝗼̛̃ 𝗯𝗮𝗻 𝗰𝗵𝗼 𝗻𝗴𝘂̛𝗼̛̀𝗶 𝗱𝘂̛𝗼̛̣𝗰 𝘁𝗮𝗴`, threadID, messageID);
+      api.sendMessage(`「    𝗨𝗡𝗕𝗔𝗡    𝗖𝗢𝗡𝗙𝗜𝗚  」\n◆━━━━━━━━━━━◆\n\n𝗠𝗢𝗗𝗘 - unban admin => Remove ban for all Admin Bot\n𝗠𝗢𝗗𝗘 - unban ndh => Unban all Supporters\n𝗠𝗢𝗗𝗘 - unban allbox => Unban the entire group on the server\n𝗠𝗢𝗗𝗘 - unban box => Unban the current group ( 1 group \n𝗠𝗢𝗗𝗘 - unban alluser => Unban all users on the server\n𝗠𝗢𝗗𝗘 - unban allqtv => Remove ban for all boards Via server server administrator\n𝗠𝗢𝗗𝗘 - unban qtv => Remove ban for all admins ( 1 group )\n𝗠𝗢𝗗𝗘 - unban member
+> Type ban for all team members ( 1 group )\n𝗠𝗢𝗗𝗘 - unban member tag => Remove the ban for the person with the tag`, threadID, messageID);
       break;
   }
 }

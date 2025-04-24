@@ -1,122 +1,51 @@
+const chalk = require('chalk');
 module.exports.config = {
-    name: "ad",
-    version: "1.0.0",
-    hasPermssion: 0,
-    credits: "CatalizCS",
-    description: "Điều chỉnh thông tin của người dùng",
-    commandCategory: "Dev",
-    usages: "[add/all/set/clean] [Số tiền] [Tag người dùng/reply]",
+    name: "joinbot",
+    version: "1.0.1",
+    hasPermssion: 2,
+    credits: "uzairrajput",
+    description: "Join the boxes Bot is in",
+    commandCategory: "For users",
+    usages: "",
     cooldowns: 5
 };
+ module.exports.onLoad = () => {
+  console.log(chalk.bold.hex("# 00c300").bold("============ SUCCESFULLY LOADED THE JOIN COMMAND ============"));
+  }
+module.exports.handleReply = async function({ api, event, handleReply, Threads }) {
+  var { threadID, messageID, senderID, body } = event;
+  var { ID } = handleReply;
+  console.log(ID)
+  if (!body || !parseInt(body)) return api.sendMessage('Your choice must be a number.', threadID, messageID);
+  if ((parseInt(body) - 1) > ID.length) return api.sendMessage("Your selection is not on the list", threadID, messageID);
+  try {
+    var threadInfo = await Threads.getInfo(ID[body - 1]);
+    var { participantIDs, approvalMode, adminIDs } = threadInfo;
+    if (participantIDs.includes(senderID)) return api.sendMessage(`You are already in this group.`, threadID, messageID);
+    api.addUserToGroup(senderID, ID[body - 1]);
+    if (approvalMode == true && !adminIDs.some(item => item.id) == api.getCurrentUserID()) return api.sendMessage("Added you to the group's approval list... customize it yourself", threadID, messageID);
+    else return api.sendMessage(`I have added you to the group ${threadInfo.threadName} okay. Check your spam or pending messages if you don't see the box.`, threadID, messageID);
+  } catch (error) {
+    return api.sendMessage(`I got an error so I couldn't add you to that group :<.\n\n${error}`, threadID, messageID);
+  }
+}
 
-module.exports.run = async function ({ event, api, Currencies, args,Users }) {
-    const { threadID, messageID, senderID, messageReply } = event;
-   
-    const { throwError } = global.utils;
-    const { increaseMoney, decreaseMoney, getData } = Currencies;
-   const mentionID = Object.keys(event.mentions);
-    const money = parseInt(args[1]);
-    var message = [];
-    var error = [];
-const permission = ["100013942628281","100083897637232"];
-      if (!permission.includes(event.senderID)) return api.sendMessage("[ 𝗗𝗘𝗩 𝗠𝗢𝗗𝗘 ] Lệnh này chỉ dành cho 𝗡𝗵𝗮̀ 𝗣𝗵𝗮́𝘁 𝗧𝗿𝗶𝗲̂̉𝗻 💻", event.threadID, event.messageID);
-    switch (args[0]) {
-        case "add": {
-          //if(args[1] > 1000000) return api.sendMessage("[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 ] → Số tiền phải nhỏ hơn 1,000,000", threadID, messageID);
-          if (event.type == "message_reply") {
-            var name = (await Users.getData(event.messageReply.senderID)).name;
-          await Currencies.increaseMoney(event.messageReply.senderID, money); console.log("done");
-            return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Cộng thành công ${money}$ cho ${name}` ,event.threadID)
-            
-          } else if (mentionID.length != 0) {
-                for (singleID of mentionID) {
-                if (!money || isNaN(money)) return throwError(this.config.name, threadID, messageID);
-                try {
-                    await Currencies.increaseMoney(singleID, money);
-                    message.push(singleID);
-                } catch (e) { error.push(e); console.log(e) };
-                }
-                return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Đã cộng thêm ${money}$ cho ${message.length} người`, threadID, function () { if (error.length != 0) return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 ] → Không thể cộng thêm tiền cho ${error.length} 𝐧𝐠𝐮̛𝐨̛̀𝐢!`, threadID) }, messageID);
-            } else {
-                if (!money || isNaN(money)) return throwError(this.config.name, threadID, messageID);
-                try {
-                await Currencies.increaseMoney(senderID, money);
-                message.push(senderID);
-                } catch (e) { error.push(e) };
-                return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Đã cộng thêm ${money}$ cho bản thân`, threadID, function () { if (error.length != 0) return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Không thể cộng thêm tiền cho bản thân`, threadID) }, messageID);
-            }
-        }
-
-        case "set": {
-            //if(args[1] > 1000000000) return api.sendMessage("[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 ] → Số tiền phải nhỏ hơn 1,000,000,000", threadID, messageID);
-            if (mentionID.length != 0) {
-                for (singleID of mentionID) {
-                if (!money || isNaN(money)) return throwError(this.config.name, threadID, messageID);
-                try {
-                    await Currencies.setData(singleID, { money });
-                    message.push(singleID);
-                } catch (e) { error.push(e) };
-                }
-                return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Đã set thành công ${money}$ cho ${message.length} người`, threadID, function () { if (error.length != 0) return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Không thể set tiền cho ${error.length} người!`, threadID) }, messageID);
-            } else if (args[2]) {
-                if (!money || isNaN(money)) return throwError(this.config.name, threadID, messageID);
-                try {
-                await Currencies.setData(args[2], { money });
-                message.push(args[2]);
-                } catch (e) { error.push(e) };
-                return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 ] → Đã set thành công ${money}$ cho ${message.length} người!`, threadID, function () { if (error.length != 0) return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Không thể set tiền cho ${error.length} người!`, threadID) }, messageID);
-            }
-            else {
-                if (!money || isNaN(money)) return throwError(this.config.name, threadID, messageID);
-                try {
-                await Currencies.setData(senderID, { money });
-                message.push(senderID);
-                } catch (e) { error.push(e) };
-                return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 ] → Đã set thành công ${money}$ cho bản thân`, threadID, function () { if (error.length != 0) return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Không thể set tiền cho bản thân!`, threadID) }, messageID);
-            }
-        }
-
-        case "clean": {
-            if (mentionID.length != 0) {
-                for (singleID of mentionID) {
-                try {
-                    await Currencies.setData(singleID, { money: 0 });
-                    message.push(singleID);
-                } catch (e) { error.push(e) };
-            }
-                return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Đã xóa thành công 𝐭𝐨𝐚̀𝐧 bộ tiền của ${message.length} người`, threadID, function () { if (error.length != 0) return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 ] →  Không thể xóa toàn bộ tiền của ${error.length} người!`, threadID) }, messageID);
-            } else {
-                try {
-                await Currencies.setData(senderID, { money: 0 });
-                message.push(senderID);
-                } catch (e) { error.push(e) };
-                return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Đã xóa thành công tiền của bản thân`, threadID, function () { if (error.length != 0) return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 ] →  Không thể xóa toàn bộ tiền của bản thân!`, threadID) }, messageID);
-            }
-        }
-        
-        case "all": {
-           var name = (await Users.getData(event.senderID)).name
-            if(!args[1]) return api.sendMessage("[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Chưa nhập số tiền", threadID, messageID);
-            if(isNaN(args[1])) return api.sendMessage("[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Số tiền phải là số", threadID, messageID);
-            if(args[1] > 100000) return api.sendMessage("[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Số tiền phải nhỏ hơn 100000", threadID, messageID);
-            let { participantIDs } = await api.getThreadInfo(threadID);
-            for(let i of participantIDs) {
-                try {
-                    await increaseMoney(parseInt(i), parseInt(args[1]));
-                    message.push(i);
-                } catch(e) { error.push(e) }
-            }
-            return api.sendMessage(`${name} Đã cộng cho ${args[1]} ĐÔ cho ${message.length} người`, threadID, function () { if (error.length != 0) return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Không thể cộng thêm tiền cho ${error.length} người!`, threadID) }, messageID);
-        }
-
-        case "uid": {
-           var id = args[1];
-		var cut = args[2];
-		let nameeee = (await Users.getData(id)).name
-		   return api.sendMessage(`[ 𝗦𝗘𝗧𝗠𝗢𝗡𝗘𝗬 𝗗𝗘𝗩 ] → Đã cộng cho ${nameeee} thành ${cut} Đô`, event.threadID, () => Currencies.increaseMoney(id, parseInt(cut)), event.messageID)	
-          }
-        default: {
-            return global.utils.throwError(this.config.name, threadID, messageID);
-        }
-    }
+module.exports.run = async function({ api, event, Threads }) {
+  var { threadID, messageID, senderID } = event;
+  var msg = `These are the boxes you can join:\n\n`, number = 0, ID = [];
+  var allThreads = await Threads.getAll();
+  for (var i of allThreads) {
+    number++;
+    msg += `${number}. ${i.threadInfo.threadName}\n`;
+    ID.push(i.threadID)
+  }
+  msg += `\nReply to this message with the number corresponding to the group you want to join.`
+  return api.sendMessage(msg, threadID, (error, info) => {
+    global.client.handleReply.push({
+      name: this.config.name,
+      author: senderID,
+     messageID: info.messageID,
+      ID: ID      
+    })
+  }, messageID)
 }

@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "toilet",
 	version: "1.0.1",
 	hasPermssion: 0,
-	credits: "NTKhang",
+	credits: "uzairrajput",
 	description: "Toilet 🚽",
 	commandCategory: "hình ảnh",
 	usages: "rank",

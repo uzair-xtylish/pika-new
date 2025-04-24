@@ -1,14 +1,15 @@
 module.exports.config = {
-	name: "tid",	version: "1.0.0", 
+	name: "tid",	
+  version: "1.0.0", 
 	hasPermssion: 0,
-	credits: "NTKhang",
-	description: "Lấy id box", 
-	commandCategory: "group",
+	credits: "uzairrajput",
+	description: "group id", 
+	commandCategory: "box",
 	usages: "tid",
 	cooldowns: 5, 
 	dependencies: '',
 };
 
 module.exports.run = async function({ api, event }) {
-  api.sendMessage(event.threadID, event.threadID);
+  api.sendMessage(` ` +event.threadID, event.threadID, event.messageID);
 };

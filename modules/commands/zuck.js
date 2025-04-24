@@ -4,8 +4,8 @@ module.exports.config = {
 
 	version: "1.0.1",
 	hasPermssion: 0,
-	credits: "Tiadals",
-	description: "Comment trên bảng ( ͡° ͜ʖ ͡°)",
+	credits: "uzairrajput",
+	description: "Comment on the board ( ͡° ͜ʖ ͡°)",
 	commandCategory: "edit-img",
 	usages: "zuck [text]",
 	cooldowns: 10,
@@ -52,7 +52,7 @@ module.exports.run = async function({ api, event, args }) {
 	const axios = global.nodemodule["axios"];
 	let pathImg = __dirname + '/cache/trump.png';
 	var text = args.join(" ");
-	if (!text) return api.sendMessage("Nhập nội dung comment trên bảng", threadID, messageID);
+	if (!text) return api.sendMessage("Enter the content of the comment on the board", threadID, messageID);
 	let getPorn = (await axios.get(`https://i.postimg.cc/gJCXgKv4/zucc.jpg`, { responseType: 'arraybuffer' })).data;
 	fs.writeFileSync(pathImg, Buffer.from(getPorn, 'utf-8'));
 	let baseImage = await loadImage(pathImg);
