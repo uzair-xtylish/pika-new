@@ -1,12 +1,12 @@
 {
-  "name": "bypass-r1zax",
+  "name": "uzairrajput",
   "version": "17.0.0",
   "description": "File Bot do R1zaX source lại.",
-  "main": "mirai.js",
+  "main": "𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿.js",
   "scripts": {
     "start": "node index",
     "login": "node login",
-    "test": "node --trace-warnings --use_strict --async-stack-traces mirai"
+    "test": "node --trace-warnings --use_strict --async-stack-traces 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿"
   },
   "repository": {
     "type": "git",
