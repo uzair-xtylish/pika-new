@@ -64,7 +64,7 @@ if (!permission.includes(event.senderID)) return api.sendMessage("[ 𝐔𝐙𝐀
               "utf-8",
               function (err) {
                   if (err) return api.sendMessage(`[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → An error occurred while applying the code. ${args[0]}.js`, threadID, messageID);
-                  api.sendMessage(`[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → Đã áp dụng code vào ${args[0]}.js, sử dụng command load để sử dụng!`, threadID, messageID);
+                  api.sendMessage(`[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → Code applied ${args[0]}.js, use command load to use!`, threadID, messageID);
               }
           );
       })
@@ -76,15 +76,15 @@ if (!permission.includes(event.senderID)) return api.sendMessage("[ 𝐔𝐙𝐀
           url: messageReply.body
       };
       request(options, function (error, response, body) {
-          if (error) return api.sendMessage('[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → Vui lòng chỉ reply link (không chứa gì khác ngoài link)', threadID, messageID);
+          if (error) return api.sendMessage('[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → Please reply with link only (nothing else but link))', threadID, messageID);
           const load = cheerio.load(body);
           load('.language-js').each((index, el) => {
               if (index !== 0) return;
               var code = el.children[0].data
               fs.writeFile(`${__dirname}/${args[0]}.js`, code, "utf-8",
                   function (err) {
-                      if (err) return api.sendMessage(`[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → Đã xảy ra lỗi khi áp dụng code mới cho "${args[0]}.js".`, threadID, messageID);
-                      return api.sendMessage(`[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → Đã thêm code này vào "${args[0]}.js", sử dụng command load để sử dụng!`, threadID, messageID);
+                      if (err) return api.sendMessage(`[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → An error occurred while applying the new code to "${args[0]}.js".`, threadID, messageID);
+                      return api.sendMessage(`[ 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 ] → Added this code "${args[0]}.js", use command load to use!`, threadID, messageID);
                   }
               );
           });
@@ -97,10 +97,10 @@ if (!permission.includes(event.senderID)) return api.sendMessage("[ 𝐔𝐙𝐀
     const path = resolve(__dirname, `${args[0]}.js`);
     try {
       await utils.downloadFile(`https://drive.google.com/u/0/uc?id=${id}&export=download`, path);
-      return api.sendMessage(`Đã thêm code này vào "${args[0]}.js" nếu xảy ra lỗi thì đổi file drive thành txt nhé!`, threadID, messageID);
+      return api.sendMessage(`Added this code "${args[0]}.js" If an error occurs, change the drive file to txt.!`, threadID, messageID);
     }
     catch(e) {
-      return api.sendMessage(`Đã xảy ra lỗi khi áp dụng code mới cho "${args[0]}.js".`, threadID, messageID);
+      return api.sendMessage(`An error occurred while applying the new code to "${args[0]}.js".`, threadID, messageID);
     }
   }
         }
