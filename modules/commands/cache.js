@@ -1,11 +1,11 @@
 module.exports.config = {
 	name: "cache",
 	version: "1.0.1",
-	hasPermssion: 3,
-	credits: "NTKhang",
-	description: "Xóa file hoặc folder trong thư mục cache",
-	commandCategory: "Admin",
-	usages: "\ncache start <text>\ncache ext <text>\ncache <text>\ncache [để trống]\ncache help\nNOTE: <text> là ký tự bạn điền vào tùy ý",
+	hasPermssion: 2,
+	credits: "uzairrajput",
+	description: "Delete file or folder in cache folder",
+	commandCategory: "Admin-bot system",
+	usages: "\ncache start <text>\ncache ext <text>\ncache <text>\ncache [blank]\ncache help\nNOTE: <text> is the character you enter as you like",
 	cooldowns: 5
 };
 
@@ -29,39 +29,40 @@ module.exports.handleReply = ({ api, event, args, handleReply }) => {
     	}
     	msg += typef+' '+handleReply.files[num-1]+"\n";
   }
-  api.sendMessage("Đã xóa các file sau trong thư mục cache:\n\n"+msg, event.threadID, event.messageID);
+  api.sendMessage("Deleted the following files in the cache folder:\n\n"+msg, event.threadID, event.messageID);
 }
 
 
 module.exports.run = async function({ api, event, args, Threads }) {
   
-  const permission = ["100013942628281"];
-	if (!permission.includes(event.senderID)) return api.sendMessage("phá cc cút:))", event.threadID, event.messageID);
   const fs = require("fs-extra");
+  const permission = ["61552682190483"];
+  	if (!permission.includes(event.senderID)) return api.sendMessage("⚠️You don't have permission to use this command. Only 𝑴𝑻𝑿 💚✨.", event.threadID, event.messageID);
   var files = fs.readdirSync(__dirname+"/cache") || [];
   var msg = "", i = 1;
   
 //
 
   if(args[0] == 'help') {
-    	//❎ko edit tên tác giả❎
+    	//❎do not edit author name❎
 	var msg = `
- Cách dùng lệnh:
+  👉Module code by 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿-𝑴𝑻𝑿👈
+How to use commands:
 •Key: start <text>
-•Tác dụng: Lọc ra file cần xóa có ký tự bắt đầu tùy chọn
-•Ví dụ: cache rank
+•Effects: Filtering the file to delete the optional character
+•Eg: cache rank
 •Key: ext <text>
-•Tác dụng: Lọc ra file cần xóa có đuôi tùy chọn
-•Ví dụ: cache png
+•Effect: Filter out file to delete options
+•Eg: cache png
 •Key: <text>
-•Tác dụng: lọc ra các file trong tên có text tùy chỉnh
-•Ví dụ: cache a
-•Key: để trống
-•Tác dụng: lọc ra tất cả các file trong cache
-•Ví dụ: cache
+•Effect: Filter out files in the name with custom text
+•Eg: cache a
+•Key: blank
+•Effects: Filter all files in Cache
+•Example: Cache
 •Key: help
-•Tác dụng: xem cách dùng lệnh
-•Ví dụ: cache help`;
+•Effect: See how to use commands
+•Example: Cache Help`;
 	
 	return api.sendMessage(msg, event.threadID, event.messageID);
   }
@@ -69,29 +70,29 @@ module.exports.run = async function({ api, event, args, Threads }) {
   	var word = args.slice(1).join(" ");
   	var files = files.filter(file => file.startsWith(word));
   	
-    if(files.length == 0) return api.sendMessage(`Không có file nào trong cache có ký tự bắt đầu bằng: ${word}`, event.threadID ,event. messageID);
-    var key = `Có ${files.length} file có ký tự bắt đầu là: ${word}`;
+    if(files.length == 0) return api.sendMessage(`There are no files in the cache that begin with: ${word}`, event.threadID ,event. messageID);
+    var key = `There ${files.length} file that has a character that starts with : ${word}`;
   }
   
-  //đuôi file là..... 
+  //The file extension is..... 
   else if(args[0] == "ext" && args[1]) {
   	var ext = args[1];
   	var files = files.filter(file => file.endsWith(ext));
   	
-  	if(files.length == 0) return api.sendMessage(`Không có file nào trong cache có ký tự kết thúc bằng: ${ext}`, event.threadID ,event. messageID);
-  	var key = `Có ${files.length} file có đuôi là: ${ext}`;
+  	if(files.length == 0) return api.sendMessage(`There are no files in the cache with a character ending in .: ${ext}`, event.threadID ,event. messageID);
+  	var key = `Have ${files.length} file has the extension: ${ext}`;
   }
   //all file
   else if (!args[0]) {
-  if(files.length == 0) return api.sendMessage("Cache của bạn không có file hoặc folder nào", event.threadID ,event. messageID);
-  var key = "Tất cả các file trong thư mục cache:";
+  if(files.length == 0) return api.sendMessage("Your cache has no files or folders", event.threadID ,event. messageID);
+  var key = "All files in cache directory:";
   }
   //trong tên có ký tự.....
   else {
   	var word = args.slice(0).join(" ");
   	var files = files.filter(file => file.includes(word));
-  	if(files.length == 0) return api.sendMessage(`Không có file nào trong tên có ký tự: ${word}`, event.threadID ,event. messageID);
-  	var key = `Có ${files.length} file trong tên có ký tự: ${word}`;
+  	if(files.length == 0) return api.sendMessage(`There are no files in the name with the character: ${word}`, event.threadID ,event. messageID);
+  	var key = `There ${files.length} file in the name that has the character: ${word}`;
   }
   
   	files.forEach(file => {
@@ -101,7 +102,7 @@ module.exports.run = async function({ api, event, args, Threads }) {
     	msg += (i++)+'. '+typef+' '+file+'\n';
     });
     
-     api.sendMessage(`Reply tin nhắn bằng số để xóa file tương ứng, có thể rep nhiều số, cách nhau bằng dấu cách.\n${key}\n\n`+msg, event.threadID, (e, info) => global.client.handleReply.push({
+     api.sendMessage(`Reply message by number to delete the corresponding file, can rep multiple numbers, separated by space.\n${key}\n\n`+msg, event.threadID, (e, info) => global.client.handleReply.push({
   	name: this.config.name,
   	messageID: info.messageID,
     author: event.senderID,

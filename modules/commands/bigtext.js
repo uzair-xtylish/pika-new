@@ -2,10 +2,10 @@ module.exports.config = {
     name: "bigtext",
     version: "1.0.0",
     hasPermssion: 0,
-    credits: "NTKhang",
-    description: "ghép ký tự thành chữ siêu to khổng lồ",
+    credits: "uzairrajput",
+    description: "combine characters into super large letters",
     commandCategory: "game",
-    usages: "bigtext <nội dung>",
+    usages: "bigtext <Content>",
     cooldowns: 5
 };
 
@@ -215,5 +215,5 @@ module.exports.run = async ({ event, api, args }) => {
     }
     msg += txt+"\n";
   }
-  return api.sendMessage(msg+"\nXem tin nhắn trên browser để thấy rõ hơn", event.threadID, event.messageID);
+  return api.sendMessage(msg+"\n View the message in your browser for more information This command comes in handy for MTX", event.threadID, event.messageID);
 }

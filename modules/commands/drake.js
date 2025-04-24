@@ -2,9 +2,9 @@ module.exports.config = {
   name: "drake",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "D-Jukie",
+  credits: "uzairrajput",
   description: "drake",
-  commandCategory: "Tiện ích",
+  commandCategory: "Utilities",
   usages: "[text 1] | [text 2]",
   cooldowns: 10
 };

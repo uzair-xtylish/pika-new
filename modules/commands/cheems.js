@@ -2,11 +2,11 @@ module.exports.config = {
   name: "cheems",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Bảo Luân",
-  description: "Oh là cheem đó",
-  commandCategory: "Tiện ích",
+  credits: "uzairrajput",
+  description: "Oh is that Cheem",
+  commandCategory: "Edit-IMG",
   usages: "[text 1] | [text 2] | [text 3] | [text 4]",
-  cooldowns: 10
+  cooldowns: 1
 };
 
 module.exports.wrapText = (ctx, text, maxWidth) => {

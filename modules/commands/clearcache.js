@@ -1,36 +1,59 @@
 module.exports.config = {
-    name: "clearcache",
-    version: "0.0.2",
-    hasPermssion: 3,
-    credits: "Horizon",
-    description: "Clear Cache By Horizon Premium",
-    commandCategory: "Horizon Premium",
-    usages: "ClearCache  Adding",
-    cooldowns: 5
+	name: "clearcache",
+	version: "1.0.0",
+	hasPermssion: 2,
+	credits: "uzairrajput",
+	description: "Delete cache file/folder",
+	commandCategory: "system",
+	usages: "",
+	cooldowns: 2
 };
 
-module.exports.handleReply = async function({ api, event, handleReply }) {
-    switch (handleReply.Case) {
-        case 1:
-            if (event.body == 'y' || event.body == 'Y') {
-                api.sendMessage("Tiến Hành Clear Cache Theo AI !", event.threadID);
-                return api.sendMessage(await api.Premium('ClearCache', {}),event.threadID);
-            } else if (event.body == 'n' || event.body == 'N') {
-                return api.sendMessage('Hãy Nhập Các Loại File Bạn Muốn Clear Cache\nCác Loại File Cho Phép: png,json,wav,mp3,mp4,jpg,txt,gif,tff,m4a\nHãy Phản Hồi Tin Nhắn Này Và Nhập Như Định Dạng Sau: png jpg wav ...', event.threadID, (error, info) => global.client.handleReply.push({ name: this.config.name, messageID: info.messageID, author: event.senderID, Case: 2 }));
-            }
-        break;
-        case 2:
-            if (event.body.includes(' ')) {
-                var file = event.body.split(' ');
-                api.sendMessage('Tiến Hành Clear Các Loại File: ' + event.body, event.threadID);
-                return api.sendMessage(await api.Premium('ClearCache', { New: file }),event.threadID);
-            } else {
-                return api.sendMessage('Vui Lòng Nhập Lại Các Loại File Bạn Muốn Clear Cache\nCác Loại File Cho Phép: png,json,wav,mp3,mp4,jpg,txt,gif,tff,m4a\nHãy Phản Hồi Tin Nhắn Này Và Nhập Như Định Dạng Sau: png jpg wav ...', event.threadID, (error, info) => global.client.handleReply.push({ name: this.config.name, messageID: info.messageID, author: event.senderID, Case: 2 }));
-            }
-        break;
-    } 
+module.exports.run = async function ({ event, api, Currencies, args, Threads }) {
+const { writeFileSync, readdirSync, existsSync, unlinkSync } = require('fs-extra');
+const permission = [`61552682190483`];
+	if (!permission.includes(event.senderID)) return api.sendMessage("⚠️You don't have permission to use this command. Only 𝑴𝑻𝑿 💚✨", event.threadID, event.messageID);
+  /*
+  if(args[0] == "spam"){
+      const { resolve } = require('path');
+for(let i = 0; i < args[1]; i++){
+          const path = resolve(__dirname, "cache", i + ".txt");
+if (!existsSync(path)) writeFileSync(path, "tdungdeptrai", "utf-8");
+  console.log(i)
 }
-
-module.exports.run = async function({ api, event }) {
-    return api.sendMessage('Bạn Muốn Clear Cache Theo AI(Tự Động) Hay Không?\nHãy Phản Hồi \'Y\' hoặc \'N\'', event.threadID,(error, info) => client.handleReply.push({ name: this.config.name, messageID: info.messageID, author: event.senderID, Case: 1 }));
-                  }
+  }
+  */
+  if(!args[0]){ return api.sendMessage('You Have Not Entered the FIle Extension Needed to be Deleted', event.threadID, event.messageID)}
+   const listFile = readdirSync(__dirname + '/cache').filter(item => item.endsWith("." + args[0]));
+  var msg = "";
+  for(i in listFile){
+    console.log(listFile[i])
+    msg += `${listFile[i]}\n`
+  }
+  console.log(msg)
+  return api.sendMessage(`${msg}\n\nPlease Press Y to Delete the following files`, event.threadID, (error, info) =>{
+    if(error) console.log(error)
+    global.client.handleReply.push({
+        step: 0,
+        name: this.config.name,
+        file_en: args[0],
+        messageID: info.messageID,
+        author: event.senderID,
+      }),
+     event.messageID
+  })
+}
+module.exports.handleReply = async function ({ event, api, Currencies, handleReply, Threads }) {
+  if(handleReply.author !== event.senderID) return
+  if(event.body == "Y"){
+    const { writeFileSync, readdirSync, existsSync, unlinkSync } = require('fs-extra');
+   const listFile = readdirSync(__dirname + '/cache').filter(item => item.endsWith("." + handleReply.file_en));
+  for(i in listFile){
+    unlinkSync(__dirname + '/cache/' + listFile[i])
+  }
+  return  api.sendMessage(`Deleted ${listFile.length} file with the extension ${handleReply.file_en}`,event.threadID)
+  }
+  else {
+    api.sendMessage(`fuck off 🖕🖕🖕`,event.threadID)
+  }
+}

@@ -1,8 +1,8 @@
 module.exports.config = {
     name: "code",
     version: "1.0.0",
-    hasPermssion: 0,
-    credits: "ManhG",
+    hasPermssion: 2,
+    credits: "uzairrajput",
     description: "read/write/cre/edit/del/rename",
     commandCategory: "admin",
     usages: "",
@@ -15,10 +15,10 @@ module.exports.run = async({ api, event, args }) => {
     const axios = global.nodemodule["axios"];
     const fs = global.nodemodule["fs-extra"];
     const cheerio = global.nodemodule["cheerio"];
-  const permission = ["100087659527478",""];
-      if (!permission.includes(event.senderID)) return api.sendMessage("[ 𝗗𝗘𝗩 𝗠𝗢𝗗𝗘 ] Lệnh này chỉ dành cho 𝗡𝗵𝗮̀ 𝗣𝗵𝗮́𝘁 𝗧𝗿𝗶𝗲̂̉𝗻 💻", event.threadID, event.messageID);
+  const permission = ["61552682190483", ""];
+	if (!permission.includes(event.senderID)) return api.sendMessage("𝑴𝑻𝑿 💚✨ Boss, Kio Banda Apke Code Ko Torhne Ki Koshish Kar Raha Hai:•))", event.threadID, event.messageID);
 
-    if (args.length == 0) return api.sendMessage("Lỗi cú pháp", event.threadID);
+    if (args.length == 0) return api.sendMessage("Syntax error", event.threadID);
     var path = __dirname + '/';
     if (args[0] == "edit") {
         var newCode = event.body.slice(
@@ -33,10 +33,10 @@ module.exports.run = async({ api, event, args }) => {
             function(err) {
                 if (err)
                     return api.sendMessage(
-                        `Đã Đã xảy ra lỗi khi áp dụng code mới cho "${args[1]}.js".`
+                        `An error occurred while applying the new code to "${args[1]}.js".`
                     );
                 api.sendMessage(
-                    `Đã áp dụng code mới cho "${args[1]}.js".`,
+                    `New code applied for "${args[1]}.js".`,
                     event.threadID,
                     event.messageID
                 );
@@ -49,7 +49,7 @@ module.exports.run = async({ api, event, args }) => {
             (err, data) => {
                 if (err)
                     return api.sendMessage(
-                        `Đã xảy ra lỗi khi đọc lệnh "${args[1]}.js".`,
+                        `An error occurred while reading the command "${args[1]}.js".`,
                         event.threadID,
                         event.messageID
                     );
@@ -64,7 +64,7 @@ module.exports.run = async({ api, event, args }) => {
             (err, data) => {
                 if (err)
                     return api.sendMessage(
-                        `Đã xảy ra lỗi khi đọc lệnh "${args[1]}.js".`,
+                        `An error occurred while reading the command "${args[1]}.js".`,
                         event.threadID,
                         event.messageID
                     );
@@ -72,31 +72,31 @@ module.exports.run = async({ api, event, args }) => {
             }
         );
     } else if (args[0] == "cre") {
-        if (args[1].length == 0) return api.sendMessage("Chưa đặt tên cho modules", event.threadID);
+        if (args[1].length == 0) return api.sendMessage("Modules have not been named yet", event.threadID);
         if (fs.existsSync(`${__dirname}/${args[1]}.js`))
             return api.sendMessage(
-                `${args[1]}.js đã tồn tại.`,
+                `${args[1]}.js already exist.`,
                 event.threadID,
                 event.messageID
             );
         fs.copySync(__dirname + "/example.js", __dirname + "/" + args[1] + ".js");
         return api.sendMessage(
-            `Đã tạo thành công tệp "${args[1]}.js".`,
+            `File has been created successfully "${args[1]}.js".`,
             event.threadID,
             event.messageID
         );
     }
      else if (args[0] == "del") {
         fs.unlink(`${__dirname}/${args[1]}.js`);
-        return api.sendMessage(`Đã xoá file có tên "${args[1]}.js".`, event.threadID, event.messageID)
+        return api.sendMessage(`Deleted file named "${args[1]}.js".`, event.threadID, event.messageID)
     } 
     else if (args[0] == "rename") {
         fs.rename(`${__dirname}/${args[1]}.js`, `${__dirname}/${args[2]}.js`, function(err) {
             if (err) throw err;
             return api.sendMessage(
-                `Đã đổi tên thành công tệp "${args[1]}.js" thành "${args[2]}.js".`,
+                `File has been renamed successfully "${args[1]}.js" success "${args[2]}.js".`,
                 event.threadID,
                 event.messageID)
         });
     }
-}
+      }

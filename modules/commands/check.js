@@ -1,291 +1,133 @@
 module.exports.config = {
     name: "check",
-    version: "1.0.1",
+    version: "1.0.0",
     hasPermssion: 0,
-    credits: "DungUwU && Nghĩa mod thêm by tpk",
-    description: "Check tương tác ngày/tuần/toàn bộ",
-    commandCategory: "Box Chat",
-    usages: "< all/week/day >",
-    cooldowns: 5,
-    dependencies: {
-        "fs": " ",
-        "moment-timezone": " "
-    }
+    credits: "uzairrajput",
+    description: "check rank",
+    commandCategory: "rank",
+    usages: `number of messages\n\nHow to use?\n${global.config.PREFIX}check <all or blank>\n\nExample:\n${global.config.PREFIX}check all\n${global.config.PREFIX}check <send msg>\n`,
+    cooldowns: 5
 };
- 
-const path = __dirname + '/tt/';
-const { min } = require('moment-timezone');
-const moment = require('moment-timezone');
-const { format } = require('path');
- 
-module.exports.onLoad = () => {
-    const fs = require('fs');
-    if (!fs.existsSync(path) || !fs.statSync(path).isDirectory()) {
-        fs.mkdirSync(path, { recursive: true });
+module.exports.onLoad = function() {
+    const { writeFileSync, existsSync } = require('fs-extra');
+    const { resolve } = require("path");
+    const pathA = require('path');
+    const path = pathA.join(__dirname, 'cache', 'checktt.json');
+  const axios = global.nodemodule["axios"];
+    const request = global.nodemodule["request"];
+    if (!existsSync(path)) {
+        const obj = []
+        writeFileSync(path, JSON.stringify(obj, null, 4));
     }
-  setInterval(() => {
-    const today = moment.tz("Asia/Ho_Chi_Minh").day();
-    const checkttData = fs.readdirSync(path);
-    checkttData.forEach(file => {
-      let fileData = JSON.parse(fs.readFileSync(path + file));
-      if (fileData.time != today) {
-        setTimeout(() => {
-          fileData = JSON.parse(fs.readFileSync(path + file));
-          if (fileData.time != today) {
-            fileData.time = today;
-            fs.writeFileSync(path + file, JSON.stringify(fileData, null, 4));
-          }
-        }, 60 * 1000);
-      }
-    })
-  }, 60 * 1000);
 }
- 
-module.exports.handleEvent = async function ({ api, args, Users, event, Threads, }) {
-  const threadInfo = await api.getThreadInfo(event.threadID)
-    if (global.client.sending_top == true) return;
-    const fs = global.nodemodule['fs'];
-    const { threadID, senderID } = event;
-    const today = moment.tz("Asia/Ho_Chi_Minh").day();
- 
-    if (!fs.existsSync(path + threadID + '.json')) {
-        const newObj = {
-            total: [],
-            week: [],
-            day: [],
-            time: today
-        };
-        fs.writeFileSync(path + threadID + '.json', JSON.stringify(newObj, null, 4));
-        const threadInfo = await Threads.getInfo(threadID) || {};
-        if (threadInfo.hasOwnProperty('isGroup') && threadInfo.isGroup) {
-            const UserIDs = threadInfo.participantIDs;
-            for (user of UserIDs) {
-                if (!newObj.total.find(item => item.id == user)) {
-                    newObj.total.push({
-                        id: user,
-                        count: 0
-                    });
-                }
-                if (!newObj.week.find(item => item.id == user)) {
-                    newObj.week.push({
-                        id: user,
-                        count: 0
-                    });
-                }
-                if (!newObj.day.find(item => item.id == user)) {
-                    newObj.day.push({
-                        id: user,
-                        count: 0
-                    });
-                }
+module.exports.handleEvent = async({ event, Users }) => {
+    const { threadID, senderID, body } = event;
+    const fs = require("fs");
+    const pathA = require('path');
+    const thread = require('./cache/checktt.json');
+    const path = pathA.join(__dirname, 'cache', 'checktt.json');
+    if(event.isGroup == false) return;
+    if (thread.some(i => i.threadID == threadID) == false) {
+        const data = [];
+        for (let user of event.participantIDs) {
+            var name = (await Users.getData(user)).name;
+            var id = user;
+            var exp = 0;
+            if(name !== undefined && name != 'Facebook user') {
+                data.push({ name, id , exp })
             }
         }
-        fs.writeFileSync(path + threadID + '.json', JSON.stringify(newObj, null, 4));
+        thread.push({ threadID, data: data });
+        fs.writeFileSync(path, JSON.stringify(thread, null, 2));
     }
-    const threadData = JSON.parse(fs.readFileSync(path + threadID + '.json'));
-    if (threadData.time != today) {
-      global.client.sending_top = true;
-      setTimeout(() => global.client.sending_top = false, 5 * 60 * 1000);
+    else {
+        var threadData = thread.find(i => i.threadID == threadID && i.threadID !== undefined)
+        if (threadData.data.some(i => i.id == senderID) == false) {
+            var name = (await Users.getData(senderID)).name;
+            var id = senderID;
+            var exp = 0;
+            threadData.data.push({ name, id, exp });
+            fs.writeFileSync(path, JSON.stringify(thread, null, 2));
+        }
+        else {
+            var userData = threadData.data.find(i => i.id == senderID);
+            userData.exp = userData.exp + 1;
+            fs.writeFileSync(path, JSON.stringify(thread, null, 2));
+        }
     }
-    const userData_week_index = threadData.week.findIndex(e => e.id == senderID);
-    const userData_day_index = threadData.day.findIndex(e => e.id == senderID);
-    const userData_total_index = threadData.total.findIndex(e => e.id == senderID);
-    if (userData_total_index == -1) {
-        threadData.total.push({
-            id: senderID,
-            count: 1,
-        });
-    } else threadData.total[userData_total_index].count++;
-    if (userData_week_index == -1) {
-        threadData.week.push({
-            id: senderID,
-            count: 1
-        });
-    } else threadData.week[userData_week_index].count++;
-    if (userData_day_index == -1) {
-        threadData.day.push({
-            id: senderID,
-            count: 1
-        });
-    } else threadData.day[userData_day_index].count++;
-    // if (threadData.time != today) {
-    //     threadData.day.forEach(e => {
-    //         e.count = 0;
-    //     });
-    //     if (today == 1) {
-    //         threadData.week.forEach(e => {
-    //             e.count = 0;
-    //         });
-    //     }
-    //     threadData.time = today;
-    // }
- 
-    fs.writeFileSync(path + threadID + '.json', JSON.stringify(threadData, null, 4));
 }
- 
-module.exports.run = async function ({ api, event, args, Users, Threads }) {
-  let threadInfo = await api.getThreadInfo(event.threadID);
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const fs = global.nodemodule['fs'];
-    const { threadID, messageID, senderID, mentions } = event;
-    if (!fs.existsSync(path + threadID + '.json')) {
-        return api.sendMessage("Chưa có thống kê dữ liệu", threadID);
-    }
-    const threadData = JSON.parse(fs.readFileSync(path + threadID + '.json'));
-    const query = args[0] ? args[0].toLowerCase() : '';
-    
-    if(query == 'locmem') {
-        let threadInfo = await api.getThreadInfo(threadID);
-        if(!threadInfo.adminIDs.some(e => e.id == senderID)) return api.sendMessage("Bạn không có quyền sử dụng lệnh này", threadID);
-        if(!threadInfo.isGroup) return api.sendMessage("Chỉ có thể sử dụng trong nhóm", threadID);
-        if(!threadInfo.adminIDs.some(e => e.id == api.getCurrentUserID())) return api.sendMessage("Bot cần qtv để thực hiện lệnh", threadID);
-        if(!args[1] || isNaN(args[1])) return api.sendMessage("Error", threadID);
-        let minCount = args[1],
-            allUser = threadInfo.participantIDs;
-        for(let user of allUser) {
-            if(user == api.getCurrentUserID()) continue;
-            if(!threadData.total.some(e => e.id == user) || threadData.total.find(e => e.id == user).count < minCount) {
-                setTimeout(async () => {
-                    await api.removeUserFromGroup(user, threadID);
-                    for(let e in threadData) {
-                        if(e == 'time') continue;
-                        if(threadData[e].some(e => e.id == user)) {
-                            threadData[e].splice(threadData[e].findIndex(e => e.id == user), 1);
-                        }
-                    }
-                }, 1000);
-            }
-        }
-        return api.sendMessage(`Đã xóa ${allUser.length - threadData.total.filter(e => e.count >= minCount).length} thành viên không đủ ${minCount} lần`, threadID);
-    }
-
-    var header = '',
-        body = '',
-        footer = '',
-        msg = '',
-        count = 1,
-        storage = [],
-        data = 0;
-    if (query == 'all' || query == '-a') {
-        header = '===𝗧𝗨̛𝗢̛𝗡𝗚 𝗧𝗔́𝗖 𝗔𝗟𝗟===\n';
-        data = threadData.total;
-    } else if (query == 'week' || query == '-w') {
-        header = '===𝗧𝗨̛𝗢̛𝗡𝗚 𝗧𝗔́𝗖 𝗧𝗨𝗔̂̀𝗡===\n';
-        data = threadData.week;
-    } else if (query == 'day' || query == '-d') {
-        header = '===𝗧𝗨̛𝗢̛𝗡𝗚 𝗧𝗔́𝗖 𝗡𝗚𝗔̀𝗬===\n';
-        data = threadData.day;
-    } else {
-        data = threadData.total;
-    }
-    for (const item of data) {
-        const userName = await Users.getNameUser(item.id) || 'Tên không tồn tại';
-        const itemToPush = item;
-        itemToPush.name = userName;
-        storage.push(itemToPush);
-    };
-    let check = ['all', '-a', 'week', '-w', 'day', '-d'].some(e => e == query);
-    if (!check && Object.keys(mentions).length > 0) {
-        storage = storage.filter(e => mentions.hasOwnProperty(e.id));
-    }
-    //sort by count from high to low if equal sort by name
-    storage.sort((a, b) => {
-        if (a.count > b.count) {
-            return -1;
-        }
-        else if (a.count < b.count) {
-            return 1;
-        } else {
-            return a.name.localeCompare(b.name);
-        }
-    });
-    if ((!check && Object.keys(mentions).length == 0) || (!check && Object.keys(mentions).length == 1) || (!check && event.type == 'message_reply')) {
-        const UID = event.messageReply ? event.messageReply.senderID : Object.keys(mentions)[0] ? Object.keys(mentions)[0] : senderID;
-      const uid = event.type == 'message_reply' ? event.messageReply.senderID: !!Object.keys(event.mentions)[0] ? Object.keys(event.mentions)[0]: !!args[0] ? args[0]: event.senderID;
-        const userRank = storage.findIndex(e => e.id == UID);
-        const userTotal = threadData.total.find(e => e.id == UID) ? threadData.total.find(e => e.id == UID).count : 0;
-        const userTotalWeek = threadData.week.find(e => e.id == UID) ? threadData.week.find(e => e.id == UID).count : 0;
-        const userTotalDay = threadData.day.find(e => e.id == UID) ? threadData.day.find(e => e.id == UID).count : 0;
-        const nameUID = storage[userRank].name || 'Tên không tồn tại';
-        const target = UID == senderID ? 'Bạn' : nameUID;
-      const moment = require("moment-timezone");
-  const timeNow = moment.tz("Asia/Ho_Chi_Minh").format("DD/MM/YYYY || HH:mm:ss");
-      var permission;
-        if (global.config.ADMINBOT.includes(UID)) permission = `Admin Bot`;
-else if
-(global.config.NDH.includes(UID)) 
-permission = `Người Hỗ Trợ`; else if (threadInfo.adminIDs.some(i => i.id == UID)) permission = `Quản Trị Viên`; else permission = `Thành Viên`;
-      var thu = moment.tz('Asia/Ho_Chi_Minh').format('dddd');
-  if (thu == 'Sunday') thu = '𝐂𝐡𝐮̉ 𝐍𝐡𝐚̣̂𝐭'
-  if (thu == 'Monday') thu = '𝐓𝐡𝐮̛́ 𝐇𝐚𝐢'
-  if (thu == 'Tuesday') thu = '𝐓𝐡𝐮̛́ 𝐁𝐚'
-  if (thu == 'Wednesday') thu = '𝐓𝐡𝐮̛́ 𝐓𝐮̛'
-  if (thu == "Thursday") thu = '𝐓𝐡𝐮̛́ 𝐍𝐚̆𝐦'
-  if (thu == 'Friday') thu = '𝐓𝐡𝐮̛́ 𝐒𝐚́𝐮'
-  if (thu == 'Saturday') thu = '𝐓𝐡𝐮̛́ 𝐁𝐚̉𝐲'
-      let threadName = threadInfo.threadName;
-        if (userRank == -1) {
-            return api.sendMessage(`→ ${target} chưa có thống kê dữ liệu`, threadID);
-        }
-        body +=
-          `==== [ 𝗖𝗛𝗘𝗖𝗞 𝗧𝗨̛𝗢̛𝗡𝗚 𝗧𝗔́𝗖 ] =====\n━━━━━━━━━━━━━━━━━━\n\n[👤] → 𝗡𝗮𝗺𝗲: ${nameUID}\n[🌸] → 𝗜𝗗: ${event.senderID}\n[💓] → 𝗖𝗵𝘂̛́𝗰 𝘃𝘂̣: ${permission}\n[🌐] → 𝗣𝗿𝗼𝗳𝗶𝗹𝗲 : https://facebook.com/${uid}\n[🔰] → 𝗧𝗲̂𝗻 𝗻𝗵𝗼́𝗺: ${threadName}\n━━━━━━━━━━━━━━━━━━\n[💌] → 𝗧𝗶𝗻 𝗻𝗵𝗮̆́𝗻 𝘁𝗿𝗼𝗻𝗴 𝗻𝗴𝗮̀𝘆: ${userTotalDay}\n[💓] → 𝗛𝗮̣𝗻𝗴 𝘁𝗿𝗼𝗻𝗴 𝗻𝗴𝗮̀𝘆: ${count++}\n[💬] → 𝗧𝗶𝗻 𝗻𝗵𝗮̆́𝗻 𝘁𝗿𝗼𝗻𝗴 𝘁𝘂𝗮̂̀𝗻: ${userTotalWeek}\n[🧸] → 𝗛𝗮̣𝗻𝗴 𝘁𝗿𝗼𝗻𝗴 𝘁𝘂𝗮̂̀𝗻: ${count++}\n[📚] → 𝗧𝗼̂̉𝗻𝗴 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻: ${userTotal}\n[🥇] → 𝗛𝗮̣𝗻𝗴 𝘁𝗼̂̉𝗻𝗴:  ${userRank + 1}\n━━━━━━━━━━━━━━━━━━`.replace(/^ +/gm, '');
-    } else {
-        body = storage.map(item => {
-            return `${count++}. ${item.name} (${item.count})`;
-        }).join('\n');
-        footer = `→ Tổng Tin Nhắn: ${storage.reduce((a, b) => a + b.count, 0)}`;
-    }
-  async function streamURL(url, mime='jpg') {
-    const dest = `${__dirname}/cache/${Date.now()}.${mime}`,
-    downloader = require('image-downloader'),
-    fse = require('fs-extra');
-    await downloader.image({
-        url, dest
-    });
-    setTimeout(j=>fse.unlinkSync(j), 60*1000, dest);
-    return fse.createReadStream(dest);
-}; 
-    msg = `${header}\n${body}\n${footer}`;
-    api.sendMessage({body: msg, attachment: [await streamURL(threadInfo.imageSrc), await streamURL(`
-https://graph.facebook.com/${event.senderID}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`)]}, threadID, (err, info) => {
-    global.client.handleReaction.push({
-      name: this.config.name, 
-      messageID: info.messageID,
-      author: event.senderID,
-    })
-    },event.messageID);
-                     }
-module.exports.handleReaction = async ({ event, api, handleReaction, Currencies, Users}) => {
-const axios = global.nodemodule["axios"];
+module.exports.run = async function ({ args, api, event }) {
+  const t = Date.parse("February 1, 2022 00:00:00") - Date.parse(new Date());
+    const seconds = Math.floor( (t/1000) % 60 );
+    const minutes = Math.floor( (t/1000/60) % 60 );
+    const hours = Math.floor( (t/(1000*60*60)) % 24 );
+    const days = Math.floor( t/(1000*60*60*24) );
+  const axios = global.nodemodule["axios"];
+    const request = global.nodemodule["request"];
 const fs = global.nodemodule["fs-extra"];
-const { threadID, messageID, userID } = event;
-  const moment = require("moment-timezone");
-
-    var timeNow = moment.tz("Asia/Ho_Chi_Minh").format("HH:mm:ss")
-  async function streamURL(url, mime='jpg') {
-    const dest = `${__dirname}/cache/${Date.now()}.${mime}`,
-    downloader = require('image-downloader'),
-    fse = require('fs-extra');
-    await downloader.image({
-        url, dest
-    });
-    setTimeout(j=>fse.unlinkSync(j), 60*1000, dest);
-    return fse.createReadStream(dest);
-};
-        
-//   let threadInfo = await api.getThreadInfo(event.threadID);
-//  let threadName = threadInfo.threadName;
-//   let id = threadInfo.threadID;
-//   let sex = threadInfo.approvalMode;
-//  var pd = sex == false ? 'Tắt' : sex == true ? 'Bật' : '\n';
-//   let qtv = threadInfo.adminIDs.length;
-// let color = threadInfo.color;
-//   let icon = threadInfo.emoji;
-//   let threadMem = threadInfo.participantIDs.length;
-// if (event.userID != handleReaction.author) return;
-// if (event.reaction != "❤") return; 
-//  api.unsendMessage(handleReaction.messageID);
-//         var msg = `=====「 𝗧𝗛𝗢̂𝗡𝗚 𝗧𝗜𝗡 𝗡𝗛𝗢́𝗠 」=====\n\n🏘️ 𝗧𝗲̂𝗻 𝗻𝗵𝗼́𝗺: ${threadName}\n⚙️ 𝗜𝗗 𝗻𝗵𝗼́𝗺: ${id}\n👥 𝗦𝗼̂́ 𝘁𝗵𝗮̀𝗻𝗵 𝘃𝗶𝗲̂𝗻 𝗻𝗵𝗼́𝗺: ${threadMem}\n💞 𝗤𝘂𝗮̉𝗻 𝘁𝗿𝗶̣ 𝘃𝗶𝗲̂𝗻: ${qtv}\n🌷 𝗣𝗵𝗲̂ 𝗱𝘂𝘆𝗲̣̂𝘁: ${pd}\n😻 𝗕𝗶𝗲̂̉𝘂 𝘁𝘂̛𝗼̛̣𝗻𝗴 𝗰𝗮̉𝗺 𝘅𝘂́𝗰: ${icon ? icon : 'Không sử dụng'}\n💝 𝗠𝗮̃ 𝗴𝗶𝗮𝗼 𝗱𝗶𝗲̣̂𝗻: ${color}\n━━━━━━━━━━━━━━━━━━\n🍑 𝗧𝗼̂̉𝗻𝗴 𝘀𝗼̂́ 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻 𝗰𝘂̉𝗮 𝗻𝗵𝗼́𝗺: ${threadInfo.messageCount}\n🎀 𝗣𝗵𝗶́𝗮 𝘁𝗿𝗲̂𝗻 𝗹𝗮̀ 𝘁𝗵𝗼̂𝗻𝗴 𝘁𝗶𝗻 𝗰𝘂̉𝗮 𝗻𝗵𝗼́𝗺 𝗯𝗮̣𝗻 𝗱𝘂̀𝗻𝗴 𝗯𝗼𝘅 𝗶𝗻𝗳𝗼 đ𝗲̂̉ 𝘅𝗲𝗺 𝗰𝗵𝗶 𝘁𝗶𝗲̂́𝘁 `
-//         return api.sendMessage({body: msg, attachment: await streamURL(threadInfo.imageSrc)},event.threadID,event.messageID)
-  
-      }
+    const { threadID, senderID, messageID, type, mentions } = event;
+    var mention = Object.keys(mentions);
+    const thread = require('./cache/checktt.json');
+    const data = thread.find(i => i.threadID == threadID)
+    if (args[0] == "all") {
+        var msg = "", exp = [], i = 1, count = 0
+        for(const user of data.data) {
+            exp.push({ name: user.name, exp: user.exp, id: user.id });
+        }
+        exp.sort(function (a, b) { return b.exp - a.exp });
+        var limit = args[2] || 20;
+        var page = 1;
+            page = parseInt(args[1]) || 1;
+            page < -1 ? page = 1 : "";
+            var msg = "Ranking list:\n\n";
+            var numPage = Math.ceil(exp.length/limit);
+            for(var i = limit*(page - 1); i < limit*(page-1) + limit; i++){
+                if(i >= exp.length) break;
+                let dataInfo = exp[i];
+                msg += `${i+1}: ${dataInfo.name}: ${dataInfo.exp} messages\n`
+            }       
+            msg += `\nPage: ${page}/${numPage}`
+            return api.sendMessage(msg, threadID, messageID);
+    }
+    else 
+        if(type == "message_reply") { mention[0] = event.messageReply.senderID }
+        if (mention[0]) {
+            var exp = [], count = 0
+            for(const user of data.data) {
+                count += user.exp
+                exp.push({ name: user.name, exp: user.exp, id: user.id });
+            }
+            exp.sort(function (a, b) { return b.exp - a.exp });
+            const rank = exp.findIndex(i => i.id == mention[0]);
+          const ZiaRein1 = (`Name: ${exp[rank].name}\nRank: ${rank + 1}\nNumber of messages: ${exp[rank].exp}\nInteraction rate: ${(exp[rank].exp/count*100).toFixed(0)}%`);
+          var link = [
+"https://i.imgur.com/H8Hzv9Q.jpg",
+"https://i.imgur.com/GFq107h.jpg",
+"https://i.imgur.com/C5HUDm3.jpg",
+"https://i.imgur.com/2gVIhe4.jpg",
+"https://i.imgur.com/ifDgTOV.jpg",
+"https://i.imgur.com/dpvjG2x.jpg",
+      ];
+          var callback = () => api.sendMessage({ body: ZiaRein1, attachment: fs.createReadStream(__dirname + "/cache/ZiaReinC.jpg")}, threadID, () => fs.unlinkSync(__dirname + "/cache/ZiaReinC.jpg"));
+    return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname + "/cache/ZiaReinC.jpg")).on("close", () => callback());
+        }
+    else {
+        var exp = [], count = 0
+        for(const user of data.data) {
+            count += user.exp
+            exp.push({ name: user.name, exp: user.exp, id: user.id });
+        }
+        exp.sort(function (a, b) { return b.exp - a.exp });
+        const rank = exp.findIndex(i => i.id == senderID);
+      const ZiaRein2 = (`Name: ${exp[rank].name}\nRank: ${rank + 1}\nNumber of messages: ${exp[rank].exp}\nInteraction rate: ${(exp[rank].exp/count*100).toFixed(0)}%`);
+      var link = [   "https://i.imgur.com/H8Hzv9Q.jpg",
+"https://i.imgur.com/GFq107h.jpg",
+"https://i.imgur.com/C5HUDm3.jpg",
+"https://i.imgur.com/2gVIhe4.jpg",
+"https://i.imgur.com/ifDgTOV.jpg",
+"https://i.imgur.com/dpvjG2x.jpg",
+      ];
+      var callback = () => api.sendMessage({ body: ZiaRein2, attachment: fs.createReadStream(__dirname + "/cache/ZiaReinC.jpg")}, threadID, () => fs.unlinkSync(__dirname + "/cache/ZiaReinC.jpg"), event.messageID);
+    return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname + "/cache/ZiaReinC.jpg")).on("close", () => callback());
+    }
+        }

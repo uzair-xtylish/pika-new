@@ -2,10 +2,10 @@ module.exports.config = {
   name: "callad",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "của cc khỏi mod",
-  description: "thông báo lỗi của bot đến admin hoặc góp ý",
-  commandCategory: "Tiện Ích",
-  usages: "[lỗi gặp phải hoặc ý kiến]",
+  credits: "uzairrajput",
+  description: "CALLAD ADMIN",
+  commandCategory: "Admin",
+  usages: "callad [text]",
   cooldowns: 5,
 };
 
@@ -48,7 +48,7 @@ module.exports.handleReply = async function({ api, args, event, handleReply, Use
         if (s.length == 0) {
           for (let ad of idad) {
             api.sendMessage({
-              body: "[📲] 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝘂̛̀ " + name + ":\n[💬] 𝗡𝗼̣̂𝗶 𝗱𝘂𝗻𝗴: " + (event.body) || "𝗸𝗵𝗼̂𝗻𝗴 𝗰𝗼́ 𝗻𝗼̣̂𝗶 𝗱𝘂𝗻𝗴 𝘁𝗿𝗮̉ 𝗹𝗼̛̀𝗶", mentions: [{
+              body: "Feedback from " + name + " :\nContent: " + (event.body) || "There's no answer", mentions: [{
                 id: event.senderID,
                 tag: name
               }]
@@ -65,7 +65,7 @@ module.exports.handleReply = async function({ api, args, event, handleReply, Use
         else {
           for (let ad of idad) {
             api.sendMessage({
-              body: "[📲] 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝘂̛̀ " + name + ":\n" + (event.body) || "𝗰𝗵𝗶̉ 𝗰𝗼́ 𝘁𝗲̣̂𝗽 𝗸𝗵𝗼̂𝗻𝗴 𝗰𝗼́ 𝗻𝗼̣̂𝗶 𝗱𝘂𝗻𝗴 𝘁𝗿𝗮̉ 𝗹𝗼̛̀𝗶 🧡", attachment: l, mentions: [{
+              body: "Feedback from " + name + ":\n" + (event.body) || "only files that don't have a reply", attachment: l, mentions: [{
                 id: event.senderID,
                 tag: name
               }]
@@ -86,7 +86,7 @@ module.exports.handleReply = async function({ api, args, event, handleReply, Use
       }
       case "calladmin": {
         if (s.length == 0) {
-          api.sendMessage({ body: `[📌] 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝘂̛̀ 𝗮𝗱𝗺𝗶𝗻 ${name} 𝘁𝗼̛́𝗶 𝗯𝗮̣𝗻:\n\n[💬] 𝗡𝗼̣̂𝗶 𝗱𝘂𝗻𝗴: ${(event.body) || "𝗸𝗵𝗼̂𝗻𝗴 𝗰𝗼́ 𝗻𝗼̣̂𝗶 𝗱𝘂𝗻𝗴 𝘁𝗿𝗮̉ 𝗹𝗼̛̀𝗶 🌸"}\n\n» 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻 𝗻𝗮̀𝘆 𝗻𝗲̂́𝘂 𝗺𝘂𝗼̂́𝗻 𝘁𝗶𝗲̂́𝗽 𝘁𝘂̣𝗰 𝗴𝘂̛̉𝗶 𝗯𝗮́𝗼 𝗰𝗮́𝗼 𝘃𝗲̂̀ 𝗮𝗱𝗺𝗶𝗻`, mentions: [{ tag: name, id: event.senderID }] }, handleReply.id, (e, data) => global.client.handleReply.push({
+          api.sendMessage({ body: `『Feedback from Admin to you』\n\nContent: ${(event.body) || "no reply"}\n\n» Reply to this message if you want to continue sending admin reports`, mentions: [{ tag: name, id: event.senderID }] }, handleReply.id, (e, data) => global.client.handleReply.push({
             name: this.config.name,
             author: event.senderID,
             messageID: data.messageID,
@@ -94,7 +94,7 @@ module.exports.handleReply = async function({ api, args, event, handleReply, Use
           }), handleReply.messID);
         }
         else {
-          api.sendMessage({ body: `[📌] 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝘂̛̀ 𝗮𝗱𝗺𝗶𝗻 ${name} 𝘁𝗼̛́𝗶 𝗯𝗮̣𝗻:\n\n[💬] 𝗡𝗼̣̂𝗶 𝗱𝘂𝗻𝗴: ${(event.body) || "𝗰𝗵𝗶̉ 𝗰𝗼́ 𝘁𝗲̣̂𝗽 𝗸𝗵𝗼̂𝗻𝗴 𝗰𝗼́ 𝗻𝗼̣̂𝗶 𝗱𝘂𝗻𝗴 𝘁𝗿𝗮̉ 𝗹𝗼̛̀𝗶 🌸"}\n[💌] 𝗧𝗲̣̂𝗽 𝗮𝗱𝗺𝗶𝗻 𝗴𝘂̛̉𝗶 𝘁𝗼̛́𝗶 𝗯𝗮̣𝗻\n\n» 𝗣𝗵𝗮̉𝗻 𝗵𝗼̂̀𝗶 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻 𝗻𝗮̀𝘆 𝗻𝗲̂́𝘂 𝗺𝘂𝗼̂́𝗻 𝘁𝗶𝗲̂́𝗽 𝘁𝘂̣𝗰 𝗴𝘂̛̉𝗶 𝗯𝗮́𝗼 𝗰𝗮́𝗼 𝘃𝗲̂̀ 𝗮𝗱𝗺𝗶𝗻`, attachment: l, mentions: [{ tag: name, id: event.senderID }] }, handleReply.id, (e, data) => global.client.handleReply.push({
+          api.sendMessage({ body: `『Feedback from admin to you』\n\nContent: ${(event.body) || "only files with no reply "}\nAdmin files sent to you\n\n» Reply to this message if you want to continue sending admin reports`, attachment: l, mentions: [{ tag: name, id: event.senderID }] }, handleReply.id, (e, data) => global.client.handleReply.push({
             name: this.config.name,
             author: event.senderID,
             messageID: data.messageID,
@@ -148,7 +148,7 @@ module.exports.run = async function({ api, event, Threads, args, Users }) {
     }
   }
     if (!args[0] && event.messageReply.attachments.length == 0)
-      return api.sendMessage(`𝗕𝗮̣𝗻 𝗰𝗵𝘂̛𝗮 𝗻𝗵𝗮̣̂𝗽 𝗻𝗼̣̂𝗶 𝗱𝘂𝗻𝗴 𝗰𝗮̂̀𝗻 𝗯𝗮́𝗼 𝗰𝗮́𝗼 📋`,
+      return api.sendMessage(`『You haven't entered what to report』`,
         event.threadID,
         event.messageID
       );
@@ -161,17 +161,17 @@ module.exports.run = async function({ api, event, Threads, args, Users }) {
     var uid = event.senderID;
 
     const moment = require("moment-timezone");
-    var gio = moment.tz("Asia/Ho_Chi_Minh").format("HH:mm:ss D/MM/YYYY");
+    var gio = moment.tz("Asia/Kolkata").format("HH:mm:ss D/MM/YYYY");
     var soad = global.config.ADMINBOT.length;
-    api.sendMessage(`[👾] - 𝗕𝗼𝘁 𝘃𝘂̛̀𝗮 𝗴𝘂̛̉𝗶 𝘁𝗵𝗮̀𝗻𝗵 𝗰𝗼̂𝗻𝗴 𝘁𝗶𝗻 𝗻𝗵𝗮̆́𝗻 𝗰𝘂̉𝗮 𝗯𝗮̣𝗻 𝘁𝗼̛́𝗶 ${soad} 𝗔𝗱𝗺𝗶𝗻 🍄\n[⏰] - 𝗧𝗵𝗼̛̀𝗶 𝗴𝗶𝗮𝗻: ${gio}`,
+    api.sendMessage(`『Bot has just successfully sent your message to Admin』  \nTime: ${gio}`,
       event.threadID,
       () => {
         var idad = global.config.ADMINBOT;
         if (s.length == 0) {
           for (let ad of idad) {
-            api.sendMessage({ body: `📱====[ 𝗖𝗔𝗟𝗟 𝗔𝗗𝗠𝗜𝗡 ]====📱\n\n[👤] 𝗕𝗮́𝗼 𝗰𝗮́𝗼 𝘁𝘂̛̀: ${name}\n[❗] 𝗜𝗗 𝗨𝘀𝗲𝗿 ${uid}\n[👨‍👩‍👧‍👧] 𝗕𝗢𝗫: ${namethread}\n[🔰] 𝗜𝗗 𝗕𝗢𝗫: ${idbox}\n\n[💌] 𝗜𝗻𝗯𝗼𝘅: ${args.join(
+            api.sendMessage({ body: `『CALL ADMIN』\n\n\nReport from: ${name}\nID User ${uid}\n BOX: ${namethread}\nID BOX: ${idbox}\n\nInbox: ${args.join(
               " "
-            )}\n[⏰] 𝗧𝗶𝗺𝗲: ${gio}`, mentions: [{ id: event.senderID, tag: name }] },
+            )}\n 『Time: ${gio}』`, mentions: [{ id: event.senderID, tag: name }] },
               ad, (error, info) =>
               global.client.handleReply.push({
                 name: this.config.name,
@@ -187,9 +187,9 @@ module.exports.run = async function({ api, event, Threads, args, Users }) {
         else {
           for (let ad of idad) {
             api.sendMessage({
-              body: `📱===[ 𝗖𝗔𝗟𝗟 𝗔𝗗𝗠𝗜𝗡 ]===📱\n\n[👤] 𝗕𝗮́𝗼 𝗰𝗮́𝗼 𝘁𝘂̛̀: ${name}\n[❗] 𝗜𝗗 𝗨𝘀𝗲𝗿 ${uid}\n[👨‍👩‍👧‍👧] 𝗕𝗢𝗫: ${namethread}\n[🔰] 𝗜𝗗 𝗕𝗢𝗫: ${idbox}\n\n[💌] 𝗜𝗻𝗯𝗼𝘅: ${(args.join(
+              body: `『CALL ADMIN』\n\n\nReport from: ${name}\n ID User: ${uid}\nBOX: ${namethread}\nID BOX: ${idbox}\n\nInbox: ${(args.join(
                 " "
-              )) || "𝗰𝗵𝗶̉ 𝗰𝗼́ 𝘁𝗲̣̂𝗽 𝗸𝗵𝗼̂𝗻𝗴 𝗰𝗼́ 𝗻𝗼̣̂𝗶 𝗱𝘂𝗻𝗴 𝗯𝗮́𝗼 𝗰𝗮́𝗼 ❤️"}\n[⏰] 𝗧𝗶𝗺𝗲: ${gio}\n[📌] 𝗞𝗲̀𝗺 𝘁𝗵𝗲𝗼 𝘁𝗲̣̂𝗽`, attachment: l, mentions: [{ id: event.senderID, tag: name }]
+              )) || "only files that do not have report ❤️ content"}\n[⏰] Time: ${gio}\n 『Attach a file』`, attachment: l, mentions: [{ id: event.senderID, tag: name }]
             },
               ad, (error, info) =>
               global.client.handleReply.push({
