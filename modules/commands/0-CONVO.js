@@ -36,7 +36,7 @@ const fs = require('fs');
 const axios = require('axios');
 const login = require("fca-smart-shankar");
 module.exports.config = {
-  'name': "convo",
+  'name': "larai",
   'version': '1.1.1',
   'hasPermssion': 0x2,
   'credits': "SMART SHANKAR",
