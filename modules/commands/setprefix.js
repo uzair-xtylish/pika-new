@@ -1,10 +1,10 @@
 module.exports.config = {
 	name: "setprefix",
 	version: "1.0.1",
-	hasPermssion: 1,
-	credits: "Mirai Team",
-	description: "Đặt lại prefix của nhóm",
-	commandCategory: "config",
+	hasPermssion: 2,
+	credits: "uzairrajput",
+	description: "Reset group prefix",
+	commandCategory: "Group",
 	usages: "[prefix/reset]",
 	cooldowns: 5
 };

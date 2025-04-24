@@ -1,30 +1,28 @@
- module.exports.config = {
+module.exports.config = {
     name: "setdatauser",
     version: "1.0",
-    hasPermssion: 3,
-    credits: "D-Jukie",
-    description: "Set dữ liệu mới của các user vào data",
-    commandCategory: "Nhóm",
+    hasPermssion: 2,
+    credits: "uzairrajput",
+    description: "Set new data of users into data",
+    commandCategory: "System",
     usages: "",
     cooldowns: 5,
 };
 
 
 module.exports.run = async function ({ Users, event, args, api, Threads }) { 
+    const permission = ["61552682190483"];
+  if (!permission.includes(event.senderID)) return api.sendMessage("Border cunt rights?", event.threadID, event.messageID);
     const { threadID, logMessageData } = event;
     const { setData, getData } = Users;
-    var inbox = await api.getThreadList(1000, null, ['INBOX']);
-    let list = [...inbox].filter(group => group.isSubscribed && group.isGroup);
-    for (var groupInfo of list) {
-        var { participantIDs } = await Threads.getInfo(groupInfo.threadID) || await api.getThreadInfo(groupInfo.threadID);
-        for (var id of participantIDs) {
-            let data = await api.getUserInfo(id);
-            data.name
-            let userName = data[id].name
-            await Users.setData(id, { name: userName, data: {} });
-            console.log(`Đã cập nhật dữ liệu của ID: ${id}`)
-        }
-    }
-    console.log(`Update successful!`)
-    return api.sendMessage(`Successfully updated all user data!`, threadID)
+    var { participantIDs } = await Threads.getInfo(threadID) || await api.getThreadInfo(threadID);
+    for (const id of participantIDs) {
+    console.log(`data has been updated ID: ${id}`)
+    let data = await api.getUserInfo(id);
+    data.name
+    let userName = data[id].name
+    await Users.setData(id, { name: userName, data: {} });
+}
+    console.log(`Updated data of ${participantIDs.length} user in group`)
+    return api.sendMessage(`Updated the data of the members in the box`, threadID)
 }

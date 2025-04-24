@@ -1,18 +1,18 @@
 module.exports.config = {
 	name: "setexp",
 	version: "0.0.1",
-	hasPermssion: 3,
-	credits: "loi",
-	description: "thay đổi số tiền của bản thân hoặc người được tag",
-	commandCategory: "Economy",
+	hasPermssion: 2,
+	credits: "uzairrajput",
+	description: "change the expien of yourself or the person being tagged",
+	commandCategory: "system",
 	usages: "setexp [Tag]",
 	cooldowns: 5,
 	info: [
 		{
 			key: 'Tag',
-			prompt: 'Để trống hoặc tag một người nào đó, có thể tag nhiều người',
-			type: 'Văn Bản',
-			example: '@Mirai-chan'
+			prompt: 'Leave blank or tag someone, you can tag more than one person',
+			type: 'Document',
+			example: '@Uzair Rajput'
 		}
 	]
 };
@@ -26,25 +26,25 @@ var mention = Object.keys(event.mentions)[0];
 			var sender = content.slice(0, content.lastIndexOf(" "));
 			var expSet = content.substring(content.lastIndexOf(" ") + 1);
     			if (args[0]=='me'){
-    			 return api.sendMessage(`Đã thay đổi số exp của bạn thành ${expSet}`, event.threadID, async() => {await Currencies.setData(event.senderID, {exp: parseInt(expSet)})}, event.messageID);
+    			 return api.sendMessage(`Curved bar changes your exp ${expSet} ️🥇`, event.threadID, async() => {await Currencies.setData(event.senderID, {exp: parseInt(expSet)})}, event.messageID);
 			}
 			else if(args[0]=="del"){
 if (args[1] == 'me'){
 			var s = event.senderID;
 			const expme =(await Currencies.getData(event.senderID)).exp;
-			api.sendMessage(`✅Đã xoá toàn bộ số exp của bạn\nSố exp xoá là ${expme}.`, event.threadID, async() => {await Currencies.setData(event.senderID, {exp: parseInt(kong)})});
+			api.sendMessage(`✅Removed all your exp\nThe number of exp to remove is ${expme}.`, event.threadID, async() => {await Currencies.setData(event.senderID, {exp: parseInt(kong)})});
 		}	
 		else if (Object.keys(event.mentions).length == 1) {
 var mention = Object.keys(event.mentions);
 		const expdel = (await Currencies.getData(mention)).exp;
-		api.sendMessage(`✅Đã xoá toàn bộ số exp của ${event.mentions[mention].replace("@", "")}\nSố exp xoá là ${expdel}.`, event.threadID, async() => {await Currencies.setData(mention, {exp: parseInt(kong)})});
+		api.sendMessage(`✅Removed all exp of ${event.mentions[mention].replace("@", "")}\nThe number of exp to remove is ${expdel}.`, event.threadID, async() => {await Currencies.setData(mention, {exp: parseInt(kong)})});
 		}
 		
-		else return	api.sendMessage("sai cú pháp", event.threadID, event.messageID);
+		else return	api.sendMessage("wrong syntax", event.threadID, event.messageID);
 		}
 			else if (Object.keys(event.mentions).length == 1) {
 			return api.sendMessage({
-				body: (`Đã thay đổi số exp của ${event.mentions[mention].replace("@", "")} thành ${expSet}`),
+				body: (`Changed 's exp ${event.mentions[mention].replace("@", "")} to ${expSet}`),
 				mentions: [{
 					tag: event.mentions[mention].replace("@", ""),
 					id: parseInt(mention)
@@ -55,10 +55,10 @@ var mention = Object.keys(event.mentions);
 		var id = args[1];
 		var cut = args[2];
 		let nameeee = (await Users.getData(id)).name
-		   return api.sendMessage(`Đã thay đổi số exp của ${nameeee} thành ${cut}`, event.threadID, async() => {await Currencies.setData(id, {exp: parseInt(cut)})}, event.messageID);
+		   return api.sendMessage(`Changed 's exp ${nameeee} to ${cut}`, event.threadID, async() => {await Currencies.setData(id, {exp: parseInt(cut)})}, event.messageID);
 
 		}
 else {
-	api.sendMessage("sai cú pháp", event.threadID, event.messageID)
+	api.sendMessage("wrong syntax", event.threadID, event.messageID)
 	}
-                                                                                                                                                       }
+}

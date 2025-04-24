@@ -2,9 +2,9 @@ module.exports.config = {
 	name: "setname",
 	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "Mirai Team",
-	description: "Đổi biệt danh trong nhóm của bạn hoặc của người bạn tag",
-	commandCategory: "other",
+	credits: "uzairrajput",
+	description: "set group nickname",
+	commandCategory: "Group",
 	usages: "[name]",
 	cooldowns: 3
 };

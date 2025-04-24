@@ -2,9 +2,9 @@ module.exports.config = {
 	name: "shortcut",
 	version: "1.0.0",
 	hasPermssion: 0,
-	credits: "Mirai Team",
-	description: "Phiên bản xịn hơn của short, recode by CatalizCS!",
-	commandCategory: "Tiện ích",
+	credits: "uzairrajput",
+	description: "",
+	commandCategory: "system",
     usages: "[all/delete/empty]",
 	cooldowns: 5,
 	dependencies: {
