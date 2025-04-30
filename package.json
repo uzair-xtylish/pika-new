@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RqzaX040/Bot12-R1zaX.git"
+    "url": "git+https://github.com/sehar1267/UZAIR-RAJPUT-MTX-BOT.git"
   },
-  "author": "R1zaX",
+  "author": "uzairrajput",
   "license": "GPL-3.0",
   "dependencies": {
     "@miraipr0ject/assets": "^1.0.9",
