@@ -93,7 +93,7 @@ function getdatatoken(done) {
   }
 
 function startBot(message) {
-    (message) ? logger(message, "[ UZAIR BOT ]") : "";
+    (message) ? logger(message, "[ 𝐔𝐙𝐀𝐈𝐑 𝐁𝐎𝐓 ]") : "";
 
     const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿.js"], {
         cwd: __dirname,
@@ -118,7 +118,7 @@ function startBot(message) {
 
 // INFO //
 
-const rainbow2 = chalkercli.rainbow('━━━━━━━━━━━━━━━━[ UZAIR FILE ]━━━━━━━━━━━━━━━━━');
+const rainbow2 = chalkercli.rainbow('━━━━━━━━━━━━━━━━[ 𝐔𝐙𝐀𝐈𝐑 𝐅𝐈𝐋𝐄 ]━━━━━━━━━━━━━━━━━');
 rainbow2.render();
 
 CFonts.say('UZAIR MTX', {
@@ -132,7 +132,7 @@ function getIpInfo() {
     fetch('https://ipinfo.io/json')
         .then(response => response.json())
         .then(data => {
-        const rainbow = chalkercli.rainbow(`━━━━━━━━━━━━━━[ INFO SEVER USER ]━━━━━━━━━━━━━`);
+        const rainbow = chalkercli.rainbow(`━━━━━━━━━━━━━━[ 𝐈𝐍𝐅𝐎 𝐒𝐄𝐑𝐕𝐄𝐑 𝐔𝐒𝐄𝐑 ]━━━━━━━━━━━━━`);
 rainbow.render();
             logger(data.ip, '| IP Address |');
             logger(data.hostname, '| Domain Name |')
