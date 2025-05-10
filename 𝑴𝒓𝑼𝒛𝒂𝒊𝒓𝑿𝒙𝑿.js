@@ -141,7 +141,7 @@ function decryptState(data, key) {
 ///////////////////////////////////////////////////
 //========= Find and get variables from Configuration =========//
 ///////////////////////////////////////////////////
-const rainbow = chalkercli.rainbow('━━━━━━━━━━━━━━━[ LOADING FILE ]━━━━━━━━━━━━━━━');
+const rainbow = chalkercli.rainbow('━━━━━━━━━━━━━━━[ 𝐔𝐙𝐀𝐈𝐑 𝐋𝐎𝐀𝐃𝐈𝐍𝐆 𝐅𝐈𝐋𝐄 ]━━━━━━━━━━━━━━━');
       rainbow.render();
 var configValue
 try {
@@ -406,7 +406,7 @@ function onBot({ models }) {
           }
         }
       }()
-const rainbow3 = chalkercli.rainbow('━━━━━━━━━━━━━━━━[ START FILE ]━━━━━━━━━━━━━━━━');
+const rainbow3 = chalkercli.rainbow('━━━━━━━━━━━━━━━━[ 𝐔𝐙𝐀𝐈𝐑 𝐒𝐓𝐀𝐑𝐓 𝐅𝐈𝐋𝐄 ]━━━━━━━━━━━━━━━━');
       rainbow3.render();
     logger.loader(global.getText('𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿', 'finishLoadModule', global.client.commands.size, global.client.events.size))
     logger.loader('Startup time: ' + (Date.now() - global.client.timeStart) / 1000 + 's')
