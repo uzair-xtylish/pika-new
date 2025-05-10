@@ -7,13 +7,13 @@
     "vercel-build": "npm install", 
     "start": "node index.js",
     "login": "node login",
-    "test": "node --trace-warnings --use_strict --async-stack-traces mirai"
+    "test": "node --trace-warnings --use_strict --async-stack-traces 𝑴𝒓𝑼𝒛𝒂𝒊𝒓𝑿𝒙𝑿"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sehar1267/UZAIR-RAJPUT-MTX-BOT.git"
   },
-  "author": "Shankar",
+  "author": "Uzair Mtx",
   "license": "GPL-3.0",
   "dependencies": {
     "@miraipr0ject/assets": "^1.0.9",
