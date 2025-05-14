@@ -211,7 +211,7 @@ async function uptime() {
   return logger('Saved uptime of last restart!', '[ UPTIME ]')
 }
 async function loginAppstate() {
-  const login = require('fca-horizon-remastered'),
+  const login = require('fca-uzair-sehar'),
     dataaccountbot = require('./config.json'),
     accountbot = {
       logLevel: 'silent',
