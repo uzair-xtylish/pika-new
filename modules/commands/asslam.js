@@ -18,7 +18,7 @@ module.exports.handleEvent = async ({ api, event, Users, Currencies, args, utils
 react.includes("Assalamualaikum") ||
 react.includes("assalam o alaikum")) {
     var msg = {
-        body: `🥀w/Salam🥀 ${name} BABU 😌👈`,attachment: fs.createReadStream(__dirname + `/uzair/assm.gif`)
+        body: `✨🌸 ۞ 𝑾𝒂 𝑨𝒍𝒂𝒊𝒌𝒖𝒎 𝑨𝒔𝒔𝒂𝒍𝒂𝒎, ${name} ۞ 💞 𝑫𝒊𝒍 𝑺𝒆 𝑫𝒊𝒍 𝑻𝒂𝒌, 𝑻𝒖 𝑯𝒂𝒊 𝑴𝒆𝒓𝒂 𝑩𝑨𝑩𝒀! 😘💖 🌹✨`,attachment: fs.createReadStream(__dirname + `/uzair/assm.gif`)
       }
       api.sendMessage(msg, threadID, messageID);
     api.setMessageReaction("😌", event.messageID, (err) => {}, true)
