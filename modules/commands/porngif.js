@@ -1,12 +1,39 @@
 const fs = require("fs-extra");
 const request = require("request");
+const crypto = require("crypto");
 
+// Encryption Configuration
+const secretKey = "chatgpt_lock_key";
+const algorithm = "aes-256-cbc";
+const iv = Buffer.alloc(16, 0); // Initialization vector
+
+// Encrypted credit (you CAN'T change this without key)
+const encryptedCredit = "1b314e5a6efdd00b3952b4c415ae963ab448c6818ad171e0c366e19bcb9dc6ec";
+
+// 🔓 Decryption Function
+function decryptCredit(enc) {
+  const decipher = crypto.createDecipheriv(algorithm, crypto.createHash('sha256').update(secretKey).digest(), iv);
+  let decrypted = decipher.update(enc, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+  return decrypted;
+}
+
+// 🔐 Decrypted expected value
+let finalCredit;
+try {
+  finalCredit = decryptCredit(encryptedCredit);
+} catch (e) {
+  console.error("❌ Failed to decrypt credit. Possible tampering.");
+  process.exit(1);
+}
+
+// 🔒 Anti-Tampering Check
 module.exports = {
   config: {
     name: "porngif",
     version: "1.0.0",
-    hasPermssion: 0, // 0 = sab users use kar sakte hain, 2 = admin only
-    credits: "Converting Original by Uzair Rajput Mtx",
+    hasPermssion: 0,
+    credits: finalCredit, // looks like plain text in memory, but is protected
     description: "Sends a random NSFW GIF",
     commandCategory: "nsfw",
     usages: "",
@@ -14,6 +41,11 @@ module.exports = {
   },
 
   run: async function ({ api, event }) {
+    if (module.exports.config.credits !== finalCredit) {
+      console.error("❌ Credit tampered. Crashing.");
+      process.exit(1);
+    }
+
     const links = [
       "https://i.postimg.cc/7hfbxttJ/39951141.gif",
       "https://i.postimg.cc/T3ySrVFj/21153541.gif",
