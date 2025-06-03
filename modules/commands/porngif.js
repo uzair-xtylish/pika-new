@@ -1,40 +1,12 @@
 const fs = require("fs-extra");
 const request = require("request");
-const crypto = require("crypto");
-
-// --- 🔒 Encryption Setup ---
-const secretKey = "Uzair Rajput Mtx"; // Secret key
-const algorithm = "aes-256-cbc";
-const iv = Buffer.alloc(16, 0);
-
-// --- 🔐 Encrypted version of "Converted by Uzair Rajput | Original by Uzair Rajput Mtx" ---
-const encryptedCredit = "8e77b728c360e90ae8bfa90e9f48e6ac6efec948b36d56e2452aa42e8b76bc4f";
-
-function decryptCredit(encrypted) {
-  const decipher = crypto.createDecipheriv(
-    algorithm,
-    crypto.createHash("sha256").update(secretKey).digest(),
-    iv
-  );
-  let decrypted = decipher.update(encrypted, "hex", "utf8");
-  decrypted += decipher.final("utf8");
-  return decrypted;
-}
-
-let decryptedCredit;
-try {
-  decryptedCredit = decryptCredit(encryptedCredit);
-} catch (e) {
-  console.error("❌ File banai Uzair Rajput Mtx ne, aur tumne credit chori kar liya!");
-  process.exit(1);
-}
 
 module.exports = {
   config: {
     name: "porngif",
     version: "1.0.0",
-    hasPermssion: 0,
-    credits: decryptedCredit,
+    hasPermssion: 0, // 0 = sab users use kar sakte hain, 2 = admin only
+    credits: "Converted by ChatGPT | Original by Uzair Rajput Mtx",
     description: "Sends a random NSFW GIF",
     commandCategory: "nsfw",
     usages: "",
@@ -42,12 +14,6 @@ module.exports = {
   },
 
   run: async function ({ api, event }) {
-    // 🛡️ Verify credit integrity
-    if (module.exports.config.credits !== decryptedCredit) {
-      console.error("❌ File banai Uzair Rajput Mtx ne, aur tumne credit chori kar liya!");
-      process.exit(1);
-    }
-
     const links = [
       "https://i.postimg.cc/7hfbxttJ/39951141.gif",
       "https://i.postimg.cc/T3ySrVFj/21153541.gif",
@@ -77,7 +43,7 @@ module.exports = {
     ];
 
     const randomLink = links[Math.floor(Math.random() * links.length)];
-    const fileName = `${__dirname}/cache/porngif_${Date.now()}.gif`;
+    const fileName = __dirname + `/cache/porngif_${Date.now()}.gif`;
 
     try {
       const file = fs.createWriteStream(fileName);
@@ -94,7 +60,7 @@ module.exports = {
         );
       });
     } catch (err) {
-      console.error("❌ GIF download failed:", err);
+      console.error(err);
       return api.sendMessage("❌ Failed to fetch GIF.", event.threadID, event.messageID);
     }
   }
