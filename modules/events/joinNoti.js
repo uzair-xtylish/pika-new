@@ -6,8 +6,8 @@ module.exports.config = {
   description: "GROUP UPDATE NOTIFICATION"
 };
 
-const ADMIN = 'Franz Anthony';
-const FB_LINK = 'https://www.facebook.com/icecute101795';
+const ADMIN = 'UZAIR RAJPUT';
+const FB_LINK = 'https://www.facebook.com/Mtxuzair';
 
 const fs = require('fs-extra');
 const { loadImage, createCanvas, registerFont } = require("canvas");
@@ -52,7 +52,7 @@ module.exports.run = async function({ api, event, Users }) {
     //api.changeNickname(`𝗕𝗢𝗧 ${(!global.config.BOTNAME) ? "Buddy" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
 
     let gifUrl = 'https://i.imgur.com/BOkF9m9.jpeg';
-let gifPath = __dirname + '/cache/join/join.jpeg';
+let gifPath = __dirname + '/cache/join/uzair.mp4';
 
 axios.get(gifUrl, { responseType: 'arraybuffer' })
 .then(response => {
