@@ -2,7 +2,7 @@ module.exports.config = {
     name: "setup",
     eventType: [""],
     version: "1.0.0",
-    credits: "Mirai Team",
+    credits: "uzairrajput",
     description: "setup auto random join/leave",
     dependencies: {
         "fs-extra": "",
