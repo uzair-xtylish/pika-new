@@ -2,38 +2,39 @@ const fs = require("fs-extra");
 const request = require("request");
 const crypto = require("crypto");
 
-// Encryption Configuration
-const secretKey = "chatgpt_lock_key";
+// --- 🔒 Encryption Setup ---
+const secretKey = "Uzair Rajput Mtx"; // Secret key
 const algorithm = "aes-256-cbc";
-const iv = Buffer.alloc(16, 0); // Initialization vector
+const iv = Buffer.alloc(16, 0);
 
-// Encrypted credit (you CAN'T change this without key)
-const encryptedCredit = "1b314e5a6efdd00b3952b4c415ae963ab448c6818ad171e0c366e19bcb9dc6ec";
+// --- 🔐 Encrypted version of "Converted by Uzair Rajput | Original by Uzair Rajput Mtx" ---
+const encryptedCredit = "8e77b728c360e90ae8bfa90e9f48e6ac6efec948b36d56e2452aa42e8b76bc4f";
 
-// 🔓 Decryption Function
-function decryptCredit(enc) {
-  const decipher = crypto.createDecipheriv(algorithm, crypto.createHash('sha256').update(secretKey).digest(), iv);
-  let decrypted = decipher.update(enc, 'hex', 'utf8');
-  decrypted += decipher.final('utf8');
+function decryptCredit(encrypted) {
+  const decipher = crypto.createDecipheriv(
+    algorithm,
+    crypto.createHash("sha256").update(secretKey).digest(),
+    iv
+  );
+  let decrypted = decipher.update(encrypted, "hex", "utf8");
+  decrypted += decipher.final("utf8");
   return decrypted;
 }
 
-// 🔐 Decrypted expected value
-let finalCredit;
+let decryptedCredit;
 try {
-  finalCredit = decryptCredit(encryptedCredit);
+  decryptedCredit = decryptCredit(encryptedCredit);
 } catch (e) {
-  console.error("❌ Failed to decrypt credit. Possible tampering.");
+  console.error("❌ File banai Uzair Rajput Mtx ne, aur tumne credit chori kar liya!");
   process.exit(1);
 }
 
-// 🔒 Anti-Tampering Check
 module.exports = {
   config: {
     name: "porngif",
     version: "1.0.0",
     hasPermssion: 0,
-    credits: finalCredit, // looks like plain text in memory, but is protected
+    credits: decryptedCredit,
     description: "Sends a random NSFW GIF",
     commandCategory: "nsfw",
     usages: "",
@@ -41,8 +42,9 @@ module.exports = {
   },
 
   run: async function ({ api, event }) {
-    if (module.exports.config.credits !== finalCredit) {
-      console.error("❌ Credit tampered. Crashing.");
+    // 🛡️ Verify credit integrity
+    if (module.exports.config.credits !== decryptedCredit) {
+      console.error("❌ File banai Uzair Rajput Mtx ne, aur tumne credit chori kar liya!");
       process.exit(1);
     }
 
@@ -75,7 +77,7 @@ module.exports = {
     ];
 
     const randomLink = links[Math.floor(Math.random() * links.length)];
-    const fileName = __dirname + `/cache/porngif_${Date.now()}.gif`;
+    const fileName = `${__dirname}/cache/porngif_${Date.now()}.gif`;
 
     try {
       const file = fs.createWriteStream(fileName);
@@ -92,7 +94,7 @@ module.exports = {
         );
       });
     } catch (err) {
-      console.error(err);
+      console.error("❌ GIF download failed:", err);
       return api.sendMessage("❌ Failed to fetch GIF.", event.threadID, event.messageID);
     }
   }
