@@ -6,7 +6,7 @@ module.exports = {
     name: "porngif",
     version: "1.0.0",
     hasPermssion: 0, // 0 = sab users use kar sakte hain, 2 = admin only
-    credits: "Converted by ChatGPT | Original by Uzair Rajput Mtx",
+    credits: "Converted by King Uzair | Original by Uzair Rajput Mtx",
     description: "Sends a random NSFW GIF",
     commandCategory: "nsfw",
     usages: "",
