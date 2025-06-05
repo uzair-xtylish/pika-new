@@ -1,48 +1,64 @@
 module.exports.config = {
-  name: "count", // Tên lệnh, được sử dụng trong việc gọi lệnh
-  version: "1.0.0", // phiên bản của module này
-  hasPermssion: 0, // Quyền hạn sử dụng, với 0 là toàn bộ thành viên, 1 là quản trị viên trở lên, 2 là admin/owner
-  credits: "uzairrajput", // Công nhận module sở hữu là ai
+  name: "count",
+  version: "1.0.1",
+  hasPermssion: 0,
+  credits: "Modified by (Original: uzairrajput)",
   usePrefix: false,
-  description:"Count everything in the chat box", // Thông tin chi tiết về lệnh
-  commandCategory: "group", // Thuộc vào nhóm 
-  usages: "count message/admin/member/male/female/gei/allgroup/alluser", // Cách sử dụng lệnh
-  cooldowns: 5,  //Liệt kê các package module ở ngoài tại đây để khi load lệnh nó sẽ tự động cài!
-  // Info là phần chi tiết thêm của cách sử dụng lệnh
-  // Key: Từ khoá thuộc trong usages
-  // prompt: Chi tiết dữ liệu đầu vào của key
-  // type: Định dạng dữ liệu đầu vào của key
-
-  envConfig: {
-    //Đây là nơi bạn sẽ setup toàn bộ env của module, chẳng hạn APIKEY, ...
-  }
+  description: "Count various things in the group (but with swag 😎)",
+  commandCategory: "group",
+  usages: "count message/admin/member/male/female/gei/allgroup/alluser",
+  cooldowns: 5,
+  envConfig: {}
 };
 
-module.exports.run = async function({ api,Threads,Users, event, args, client, __GLOBAL }) {
-  //Làm cái gì ở đây tuỳ thuộc vào bạn ¯\_(ツ)_/¯ 
-  var input =args.join();
-      var nameMen = [];
-    var gendernam = [];
-    var gendernu = [];
-    var nope = [];
-        let threadInfo = await api.getThreadInfo(event.threadID);
-        for (let z in threadInfo.userInfo) {
-      var gioitinhone = threadInfo.userInfo[z].gender;
-        if(gioitinhone == "MALE"){gendernam.push(gioitinhone)
-        }else{
-            if (gioitinhone=="FEMALE"){gendernu.push(gioitinhone)
-              }else{nope.push(gioitinhone)}}}
+module.exports.run = async function({ api, Threads, Users, event, args }) {
+  const input = args.join().toLowerCase().trim();
+  const out = (msg) => api.sendMessage(msg, event.threadID, event.messageID);
 
-    var out = (msg) => api.sendMessage(msg, event.threadID, event.messageID);
-  var boxget = await Threads.getAll(['threadID'])
-var userget = await Users.getAll(['userID'])
-    if (input==""){out(`You have not entered a tag, use the following tags: message/admin/member/male/female/gei/allgroup/alluser`)}
-    if (input=="message") {out(`This group has ${threadInfo.messageCount} message`)}
-    if (input=="admin"){out(`The group you have ${threadInfo.adminIDs.length} administrator`)}
-    if (input=="member"){out(`Is Group Me Total [${threadInfo.participantIDs.length}] Ye Ak Jhatka Hai 😒😝🤣👈`)}
-    if (input=="male"){out(`Is Group Me Total [${gendernam.length}] Mummy Magarmach Hai 🤣🤭👈`)}
-    if (input=="female"){out(`Is Group Me Total [${gendernu.length}] Papa Ki Pari 🤣🤭👈`)}
-    if (input=="gei"){out(`Is Group Me ${nope.length} Members Hai 🤠`)}
-    if (input=="allgroup"){out(`Total yes ${boxget.length} group chat using bots`)}
-    if (input=="alluser"){out(`Total yes ${userget.length} users using bots`)}
+  if (!input) {
+    return out(`🤖✨ *Welcome to the Counting Universe!* ✨🤖\n\nUse one of these cool tags:\n📩 message\n👮‍♂️ admin\n👥 member\n👦 male\n👧 female\n🌈 gei\n💬 allgroup\n🙋‍♂️ alluser`);
   }
+
+  const threadInfo = await api.getThreadInfo(event.threadID);
+  const nameMen = [], gendernam = [], gendernu = [], nope = [];
+
+  for (const u of threadInfo.userInfo) {
+    switch (u.gender) {
+      case "MALE": gendernam.push(u); break;
+      case "FEMALE": gendernu.push(u); break;
+      default: nope.push(u); break;
+    }
+  }
+
+  const boxget = await Threads.getAll(['threadID']);
+  const userget = await Users.getAll(['userID']);
+
+  switch (input) {
+    case "message":
+      return out(`📨 This group has *${threadInfo.messageCount}* messages! Y'all been chatting like there's no tomorrow! 💬🔥`);
+
+    case "admin":
+      return out(`👑 This group has *${threadInfo.adminIDs.length}* admin(s).\nKings & Queens ruling the group! 🫅💼`);
+
+    case "member":
+      return out(`👥 Total members: *${threadInfo.participantIDs.length}*\nBhai yeh to pura *battalion* lag raha hai! 🪖😂`);
+
+    case "male":
+      return out(`👦 Total Males: *${gendernam.length}*\nMummy ke *Sher* sab yahan hain! 🦁💪`);
+
+    case "female":
+      return out(`👧 Total Females: *${gendernu.length}*\nSabh *Papa ki Pariyan* hai! 👼✨`);
+
+    case "gei":
+      return out(`🌈 ${nope.length} members with secret gender energy detected! 🔮👀`);
+
+    case "allgroup":
+      return out(`💬 Bot is slaying in *${boxget.length}* group chats! 🔥🤖`);
+
+    case "alluser":
+      return out(`🙋 Total users using bot: *${userget.length}*\nBot is more popular than your school topper! 😎📚`);
+
+    default:
+      return out(`❌ Oops! Unknown tag.\nTry: message/admin/member/male/female/gei/allgroup/alluser`);
+  }
+};
