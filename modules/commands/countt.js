@@ -1,6 +1,6 @@
 module.exports.config = {
   name: "count",
-  version: "1.0.1",
+  version: "1.0.2",
   hasPermssion: 0,
   credits: "Modified by (Original: uzairrajput)",
   usePrefix: false,
@@ -12,53 +12,52 @@ module.exports.config = {
 };
 
 module.exports.run = async function({ api, Threads, Users, event, args }) {
-  const input = args.join().toLowerCase().trim();
-  const out = (msg) => api.sendMessage(msg, event.threadID, event.messageID);
+  const input = args.join(" ").toLowerCase().trim();
+  const threadInfo = await api.getThreadInfo(event.threadID);
+  const send = (msg) => api.sendMessage(msg, event.threadID, event.messageID);
 
   if (!input) {
-    return out(`🤖✨ *Welcome To Uzair Counting File Zone!* ✨🤖\n\nYeh wale tag likho or dekh kar hairan ho jao:\n📩 message\n👮‍♂️ admin\n👥 member\n👦 male\n👧 female\n🌈 gei\n💬 allgroup\n🙋‍♂️ alluser`);
+    return send(`🤖✨ *Welcome To Uzair Counting File Zone!* ✨🤖\n\nUse one of these tags:\n📩 message\n👮‍♂️ admin\n👥 member\n👦 male\n👧 female\n🌈 gei\n💬 allgroup\n🙋‍♂️ alluser`);
   }
 
-  const threadInfo = await api.getThreadInfo(event.threadID);
-  const gendernam = [], gendernu = [], nope = [];
-
-  for (const u of threadInfo.userInfo) {
-    switch (u.gender) {
-      case "MALE": gendernam.push(u); break;
-      case "FEMALE": gendernu.push(u); break;
-      default: nope.push(u); break;
-    }
+  // Gender Counts
+  const male = [], female = [], unknown = [];
+  for (let u of threadInfo.userInfo) {
+    if (u.gender == "MALE") male.push(u);
+    else if (u.gender == "FEMALE") female.push(u);
+    else unknown.push(u);
   }
 
-  const boxget = await Threads.getAll(['threadID']);
-  const userget = await Users.getAll(['userID']);
+  // Fake fallback values in case Threads/Users.getAll fail
+  let allThreads = [];
+  let allUsers = [];
+
+  try {
+    allThreads = await Threads.getAll(['threadID']) || [];
+  } catch (e) {}
+
+  try {
+    allUsers = await Users.getAll(['userID']) || [];
+  } catch (e) {}
 
   switch (input) {
     case "message":
-      return out(`📨 Is group me *${threadInfo.messageCount}* message hain!\nMatlab sab ne full chater-pater macha rakhi hai! 💬🔥`);
-
+      return send(`📨 Group me total *${threadInfo.messageCount}* messages hain!\nFull bakchodi zone active hai! 🔥💬`);
     case "admin":
-      return out(`👑 Is group ke *${threadInfo.adminIDs.length}* admin hain!\nBaby full king & queen waali feeling aa rahi hai! 🫅💼`);
-
+      return send(`👑 Group me *${threadInfo.adminIDs.length}* admin hain!\nPower in safe hands! 💼🫅`);
     case "member":
-      return out(`👥 Total members: *${threadInfo.participantIDs.length}*\nBaby ye to koi group nahi, *baarat* lag rahi hai! 😂🕺`);
-
+      return send(`👥 Members: *${threadInfo.participantIDs.length}*\nGroup nahi, baraat lag rahi hai! 😂`);
     case "male":
-      return out(`👦 Larkay hain: *${gendernam.length}*\nMummy ke sher sab yahan chill kar rahe hain! 🦁🔥`);
-
+      return send(`👦 Larkay: *${male.length}*\nMummy ke sher! 🦁🔥`);
     case "female":
-      return out(`👧 Larkiyan hain: *${gendernu.length}*\nPapa ki pariyan uran bhar rahi hain! 👼✨`);
-
+      return send(`👧 Larkiyan: *${female.length}*\nPapa ki pariyan! 👼✨`);
     case "gei":
-      return out(`🌈 ${nope.length} log jin ka gender *top secret* hai!\nFull mystery scene chal raha hai 🔮😏`);
-
+      return send(`🌈 Secret gender wale: *${unknown.length}*\nFull mystery scene! 🕵️‍♂️`);
     case "allgroup":
-      return out(`💬 Bot abhi *${boxget.length}* groups me fire maar raha hai! 🔥🤖`);
-
+      return send(`💬 Bot *${allThreads.length}* groups me ghoom raha hai! 😎`);
     case "alluser":
-      return out(`🙋 Total users: *${userget.length}*\nBot ki popularity dekh kar school topper bhi ro raha hai 😎📚`);
-
+      return send(`🙋 *${allUsers.length}* users bot use kar rahe hain!\nMashhoor ho gya yeh to! 🚀`);
     default:
-      return out(`❌ Bhai galat tag likh diya!\nSahi likho: message/admin/member/male/female/gei/allgroup/alluser`);
+      return send(`❌ Tag galat hai baby!\nSahi likho: message/admin/member/male/female/gei/allgroup/alluser`);
   }
 };
