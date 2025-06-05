@@ -19,7 +19,7 @@ module.exports.handleEvent = async ({ api, event, Users, Currencies, args, utils
      react.includes("chaklet") ||
 react.includes("Chocolate")) {
     var msg = {
-        body: `${name} Ye lo BABU، Tum muft ki Chocolate kahte ho، Ab rona nahi,😒👈`,attachment: fs.createReadStream(__dirname + `/uzair/choco.gif`)
+        body: `${name} \n● ──────────────────── ●\n𝐘𝐄 𝐋𝐎 𝐁𝐀𝐁𝐘 𝐌𝐔𝐅𝐓 𝐊𝐈 𝐂𝐇𝐎𝐂𝐎𝐋𝐀𝐓𝐄 𝐊𝐇𝐀𝐎 𝐓𝐔𝐌 𝐋𝐈𝐊𝐈𝐍 𝐀𝐁 𝐑𝐎𝐍𝐀 𝐍𝐀𝐇𝐈..😒👈\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`,attachment: fs.createReadStream(__dirname + `/uzair/choco.gif`)
       }
       api.sendMessage(msg, threadID, messageID);
     api.setMessageReaction("🍫", event.messageID, (err) => {}, true)
