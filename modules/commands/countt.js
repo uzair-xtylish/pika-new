@@ -16,7 +16,7 @@ module.exports.run = async function({ api, Threads, Users, event, args }) {
   const out = (msg) => api.sendMessage(msg, event.threadID, event.messageID);
 
   if (!input) {
-    return out(`🤖✨ *Welcome to Counting Zone!* ✨🤖\n\nYeh wale tag likho aur dekh kar hairan ho jao:\n📩 message\n👮‍♂️ admin\n👥 member\n👦 male\n👧 female\n🌈 gei\n💬 allgroup\n🙋‍♂️ alluser`);
+    return out(`🤖✨ *Welcome To Uzair Counting File Zone!* ✨🤖\n\nYeh wale tag likho or dekh kar hairan ho jao:\n📩 message\n👮‍♂️ admin\n👥 member\n👦 male\n👧 female\n🌈 gei\n💬 allgroup\n🙋‍♂️ alluser`);
   }
 
   const threadInfo = await api.getThreadInfo(event.threadID);
@@ -38,16 +38,16 @@ module.exports.run = async function({ api, Threads, Users, event, args }) {
       return out(`📨 Is group me *${threadInfo.messageCount}* message hain!\nMatlab sab ne full chater-pater macha rakhi hai! 💬🔥`);
 
     case "admin":
-      return out(`👑 Is group ke *${threadInfo.adminIDs.length}* admin hain!\nBhai full king & queen waali feeling aa rahi hai! 🫅💼`);
+      return out(`👑 Is group ke *${threadInfo.adminIDs.length}* admin hain!\nBaby full king & queen waali feeling aa rahi hai! 🫅💼`);
 
     case "member":
-      return out(`👥 Total members: *${threadInfo.participantIDs.length}*\nBhai yeh to koi group nahi, *baarat* lag rahi hai! 😂🕺`);
+      return out(`👥 Total members: *${threadInfo.participantIDs.length}*\nBaby ye to koi group nahi, *baarat* lag rahi hai! 😂🕺`);
 
     case "male":
       return out(`👦 Larkay hain: *${gendernam.length}*\nMummy ke sher sab yahan chill kar rahe hain! 🦁🔥`);
 
     case "female":
-      return out(`👧 Larkiyan hain: *${gendernu.length}*\nPapa ki pariyan udan bhar rahi hain! 👼✨`);
+      return out(`👧 Larkiyan hain: *${gendernu.length}*\nPapa ki pariyan uran bhar rahi hain! 👼✨`);
 
     case "gei":
       return out(`🌈 ${nope.length} log jin ka gender *top secret* hai!\nFull mystery scene chal raha hai 🔮😏`);
