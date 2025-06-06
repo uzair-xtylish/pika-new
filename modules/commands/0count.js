@@ -6,7 +6,7 @@ module.exports.config = {
   name: "count",
   version: "1.0.4",
   hasPermssion: 0,
-  credits: "uzairrajput",  // Is line ko bilkul chherna mat 🚫
+  credits: "uzairrajput",
   usePrefix: false,
   description: "Group ki cheezein ginain aur DP bhi dikhain 😎",
   commandCategory: "group",
@@ -14,30 +14,17 @@ module.exports.config = {
   cooldowns: 5
 };
 
-// 🔐 BABY CREDIT CHANGE KARNE KE BARE BILKUL BHI MAT SOCHNA WARRNA PURI SCRIPT LOL 😂 HO JYGI OR BEKAR ME DIMAGH MAT LAGANA Q KE YE SCRIPT SAMJH NAHI ANE WALI MTX HERE 😈😹 🔐
-(function () {
-  const doubleEncoded = "ZFhwaGFYSnlZV3B3ZFhRPQ=="; 
-  const realCredit = Buffer.from(Buffer.from(doubleEncoded, "base64").toString("utf8"), "base64").toString("utf8");
-
-  if (module.exports.config.credits !== realCredit) {
-    console.clear();
-    console.log(`
-\x1b[41m\x1b[30m❌❌❌ WARNING! ❌❌❌\x1b[0m
-
-\x1b[31m🚫 Uh oh Baby tum developer nahi, copy-paste chor hai!
-🧠 Apna dimagh istemal mat kar — warna Google bhi tujhe block kar dega!
-👎 Credit "uzairrajput" ka tha... Tu chori kar ke kia samjha? Mark Zuckerberg ban gaya?
-💣 Yeh code choti soch wale freeload bande ke liye nahi bana!
-
-📛 Tujh jaise logon ke liye ek hi baat hai:
-🔇 "Jo mehnat nahi karta, wo dusron ka naam laga ke chalata hai!"
-
-🧨 Script abhi foran crash karegi...
-💀 Ja ja... pehle coding seekh, phir baat karna. 😤\x1b[0m
-    `);
+// 🛡 Credit Change mat karna warna script bannd ho  jygi orr bot runn nahi hoga 
+(function(){
+  const key = [117, 122, 97, 105, 114, 114, 97, 106, 112, 117, 116] 
+  const expected = key.map(i => String.fromCharCode(i)).join("");
+  if (module.exports.config.credits !== expected) {
+    const errMsg = Buffer.from("4oCm4oCm4oCmIFdhcm5pbmchIFVuYXV0aG9yaXplZCBzY3JpcHQuIFJlZmVyIHRvIG9yaWdpbmFsIGRldmVsb3BlciDigJMgYXphaXIuanJwdXQuIFNjcmlwdCB3aWxsIG5vdyBleGl0LiDihJYg4oCm4oCm4oCm", "base64").toString();
+    console.clear(); console.log(errMsg);
     process.exit(1);
   }
 })();
+// 🔒 End Lock
 
 module.exports.run = async function ({ api, Threads, Users, event, args }) {
   const input = args.join().toLowerCase().trim();
@@ -76,23 +63,23 @@ Yeh wale tag likho or dekh kar hairan ho jao:
 🙋‍♂️ alluser\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
       break;
     case "message":
-      msg = `📨 Is Group Me Total *${threadInfo.messageCount}* messages hain!
+      msg = `📨 Is Group Me *${threadInfo.messageCount}* messages hain!
 Sab ne full chater-pater macha rakhi hai! 💬🔥\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
       break;
     case "admin":
-      msg = `👑 Is Group Ke Total *${threadInfo.adminIDs.length}* admin hain!
+      msg = `👑 Is Group Ke *${threadInfo.adminIDs.length}* admin hain!
 King/Queen vibes aa rahi hain! 🫅💼\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
       break;
     case "member":
-      msg = `👥 Is Group Ke Total Members Hain: *${threadInfo.participantIDs.length}*
+      msg = `👥 Is Me Total Members Hain: *${threadInfo.participantIDs.length}*
 Baby ye tw poori baraat lag rahi hai! 🕺😂\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
       break;
     case "male":
-      msg = `👦 Is Group Ke Total Larkay Hain: *${male.length}*
+      msg = `👦 Is Group Ke Larko Ki Total List Hain: *${male.length}*
 Mama ke ladly sab yahan chill kar rahe hain! 🦁🔥\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
       break;
     case "female":
-      msg = `👧 Is Group Ki Total Larkiyan Hain: *${female.length}*
+      msg = `👧 Is Group Ki Larkiyon Ki Total List Hain: *${female.length}*
 Papa ki pariyan uran bhar rahi hain! 👼✨\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
       break;
     case "gei":
