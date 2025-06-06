@@ -73,7 +73,7 @@ Yeh wale tag likho or dekh kar hairan ho jao:
 👧 female
 🌈 gei
 💬 allgroup
-🙋‍♂️ alluser`;
+🙋‍♂️ alluser\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
       break;
     case "message":
       msg = `📨 Is Group Me Total *${threadInfo.messageCount}* messages hain!
