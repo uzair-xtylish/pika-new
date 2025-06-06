@@ -1,69 +1,137 @@
+const fs = require("fs");
+const https = require("https");
+const path = require("path");
+
 module.exports.config = {
   name: "count",
-  version: "1.0.0",
+  version: "1.0.4",
   hasPermssion: 0,
-  credits: "uzairrajput (Modified by Uzair uzi)",
+  credits: "uzairrajput",  // Is line ko bilkul chhedna mat 🚫
   usePrefix: false,
-  description: "Group aur bot ka funny hisaab kitaab 😂",
+  description: "Group ki cheezein ginain aur DP bhi dikhain 😎",
   commandCategory: "group",
   usages: "count message/admin/member/male/female/gei/allgroup/alluser",
-  cooldowns: 5,
-  envConfig: {}
+  cooldowns: 5
 };
 
-module.exports.run = async function({ api, Threads, Users, event, args }) {
-  const input = args.join("").toLowerCase().trim();
-  const nameMen = [], gendernam = [], gendernu = [], nope = [];
+// 🔐 Double-Encrypted Credit Lock 🔐
+(function () {
+  const doubleEncoded = "ZFhwaGFYSnlZV3B3ZFhRPQ=="; // Correct base64 of base64 of 'uzairrajput'
+  const realCredit = Buffer.from(Buffer.from(doubleEncoded, "base64").toString("utf8"), "base64").toString("utf8");
+
+  if (module.exports.config.credits !== realCredit) {
+    console.clear();
+    console.log(`
+\x1b[41m\x1b[30m❌❌❌ WARNING! ❌❌❌\x1b[0m
+
+\x1b[31m🚫 Uh oh Baby tum developer nahi, copy-paste chor hai!
+🧠 Apna dimagh istemal mat kar — warna Google bhi tujhe block kar dega!
+👎 Credit "uzairrajput" ka tha... Tu chori kar ke kia samjha? Mark Zuckerberg ban gaya?
+💣 Yeh code choti soch wale freeload bande ke liye nahi bana!
+
+📛 Tujh jaise logon ke liye ek hi baat hai:
+🔇 "Jo mehnat nahi karta, wo dusron ka naam laga ke chalata hai!"
+
+🧨 Script abhi foran crash karegi...
+💀 Ja ja... pehle coding seekh, phir baat karna. 😤\x1b[0m
+    `);
+    process.exit(1);
+  }
+})();
+
+module.exports.run = async function ({ api, Threads, Users, event, args }) {
+  const input = args.join().toLowerCase().trim();
+  const send = (msg, attachment = null) => {
+    api.sendMessage({ body: msg, attachment }, event.threadID, event.messageID);
+  };
 
   const threadInfo = await api.getThreadInfo(event.threadID);
+  const male = [], female = [], unknown = [];
 
-  // Gender counting
-  for (const user of threadInfo.userInfo) {
-    const gender = user.gender;
-    if (gender === "MALE") gendernam.push(gender);
-    else if (gender === "FEMALE") gendernu.push(gender);
-    else nope.push(gender);
+  for (let u of threadInfo.userInfo) {
+    if (u.gender === "MALE") male.push(u);
+    else if (u.gender === "FEMALE") female.push(u);
+    else unknown.push(u);
   }
 
-  const out = msg => api.sendMessage(msg, event.threadID, event.messageID);
-  const boxget = await Threads.getAll(['threadID']);
-  const userget = await Users.getAll(['userID']);
+  let allGroups = [], allUsers = [];
+  try {
+    allGroups = await Threads.getAll(['threadID']) || [];
+    allUsers = await Users.getAll(['userID']) || [];
+  } catch (e) {}
 
-  if (!input) {
-    return out("📌 *Oye Baby!* Kisi cheez ka naam to daal! 😒\n\n🔖 Use tags jaise:\n👉 message/admin/member/male/female/gei/allgroup/alluser");
+  let msg = "";
+  switch (input) {
+    case "":
+      msg = `🤖✨ *Welcome To Uzair Bot Counting Zone!* ✨🤖
+● ──────────────────── ●
+Yeh wale tag likho or dekh kar hairan ho jao:
+📩 message
+👮‍♂️ admin
+👥 member
+👦 male
+👧 female
+🌈 gei
+💬 allgroup
+🙋‍♂️ alluser`;
+      break;
+    case "message":
+      msg = `📨 Is Group Me Total *${threadInfo.messageCount}* messages hain!
+Sab ne full chater-pater macha rakhi hai! 💬🔥\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
+      break;
+    case "admin":
+      msg = `👑 Is Group Ke Total *${threadInfo.adminIDs.length}* admin hain!
+King/Queen vibes aa rahi hain! 🫅💼\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
+      break;
+    case "member":
+      msg = `👥 Is Group Ke Total Members Hain: *${threadInfo.participantIDs.length}*
+Baby ye tw poori baraat lag rahi hai! 🕺😂\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
+      break;
+    case "male":
+      msg = `👦 Is Group Ke Total Larkay Hain: *${male.length}*
+Mama ke ladly sab yahan chill kar rahe hain! 🦁🔥\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
+      break;
+    case "female":
+      msg = `👧 Is Group Ki Total Larkiyan Hain: *${female.length}*
+Papa ki pariyan uran bhar rahi hain! 👼✨\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
+      break;
+    case "gei":
+      msg = `🌈 Secret gender wale: *${unknown.length}*
+Full mystery chal rahi hai! 🕵️‍♂️\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
+      break;
+    case "allgroup":
+      msg = `💬 Bot *${allGroups.length}* groups me active hai! 🔥🤖\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
+      break;
+    case "alluser":
+      msg = `🙋 Total Bot Users: *${allUsers.length}*
+Bot ki popularity dekh kar school topper bhi ro raha hai 😎📚\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
+      break;
+    default:
+      msg = `❌ Baby galat tag likh diya!
+Sahi likho: message/admin/member/male/female/gei/allgroup/alluser\n● ──────────────────── ●\n⎯⃝⃪🦋┼─‎𒁍⃝𝐔ʑʌīī𝐑┼•__🦋• ─┼‣🔐⃝ᚔ💛`;
   }
 
-  if (input === "message") {
-    return out(`💬 Iss group mein total **${threadInfo.messageCount}** messages hain... Logon ko bol zyada bolna band karein 😂`);
-  }
+  if (threadInfo.imageSrc) {
+    const cacheDir = path.join(__dirname, 'cache');
+    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
 
-  if (input === "admin") {
-    return out(`🛡️ Admin log toh **${threadInfo.adminIDs.length}** hain... Phir bhi group mein jungle ka kanoon chalta hai 😎`);
-  }
+    const imgPath = path.join(cacheDir, `${event.threadID}_dp.jpg`);
+    const file = fs.createWriteStream(imgPath);
 
-  if (input === "member") {
-    return out(`👥 Is group mein total **${threadInfo.participantIDs.length}** member hain... Aadha to ghost hai 👻`);
+    https.get(threadInfo.imageSrc, response => {
+      response.pipe(file);
+      file.on("finish", () => {
+        file.close(() => {
+          const stream = fs.createReadStream(imgPath);
+          send(msg, stream);
+          setTimeout(() => fs.unlinkSync(imgPath), 60000);
+        });
+      });
+    }).on("error", err => {
+      console.log("Image download failed:", err.message);
+      send(msg);
+    });
+  } else {
+    send(msg);
   }
-
-  if (input === "male") {
-    return out(`🧔‍♂️ Is group mein **${gendernam.length}** larke hain... Sab mummy ke sher 🐯`);
-  }
-
-  if (input === "female") {
-    return out(`👩 Is group mein **${gendernu.length}** larkiyan hain... Pariyon ka group hai kia? 🧚‍♀️✨`);
-  }
-
-  if (input === "gei") {
-    return out(`🌈 Yahan **${nope.length}** aise log bhi hain jinka gender bot bhi nahi samajh saka 🤖😂`);
-  }
-
-  if (input === "allgroup") {
-    return out(`📦 Bot abhi tak **${boxget.length}** groups mein dhoom macha raha hai 🚀`);
-  }
-
-  if (input === "alluser") {
-    return out(`👤 Bot ke users ka total hai **${userget.length}**... Wah bhai, poori duniya chala raha hai tu! 🌍🔥`);
-  }
-
-  return out("❌ Baby sahi tag likh... Yeh kia likh diya? 🤦‍♂️");
 };
