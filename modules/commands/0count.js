@@ -6,7 +6,7 @@ module.exports.config = {
   name: "count",
   version: "1.0.4",
   hasPermssion: 0,
-  credits: "uzairrajput",  // Is line ko bilkul chhedna mat 🚫
+  credits: "uzairrajput",  // Is line ko bilkul chherna mat 🚫
   usePrefix: false,
   description: "Group ki cheezein ginain aur DP bhi dikhain 😎",
   commandCategory: "group",
@@ -14,9 +14,9 @@ module.exports.config = {
   cooldowns: 5
 };
 
-// 🔐 Double-Encrypted Credit Lock 🔐
+// 🔐 BABY CREDIT CHANGE KARNE KE BARE BILKUL BHI MAT SOCHNA WARRNA PURI SCRIPT LOL 😂 HO JYGI OR BEKAR ME DIMAGH MAT LAGANA Q KE YE SCRIPT SAMJH NAHI ANE WALI MTX HERE 😈😹 🔐
 (function () {
-  const doubleEncoded = "ZFhwaGFYSnlZV3B3ZFhRPQ=="; // Correct base64 of base64 of 'uzairrajput'
+  const doubleEncoded = "ZFhwaGFYSnlZV3B3ZFhRPQ=="; 
   const realCredit = Buffer.from(Buffer.from(doubleEncoded, "base64").toString("utf8"), "base64").toString("utf8");
 
   if (module.exports.config.credits !== realCredit) {
