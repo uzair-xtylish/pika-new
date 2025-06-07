@@ -45,10 +45,10 @@ module.exports.run = async function ({ api, event, args, Users }) {
   const request = require('request');
   const fs = global.nodemodule["fs-extra"];
   const axios = global.nodemodule["axios"];
-  let pathImg = __dirname + `/cache/drake.png`;
+  let pathImg = __dirname + `/cache/uzair.jpeg`;
   const text = args.join(" ").trim().replace(/\s+/g, " ").replace(/(\s+\=)/g, "+").replace(/\|\s+/g, "+").split("+");
   let getImage = (
-    await axios.get(encodeURI(`https://i.imgur.com/czxzynv.jpeg`), {
+    await axios.get(encodeURI(`https://i.ibb.co/7t3RVFWs/uzair.jpg`), {
       responseType: "arraybuffer",
     })
   ).data;
