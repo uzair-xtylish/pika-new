@@ -20,6 +20,6 @@ let path = __dirname + `/cache/poli.png`;
   })).data;
   fs.writeFileSync(path, Buffer.from(poli, "utf-8"));
   api.sendMessage({
-    body: `“${query}” 𝗜𝗺𝗮𝗴𝗲 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱`,
+    body: `🎨 “${query}” 𝐊𝐢 𝐈𝐦𝐚𝐠𝐞 𝐓𝐚𝐲𝐚𝐫 𝐤𝐚𝐫 𝐝𝐢 𝐠𝐚𝐲𝐢 𝐡𝐚𝐢!\n\n🖌️ 𝐔𝐦𝐞𝐞𝐝 𝐡𝐚𝐢 𝐤𝐢 𝐲𝐞 𝐢𝐦𝐚𝐠𝐢𝐧𝐚𝐭𝐢𝐨𝐧 𝐚𝐚𝐩𝐤𝐨 𝐩𝐚𝐬𝐚𝐧𝐝 𝐚𝐲𝐞 💫\n● ──────────────────── ●\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
     attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID);
 };
