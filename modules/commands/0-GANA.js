@@ -6,7 +6,7 @@ const ytSearch = require("yt-search");
 
 module.exports = {
   config: {
-    name: "gana",
+    name: "mp3",
     version: "1.0.1",
     hasPermssion: 0,
     credits: "uzairrajput",///don't change my Credit Coz i Edit 
