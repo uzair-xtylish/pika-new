@@ -279,6 +279,6 @@ const fs = global.nodemodule["fs-extra"];
 "https://i.imgur.com/NisAdeZ.jpeg",
 "https://i.imgur.com/ZFNFliy.jpeg",
      ];
-     var callback = () => api.sendMessage({body:`💚✨ 𝐌𝐚𝐝𝐞 𝐁𝐲 𝗠r 𝑴𝑻𝑿 💚✨`,attachment: fs.createReadStream(__dirname + "/cache/AOV.jpg")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/AOV.jpg"));  
+     var callback = () => api.sendMessage({body:`💫 𝐋𝐨 𝐣𝐢 𝐚𝐩𝐤𝐞 𝐥𝐢𝐲𝐞 𝐚𝐤 𝐦𝐚𝐬𝐭  𝐦𝐞𝐦𝐞 😂\n\n🌐 𝐌𝐞𝐦𝐞 𝐀𝐮𝐭𝐨 𝐒𝐲𝐬𝐭𝐞𝐦 𝐁𝐲 𝐔𝐳𝐚𝐢𝐫 𝐁𝐨𝐭 💌\n● ──────────────────── ●\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•.`,attachment: fs.createReadStream(__dirname + "/cache/AOV.jpg")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/AOV.jpg"));  
       return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/AOV.jpg")).on("close",() => callback());
    };
