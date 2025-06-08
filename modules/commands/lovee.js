@@ -22,7 +22,7 @@ module.exports.onLoad = async() => {
   const dirMaterial = __dirname + `/uzair/mtx/`;
   const path = resolve(__dirname, 'uzair/mtx', 'love.jpeg');
   if (!existsSync(dirMaterial + "mtx")) mkdirSync(dirMaterial, { recursive: true });
-  if (!existsSync(path)) await downloadFile("https://i.imgur.com/tVi3R6t.jpg", path);
+  if (!existsSync(path)) await downloadFile("https://i.ibb.co/DgzZdt8J/love.jpg", path);
 }
 
 async function makeImage({ one, two }) {
@@ -45,7 +45,7 @@ async function makeImage({ one, two }) {
 
   let circleOne = await jimp.read(await circle(avatarOne));
   let circleTwo = await jimp.read(await circle(avatarTwo));
-  batgiam_img.composite(circleOne.resize(230, 230), 40, 90).composite(circleTwo.resize(230, 230), 430, 90);
+  batgiam_img.composite(circleOne.resize(210, 210), 94, 105).composite(circleTwo.resize(218, 218), 423, 101);
 
   let raw = await batgiam_img.getBufferAsync("image/jpeg");
 
@@ -69,6 +69,6 @@ module.exports.run = async function ({ event, api, args }) {
   if (!mention[0]) return api.sendMessage("Please mention 1 person.", threadID, messageID);
   else {
       const one = senderID, two = mention[0];
-      return makeImage({ one, two }).then(path => api.sendMessage({ body: "`𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥 𝐩𝐚𝐢𝐫𝐢𝐧𝐠\n  ༺𝙒𝙞𝙨𝙝 𝙮𝙤𝙪 𝙩𝙬𝙤 𝙝𝙪𝙣𝙙𝙧𝙚𝙙 𝙮𝙚𝙖𝙧𝙨 𝙤𝙛 𝙝𝙖𝙥𝙥𝙞𝙣𝙚𝙨𝙨༻\n◈━━━━━━━━━━━━━━━━💚✨\n★᭄𝗖𝗿𝗲𝗱𝗶𝘁𝘀 𝑴𝑻𝑿 💚✨", attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID));
+      return makeImage({ one, two }).then(path => api.sendMessage({ body: "`تـیری مسـکراہٹ ہـزاروں نـظموں سـے خوبـصورت ہـے🔮😌❤️\n● ──────────────────── ●\n𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥 𝐩𝐚𝐢𝐫𝐢𝐧𝐠 💘\n  ༺𝙒𝙞𝙨𝙝 𝙮𝙤𝙪 𝙩𝙬𝙤 𝙝𝙪𝙣𝙙𝙧𝙚𝙙 𝙮𝙚𝙖𝙧𝙨 𝙤𝙛 𝙝𝙖𝙥𝙥𝙞𝙣𝙚𝙨𝙨༻\n● ──────────────────── ●\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•", attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID));
   }
     }
