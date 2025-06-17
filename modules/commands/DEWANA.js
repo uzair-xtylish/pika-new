@@ -1,26 +1,37 @@
 const axios = require("axios");
 
+// 🔒 Encrypted Credits (base64 format for slight obfuscation)
+const encryptedCredits = "dXphaXJyYWpwdXQ="; // "uzairrajput" base64
+
+// Decode and validate credit lock
+const decodedCredits = Buffer.from(encryptedCredits, "base64").toString("utf-8");
+
 module.exports.config = {
     name: "dewana",
     version: "1.3.0",
     hasPermssion: 0,
-    credits: "uzairrajput",
+    credits: decodedCredits,
     description: "Always-active hot + funny boyfriend style AI",
     commandCategory: "ai",
     usages: "No prefix needed",
     cooldowns: 2
 };
 
+// 💥 Credit Lock Trigger: Script crash if credit modified
+if (module.exports.config.credits !== "uzairrajput") {
+    console.error("❌ Script broken: Uzair ne banai thi, chor hai tu! 💀");
+    throw new Error("💥 Credit tampered! Script disabled. Original author: uzairrajput");
+}
+
 const API_URL = "https://uzair-rajput-api-key.onrender.com/chat";
 const chatHistories = {};
 
-module.exports.run = () => {}; // Not used anymore
+module.exports.run = () => {}; // No-op
 
 module.exports.handleEvent = async function ({ api, event }) {
     const { threadID, messageID, senderID, body, messageReply } = event;
     const msg = (body || "").toLowerCase();
 
-    // Trigger if user says "dewani" or replies to bot
     const isTrigger =
         msg.includes("dewana") ||
         (messageReply && messageReply.senderID === api.getCurrentUserID());
