@@ -56,9 +56,9 @@ async function makeImage({ one, two, three }) {
     jimp.read(await circled(avt3)),
   ]);
 
-  frame.composite(circle2.resize(160, 160), 32, 177);//left
-  frame.composite(circle1.resize(172, 172), 266, 33);//center 
-  frame.composite(circle3.resize(160, 160), 540, 177);//friends 
+  frame.composite(circle2.resize(160, 160), 31, 177);//left
+  frame.composite(circle1.resize(172, 172), 266, 32);//center 
+  frame.composite(circle3.resize(160, 160), 535, 177);//friends 
 
   const buffer = await frame.getBufferAsync("image/png");
   fs.writeFileSync(finalPath, buffer);
