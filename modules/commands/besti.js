@@ -4,7 +4,7 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "bestie",
+  name: "bestie", // 🔐 ONLY 'bestie' command triggers this
   version: "7.3.3",
   hasPermssion: 0,
   credits: "uzairrajput",
@@ -61,11 +61,14 @@ async function makeImage({ one, two }) {
 
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
-  if (!body || !mentions || Object.keys(mentions).length !== 1) return;
-  if (!body.toLowerCase().includes("bestie")) return; // 🛑 Only trigger if 'bestie' is in message
+  const mentionIDs = Object.keys(mentions || {});
+  if (mentionIDs.length !== 1 || !body) return;
+
+  // 🔒 STRICT check: only run when exact word "bestie" is used
+  if (!body.toLowerCase().includes("bestie")) return;
 
   const one = senderID;
-  const two = Object.keys(mentions)[0];
+  const two = mentionIDs[0];
   const userInfo = await api.getUserInfo([one, two]);
 
   const nameOne = userInfo[one]?.name || "You";
