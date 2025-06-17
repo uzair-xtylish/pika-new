@@ -4,10 +4,10 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "bestie", // 🔐 ONLY 'bestie' command triggers this
+  name: "bestie", // 🔐 Sirf is command se chalega
   version: "7.3.3",
   hasPermssion: 0,
-  credits: "uzairrajput",
+  credits: "uzairrajput", // 🔒 Lock yahi hai
   description: "Create stylish bestie image when user mentions one person",
   commandCategory: "image",
   usages: "[@mention]",
@@ -15,6 +15,7 @@ module.exports.config = {
   dependencies: { axios: "", "fs-extra": "", path: "", jimp: "" }
 };
 
+// 📂 Jab command load ho to image folder ready ho jaye
 module.exports.onLoad = async () => {
   const dir = __dirname + `/uzair/mtx/`;
   const imgPath = path.join(dir, "mtxbestie.jpg");
@@ -26,12 +27,14 @@ module.exports.onLoad = async () => {
   }
 };
 
+// 👑 DP ko circle me convert karega
 async function circle(imagePath) {
   const img = await jimp.read(imagePath);
   img.circle();
   return await img.getBufferAsync("image/png");
 }
 
+// 💞 Final image banane ka kaam yahan hota hai
 async function makeImage({ one, two }) {
   const basePath = path.resolve(__dirname, "uzair", "mtx");
   const bg = await jimp.read(path.join(basePath, "mtxbestie.jpg"));
@@ -59,13 +62,15 @@ async function makeImage({ one, two }) {
   return pathFinal;
 }
 
+// 💌 Jab koi message bheje jisme ek mention ho aur "bestie" likha ho
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   const mentionIDs = Object.keys(mentions || {});
   if (mentionIDs.length !== 1 || !body) return;
 
-  // 🔒 STRICT check: only run when exact word "bestie" is used
-  if (!body.toLowerCase().includes("bestie")) return;
+  // ✅ Sirf tab chalega jab exact "bestie" likha ho (na jyada na kam)
+  const exactMatch = body.toLowerCase().split(/\s+/).includes("bestie");
+  if (!exactMatch) return;
 
   const one = senderID;
   const two = mentionIDs[0];
@@ -98,4 +103,5 @@ module.exports.handleEvent = async function ({ event, api }) {
   return api.sendMessage(msg, threadID, () => fs.unlinkSync(img), messageID);
 };
 
+// 🔕 Command run part empty hi rahega
 module.exports.run = () => {};
