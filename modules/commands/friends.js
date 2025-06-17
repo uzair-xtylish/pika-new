@@ -58,7 +58,7 @@ async function makeImage({ one, two, three }) {
 
   frame.composite(circle2.resize(160, 160), 31, 177);//left
   frame.composite(circle1.resize(172, 172), 266, 31);//center 
-  frame.composite(circle3.resize(159, 159), 534, 175);//friends 
+  frame.composite(circle3.resize(159, 159), 535, 174);//friends 
 
   const buffer = await frame.getBufferAsync("image/png");
   fs.writeFileSync(finalPath, buffer);
