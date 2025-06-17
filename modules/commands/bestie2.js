@@ -64,9 +64,8 @@ module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   if (!body || !mentions || Object.keys(mentions).length !== 1) return;
 
-  // ✅ Check exact match: sirf jab sirf "bestie2" likha ho
-  const exactMatch = body.trim().toLowerCase() === "bestie2";
-  if (!exactMatch) return;
+  // ✅ Check if body starts with "bestie2"
+  if (!body.toLowerCase().startsWith("bestie2")) return;
 
   const one = senderID;
   const two = Object.keys(mentions)[0];
@@ -79,11 +78,16 @@ module.exports.handleEvent = async function ({ event, api }) {
 
   const msg = {
     body:
-`🌸💞 𝐁𝐄𝐒𝐓𝐈𝐄 𝐕𝐈𝐁𝐄𝐒 💞🌸\n● ──────────────────── ●\n
+`🌸💞 𝐁𝐄𝐒𝐓𝐈𝐄 𝐕𝐈𝐁𝐄𝐒 💞🌸
+● ──────────────────── ●
+
 ╔═══════════════╗
-👑     𝑴𝒚 𝑩𝒆𝒔𝒕𝒊𝒆:     ${nameOne}   ❤️\n ${nameTwo} ❤️
+👑     𝑴𝒚 𝑩𝒆𝒔𝒕𝒊𝒆:     ${nameOne}   ❤️
+                 ${nameTwo} ❤️
 ╚═══════════════╝
-\n● ──────────────────── ●\n
+
+● ──────────────────── ●
+
 🫂 𝑫𝒐𝒔𝒕𝒊 𝒔𝒊𝒓𝒇 𝒆𝒌 𝒓𝒊𝒔𝒉𝒕𝒂 𝒏𝒂𝒉𝒊 𝒉𝒐𝒕𝒂...
     𝑾𝒐 𝒅𝒊𝒍 𝒔𝒆 𝒋𝒖𝒓𝒕𝒂 𝒆𝒌 𝒏𝒂𝒔𝒉𝒂 𝒉𝒐𝒕𝒂 💘
 
@@ -93,7 +97,7 @@ module.exports.handleEvent = async function ({ event, api }) {
 🎀 𝑵𝒂 𝒋𝒂𝒂𝒏𝒆 𝒌𝒊𝒕𝒏𝒊 𝒚𝒂𝒂𝒅𝒆𝒊𝒏 𝒃𝒖𝒏𝒕𝒊 𝒉𝒂𝒊...
     𝑱𝒂𝒃 𝒃𝒆𝒔𝒕𝒊𝒆 𝒔𝒂𝒂𝒕𝒉 𝒉𝒐 – 𝒚𝒆 𝒅𝒖𝒏𝒊𝒚𝒂 𝒃𝒉𝒊 𝒉𝒂𝒔𝒆𝒆𝒏 𝒍𝒂𝒈𝒕𝒊 𝒉𝒂𝒊 💖
 
- ● ━━━━━━━━━━━━━━━━━━━━ ●
+● ━━━━━━━━━━━━━━━━━━━━ ●
 𒁍⃝ 𝑴𝑨𝑫𝑬 𝑩𝒀 𝐔ʑʌī𝐑 ┼•__🦋•`,
     attachment: fs.createReadStream(img),
     mentions: [
