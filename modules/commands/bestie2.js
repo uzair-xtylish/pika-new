@@ -63,6 +63,7 @@ async function makeImage({ one, two }) {
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   if (!body || !mentions || Object.keys(mentions).length !== 1) return;
+  if (!body.toLowerCase().includes("bestie2")) return; // 🔒 Only work if "bestie2" is in message
 
   const one = senderID;
   const two = Object.keys(mentions)[0];
