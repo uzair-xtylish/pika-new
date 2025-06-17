@@ -63,7 +63,10 @@ async function makeImage({ one, two }) {
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   if (!body || !mentions || Object.keys(mentions).length !== 1) return;
-  if (!body.toLowerCase().includes("bestie2")) return; // 🔒 Only work if "bestie2" is in message
+
+  // ✅ Check exact match: sirf jab sirf "bestie2" likha ho
+  const exactMatch = body.trim().toLowerCase() === "bestie2";
+  if (!exactMatch) return;
 
   const one = senderID;
   const two = Object.keys(mentions)[0];
@@ -77,9 +80,9 @@ module.exports.handleEvent = async function ({ event, api }) {
   const msg = {
     body:
 `🌸💞 𝐁𝐄𝐒𝐓𝐈𝐄 𝐕𝐈𝐁𝐄𝐒 💞🌸\n● ──────────────────── ●\n
-╔═════════════════════╗
-👑 𝑴𝒚 𝑩𝒆𝒔𝒕𝒊𝒆: ${nameOne} ❤️\n ${nameTwo} ❤️
-╚═════════════════════╝
+╔═══════════════╗
+👑     𝑴𝒚 𝑩𝒆𝒔𝒕𝒊𝒆:     ${nameOne}   ❤️\n ${nameTwo} ❤️
+╚═══════════════╝
 \n● ──────────────────── ●\n
 🫂 𝑫𝒐𝒔𝒕𝒊 𝒔𝒊𝒓𝒇 𝒆𝒌 𝒓𝒊𝒔𝒉𝒕𝒂 𝒏𝒂𝒉𝒊 𝒉𝒐𝒕𝒂...
     𝑾𝒐 𝒅𝒊𝒍 𝒔𝒆 𝒋𝒖𝒓𝒕𝒂 𝒆𝒌 𝒏𝒂𝒔𝒉𝒂 𝒉𝒐𝒕𝒂 💘
