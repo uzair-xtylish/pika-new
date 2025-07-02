@@ -8,7 +8,7 @@ module.exports.config = {
   version: "1.0.0",
   hasPermssion: 0,
   credits: "uzairrajput",
-  description: "Stylish bro image with one mention",
+  description: "Bro bond image with mention",
   commandCategory: "image",
   usages: "bro @mention",
   cooldowns: 5
@@ -16,10 +16,10 @@ module.exports.config = {
 
 module.exports.onLoad = async () => {
   const dir = path.join(__dirname, "uzair", "mtx");
-  const imgPath = path.join(dir, "mtxbrro.jpg");
+  const imgPath = path.join(dir, "mtxbro.jpg");
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const imgData = (await axios.get("https://i.ibb.co/1fdP0LGh/mtxbro.jpg", { responseType: "arraybuffer" })).data;
+    const imgData = (await axios.get("https://i.ibb.co/kVb2KHcG/mtxbro.jpg", { responseType: "arraybuffer" })).data;
     fs.writeFileSync(imgPath, imgData);
   }
 };
@@ -32,7 +32,7 @@ async function circle(imagePath) {
 
 async function makeImage({ one, two }) {
   const basePath = path.join(__dirname, "uzair", "mtx");
-  const bg = await jimp.read(path.join(basePath, "mtxbrro.jpg"));
+  const bg = await jimp.read(path.join(basePath, "mtxbro.jpg"));
   const pathFinal = path.join(basePath, `bro_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
@@ -50,8 +50,8 @@ async function makeImage({ one, two }) {
   const circle1 = await jimp.read(await circle(pathOne));
   const circle2 = await jimp.read(await circle(pathTwo));
 
-  bg.composite(circle1.resize(885, 885), 471, 731);
-  bg.composite(circle2.resize(888, 888), 1980, 734);
+  bg.composite(circle1.resize(885, 885), 415, 530);
+  bg.composite(circle2.resize(888, 888), 1994, 530);
 
   const buffer = await bg.getBufferAsync("image/png");
   fs.writeFileSync(pathFinal, buffer);
@@ -63,7 +63,7 @@ async function makeImage({ one, two }) {
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   if (!body || !mentions || Object.keys(mentions).length !== 1) return;
-  if (!body.toLowerCase().startsWith("bro")) return;
+  if (body.trim().toLowerCase() !== "bro") return;
 
   const one = senderID;
   const two = Object.keys(mentions)[0];
@@ -76,19 +76,16 @@ module.exports.handleEvent = async function ({ event, api }) {
 
   const msg = {
     body:
-`🤜 𝐁𝐑𝐎 𝐌𝐎𝐌𝐄𝐍𝐓 🤛
-
-👑 𝑴𝒂𝒊 𝑯𝒖: ${nameOne}
-👑 𝑴𝒆𝒓𝒂 𝑩𝒓𝒐: ${nameTwo}
-
-🫂 𝑩𝒉𝒂𝒊 𝒔𝒊𝒓𝒇 𝒓𝒊𝒔𝒉𝒕𝒂 𝒏𝒂𝒉𝒊...
-    𝒀𝒂𝒂𝒓𝒐𝒏 𝒔𝒆 𝒛𝒚𝒂𝒅𝒂 𝒗𝒂𝒇𝒂𝒅𝒂𝒓 𝒉𝒐𝒕𝒂 𝒉𝒂𝒊 💯
-
-🔥 𝑱𝒊𝒔𝒌𝒆 𝒔𝒂𝒂𝒕𝒉 𝒉𝒖𝒎 𝒉𝒂𝒔𝒕𝒆 𝒉𝒂𝒊...
-    𝒖𝒔𝒊 𝒌𝒐 𝒅𝒆𝒌𝒉 𝒌𝒆 𝒈𝒉𝒂𝒎 𝒃𝒉𝒊 𝒃𝒉𝒂𝒈 𝒋𝒂𝒕𝒆 𝒉𝒂𝒊 💘
-
-━━━━━━━━━━━━━━━━━━━━━━━
-💎 𝑴𝒂𝒅𝒆 𝒃𝒚 𝑼𝒛𝒂𝒊𝒓 𝑹𝒂𝒋𝒑𝒖𝒕 𝑴𝑻𝑿`,
+`🤜🏻 𝐁𝐑𝐎 𝐁𝐎𝐍𝐃 🤛🏻
+\n━━━━━━━━━━━━━━━━━━
+👑 𝐌𝐚𝐢𝐧: ${nameOne}
+💥 𝐌𝐞𝐫𝐚 𝐁𝐫𝐨: ${nameTwo}
+━━━━━━━━━━━━━━━━━━
+🩶 𝑩𝒓𝒐 𝒉𝒐 𝒕𝒐 𝒂𝒊𝒔𝒂,
+𝒋𝒐 𝒉𝒉𝒉𝒉𝒉𝒉𝒉𝒉𝒉𝒉 𝒎𝒂𝒛𝒂𝒌 𝒌𝒂 𝒔𝒉𝒊𝒌𝒂𝒓 𝒃𝒉𝒊 𝒃𝒂𝒏𝒆
+𝒍𝒆𝒌𝒊𝒏 𝒔𝒂𝒂𝒕𝒉 𝒃𝒉𝒊 𝒏𝒊𝒃𝒉𝒂𝒆 😎
+━━━━━━━━━━━━━━━━━━
+𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
     attachment: fs.createReadStream(img),
     mentions: [
       { tag: nameOne, id: one },
