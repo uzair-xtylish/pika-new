@@ -4,22 +4,22 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "bro",
+  name: "sis",
   version: "1.0.0",
   hasPermssion: 0,
   credits: "uzairrajput",
-  description: "Bro bond image with mention",
+  description: "Sis bond image with mention",
   commandCategory: "image",
-  usages: "bro @mention",
+  usages: "sis @mention",
   cooldowns: 5
 };
 
 module.exports.onLoad = async () => {
   const dir = path.join(__dirname, "uzair", "mtx");
-  const imgPath = path.join(dir, "brother.png");
+  const imgPath = path.join(dir, "sister.png");
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const imgData = (await axios.get("https://i.ibb.co/tM2wxFPb/brother.png", { responseType: "arraybuffer" })).data;
+    const imgData = (await axios.get("https://i.ibb.co/mN42N4Y/sister.png", { responseType: "arraybuffer" })).data;
     fs.writeFileSync(imgPath, imgData);
   }
 };
@@ -32,8 +32,8 @@ async function circle(imagePath) {
 
 async function makeImage({ one, two }) {
   const basePath = path.join(__dirname, "uzair", "mtx");
-  const bg = await jimp.read(path.join(basePath, "brother.png"));
-  const pathFinal = path.join(basePath, `brother_${one}_${two}.png`);
+  const bg = await jimp.read(path.join(basePath, "sister.png"));
+  const pathFinal = path.join(basePath, `sister_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
 
@@ -63,27 +63,26 @@ async function makeImage({ one, two }) {
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   if (!body || !mentions || Object.keys(mentions).length !== 1) return;
-  if (body.trim().toLowerCase() !== "bro") return;
+  if (body.trim().toLowerCase() !== "sis") return;
 
   const one = senderID;
   const two = Object.keys(mentions)[0];
   const userInfo = await api.getUserInfo([one, two]);
 
   const nameOne = userInfo[one]?.name || "You";
-  const nameTwo = userInfo[two]?.name || "Bro";
+  const nameTwo = userInfo[two]?.name || "Sis";
 
   const img = await makeImage({ one, two });
 
   const msg = {
     body:
-`🤜🏻 𝐁𝐑𝐎 𝐁𝐎𝐍𝐃 🤛🏻
-\n━━━━━━━━━━━━━━━━━━
-👑 𝐌𝐚𝐢𝐧: ${nameOne}
-💥 𝐌𝐞𝐫𝐚 𝐁𝐫𝐨: ${nameTwo}
+`👭 𝐒𝐈𝐒𝐓𝐄𝐑 𝐁𝐎𝐍𝐃 💖
 ━━━━━━━━━━━━━━━━━━
-🩶 𝑩𝒓𝒐 𝒉𝒐 𝒕𝒐 𝒂𝒊𝒔𝒂,
-𝒋𝒐 𝒉𝒉𝒉𝒉𝒉𝒉𝒉𝒉𝒉𝒉 𝒎𝒂𝒛𝒂𝒌 𝒌𝒂 𝒔𝒉𝒊𝒌𝒂𝒓 𝒃𝒉𝒊 𝒃𝒂𝒏𝒆
-𝒍𝒆𝒌𝒊𝒏 𝒔𝒂𝒂𝒕𝒉 𝒃𝒉𝒊 𝒏𝒊𝒃𝒉𝒂𝒆 😎
+👑 𝐌𝐚𝐢𝐧: ${nameOne}
+💫 𝐌𝐞𝐫𝐢 𝐒𝐢𝐬𝐭𝐞𝐫: ${nameTwo}
+━━━━━━━━━━━━━━━━━━
+🩷 𝑺𝒊𝒔 𝒉𝒐 𝒕𝒐 𝒂𝒊𝒔𝒊,
+𝒋𝒐 𝒉𝒂𝒎𝒆𝒔𝒉𝒂 𝒔𝒂𝒕𝒉 𝒓𝒂𝒉𝒆 💕
 ━━━━━━━━━━━━━━━━━━
 𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
     attachment: fs.createReadStream(img),
