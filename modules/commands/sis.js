@@ -16,10 +16,10 @@ module.exports.config = {
 
 module.exports.onLoad = async () => {
   const dir = path.join(__dirname, "uzair", "mtx");
-  const imgPath = path.join(dir, "sister.png");
+  const imgPath = path.join(dir, "sis.jpg");
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const imgData = (await axios.get("https://i.ibb.co/mN42N4Y/sister.png", { responseType: "arraybuffer" })).data;
+    const imgData = (await axios.get("https://i.ibb.co/LzvWN5bq/sis.jpg", { responseType: "arraybuffer" })).data;
     fs.writeFileSync(imgPath, imgData);
   }
 };
@@ -32,7 +32,7 @@ async function circle(imagePath) {
 
 async function makeImage({ one, two }) {
   const basePath = path.join(__dirname, "uzair", "mtx");
-  const bg = await jimp.read(path.join(basePath, "sister.png"));
+  const bg = await jimp.read(path.join(basePath, "sis.jpg"));
   const pathFinal = path.join(basePath, `sister_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
