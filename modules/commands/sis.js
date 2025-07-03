@@ -18,11 +18,11 @@ module.exports.config = {
 // 📂 Jab command load ho to image folder ready ho jaye
 module.exports.onLoad = async () => {
   const dir = __dirname + `/uzair/mtx/`;
-  const imgPath = path.join(dir, "sis.jpg");
+  const imgPath = path.join(dir, "sister.png");
 
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const img = (await axios.get("https://i.ibb.co/LzvWN5bq/sis.jpg", { responseType: "arraybuffer" })).data;
+    const img = (await axios.get("https://i.ibb.co/CKLd0GL0/sister.png", { responseType: "arraybuffer" })).data;
     fs.writeFileSync(imgPath, Buffer.from(img));
   }
 };
@@ -37,8 +37,8 @@ async function circle(imagePath) {
 // 💞 Final image banane ka kaam yahan hota hai
 async function makeImage({ one, two }) {
   const basePath = path.resolve(__dirname, "uzair", "mtx");
-  const bg = await jimp.read(path.join(basePath, "sis.jpg"));
-  const pathFinal = path.join(basePath, `sis_${one}_${two}.png`);
+  const bg = await jimp.read(path.join(basePath, "sister.png"));
+  const pathFinal = path.join(basePath, `sister_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
 
