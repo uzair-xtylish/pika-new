@@ -4,7 +4,7 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "sis", // 🔐 Sirf is command se chalega
+  name: "bro", // 🔐 Sirf is command se chalega
   version: "7.3.3",
   hasPermssion: 0,
   credits: "uzairrajput", // 🔒 Lock yahi hai
@@ -51,8 +51,8 @@ async function makeImage({ one, two }) {
   const circle1 = await jimp.read(await circle(pathOne));
   const circle2 = await jimp.read(await circle(pathTwo));
 
-  bg.composite(circle1.resize(380, 380), 90, 126);
-  bg.composite(circle2.resize(380, 380), 624, 126);
+  bg.composite(circle1.resize(375, 375), 110, 126);
+  bg.composite(circle2.resize(375, 375), 924, 126);
 
   const buffer = await bg.getBufferAsync("image/png");
   fs.writeFileSync(pathFinal, buffer);
@@ -69,7 +69,7 @@ module.exports.handleEvent = async function ({ event, api }) {
   if (mentionIDs.length !== 1 || !body) return;
 
   // ✅ Sirf tab chalega jab exact "sis" likha ho (na jyada na kam)
-  const exactMatch = body.toLowerCase().split(/\s+/).includes("sis");
+  const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
   if (!exactMatch) return;
 
   const one = senderID;
