@@ -1,5 +1,5 @@
 const fs = require("fs-extra");
-const path = __dirname + "/../../data/antiChangeInfoBox.json";
+const path = __dirname + "/../../uzair/antiChangeInfoBox.json";
 const { getStreamFromURL, uploadImgbb } = global.utils;
 
 module.exports.config = {
