@@ -4,7 +4,7 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "bro", // 🔐 Sirf is command se chalega
+  name: "sis", // 🔐 Sirf is command se chalega
   version: "7.3.3",
   hasPermssion: 0,
   credits: "uzairrajput", // 🔒 Lock yahi hai
@@ -38,7 +38,7 @@ async function circle(imagePath) {
 async function makeImage({ one, two }) {
   const basePath = path.resolve(__dirname, "uzair", "mtx");
   const bg = await jimp.read(path.join(basePath, "sister.png"));
-  const pathFinal = path.join(basePath, `sister_${one}_${two}.png`);
+  const pathFinal = path.join(basePath, `sis_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
 
@@ -62,14 +62,14 @@ async function makeImage({ one, two }) {
   return pathFinal;
 }
 
-// 💌 Jab koi message bheje jisme ek mention ho aur "bestie" likha ho
+// 💌 Jab koi message bheje jisme ek mention ho aur "sis" likha ho
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   const mentionIDs = Object.keys(mentions || {});
   if (mentionIDs.length !== 1 || !body) return;
 
   // ✅ Sirf tab chalega jab exact "sis" likha ho (na jyada na kam)
-  const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
+  const exactMatch = body.toLowerCase().split(/\s+/).includes("sis");
   if (!exactMatch) return;
 
   const one = senderID;
