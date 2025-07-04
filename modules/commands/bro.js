@@ -23,7 +23,7 @@ module.exports.config = {
 // 🔄 Preload image when bot starts
 module.exports.onLoad = async () => {
   const dir = __dirname + `/uzair/mtx/`;
-  const imgPath = path.join(dir, "mtxbro.jpg");
+  const imgPath = path.join(dir, "brother.jpg");
 
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
@@ -42,7 +42,7 @@ async function circle(imagePath) {
 // 🖼️ Generate final image
 async function makeImage({ one, two }) {
   const basePath = path.resolve(__dirname, "uzair", "mtx");
-  const bg = await jimp.read(path.join(basePath, "mtxbro.jpg"));
+  const bg = await jimp.read(path.join(basePath, "brother.jpg"));
   const pathFinal = path.join(basePath, `bro_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
