@@ -38,7 +38,7 @@ async function circle(imagePath) {
 async function makeImage({ one, two }) {
   const basePath = path.resolve(__dirname, "uzair", "mtx");
   const bg = await jimp.read(path.join(basePath, "mtxbro.jpg"));
-  const pathFinal = path.join(basePath, `bestie_${one}_${two}.png`);
+  const pathFinal = path.join(basePath, `mtxbro_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
 
@@ -62,13 +62,13 @@ async function makeImage({ one, two }) {
   return pathFinal;
 }
 
-// 💌 Jab koi message bheje jisme ek mention ho aur "bestie" likha ho
+// 💌 Jab koi message bheje jisme ek mention ho aur "bro" likha ho
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   const mentionIDs = Object.keys(mentions || {});
   if (mentionIDs.length !== 1 || !body) return;
 
-  // ✅ Sirf tab chalega jab exact "bestie" likha ho (na jyada na kam)
+  // ✅ Sirf tab chalega jab exact "bro" likha ho (na jyada na kam)
   const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
   if (!exactMatch) return;
 
