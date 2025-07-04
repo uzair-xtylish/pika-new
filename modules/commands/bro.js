@@ -4,18 +4,23 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "bro", // 🔐 Sirf is command se chalega
-  version: "7.3.3",
+  name: "bro",
+  version: "1.0.0",
   hasPermssion: 0,
-  credits: "uzairrajput", // 🔒 Lock yahi hai
-  description: "Create stylish bestie image when user mentions one person",
+  credits: "uzairrajput",
+  description: "Create stylish bro image when user mentions one person",
   commandCategory: "image",
   usages: "[@mention]",
   cooldowns: 5,
-  dependencies: { axios: "", "fs-extra": "", path: "", jimp: "" }
+  dependencies: {
+    axios: "",
+    "fs-extra": "",
+    path: "",
+    jimp: ""
+  }
 };
 
-// 📂 Jab command load ho to image folder ready ho jaye
+// 🔄 Preload image when bot starts
 module.exports.onLoad = async () => {
   const dir = __dirname + `/uzair/mtx/`;
   const imgPath = path.join(dir, "mtxbro.jpg");
@@ -27,32 +32,18 @@ module.exports.onLoad = async () => {
   }
 };
 
-// 👑 DP ko circle me convert karega
+// 👤 Convert avatar to circle
 async function circle(imagePath) {
   const img = await jimp.read(imagePath);
-  const size = img.bitmap.width;
-
-  const mask = await new jimp(size, size, 0x00000000);
-  mask.scan(0, 0, size, size, function (x, y, idx) {
-    const radius = size / 2;
-    const centerX = radius;
-    const centerY = radius;
-    const dx = x - centerX;
-    const dy = y - centerY;
-    if (dx * dx + dy * dy <= radius * radius) {
-      this.bitmap.data[idx + 3] = 255;
-    }
-  });
-
-  img.mask(mask, 0, 0);
+  img.circle();
   return await img.getBufferAsync("image/png");
 }
 
-// 💞 Final image banane ka kaam yahan hota hai
+// 🖼️ Generate final image
 async function makeImage({ one, two }) {
   const basePath = path.resolve(__dirname, "uzair", "mtx");
   const bg = await jimp.read(path.join(basePath, "mtxbro.jpg"));
-  const pathFinal = path.join(basePath, `mtxbro_${one}_${two}.png`);
+  const pathFinal = path.join(basePath, `bro_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
 
@@ -65,8 +56,8 @@ async function makeImage({ one, two }) {
   const circle1 = await jimp.read(await circle(pathOne));
   const circle2 = await jimp.read(await circle(pathTwo));
 
-  bg.composite(circle1.resize(388, 388), 613, 826);
-  bg.composite(circle2.resize(390, 390), 1324, 826);
+  bg.composite(circle1.resize(390, 390), 210, 820); // Adjust X/Y
+  bg.composite(circle2.resize(390, 390), 1320, 820);
 
   const buffer = await bg.getBufferAsync("image/png");
   fs.writeFileSync(pathFinal, buffer);
@@ -76,63 +67,35 @@ async function makeImage({ one, two }) {
   return pathFinal;
 }
 
-// 💌 Jab koi message bheje jisme ek mention ho aur "bro" likha ho
+// 📩 Handle message trigger
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   const mentionIDs = Object.keys(mentions || {});
   if (mentionIDs.length !== 1 || !body) return;
 
-  const exactMatch = /\bbro\b/i.test(body);
+  const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
   if (!exactMatch) return;
 
-  try {
-    const one = senderID;
-    const two = mentionIDs[0];
-    const userInfo = await api.getUserInfo([one, two]);
+  const one = senderID;
+  const two = mentionIDs[0];
+  const userInfo = await api.getUserInfo([one, two]);
 
-    const nameOne = userInfo[one]?.name || "You";
-    const nameTwo = userInfo[two]?.name || "Friend";
+  const nameOne = userInfo[one]?.name || "You";
+  const nameTwo = userInfo[two]?.name || "Brother";
 
-    const img = await makeImage({ one, two });
+  const img = await makeImage({ one, two });
 
-    const msg = {
-      body:
-`┏━━━━༺🖤༻━━━━┓ 🖤 ✧ 𝐁𝐄𝐒𝐓𝐈𝐄 𝐕𝐈𝐁𝐄𝐒 ✧ 🖤
-┗━━━━༺🖤༻━━━━┛
-\n● ──────────────────── ●\n
-👑 ${nameOne} ❤️ ${nameTwo}
-\n● ──────────────────── ●\n
-💖 𝐘𝐞 𝐥𝐨 𝐛𝐚𝐛𝐲 ~ 𝐌𝐢𝐥 𝐠𝐚𝐲𝐢 𝐓𝐄𝐑𝐈 𝐁𝐄𝐒𝐓𝐈𝐄 ✨
+  const msg = {
+    body: `💙 𝗕𝗥𝗢𝗧𝗛𝗘𝗥𝗛𝗢𝗢𝗗 💙\n\n👑 ${nameOne} 🤝 ${nameTwo}\n\n🖤 𝗣𝘂𝗿𝗲 𝗕𝗿𝗼 𝗩𝗶𝗯𝗲𝘀 ✨\n\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
+    attachment: fs.createReadStream(img),
+    mentions: [
+      { tag: nameOne, id: one },
+      { tag: nameTwo, id: two }
+    ]
+  };
 
-🫶 𝐃𝐨𝐬𝐭𝐢 𝐡𝐨 𝐭𝐨𝐡 𝐚𝐢𝐬𝐢 — 𝐣𝐨 𝐝𝐢𝐥 𝐬𝐞 𝐧𝐢𝐛𝐡𝐞 💞
-
-\n● ──────────────────── ●\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
-      attachment: fs.createReadStream(img),
-      mentions: [
-        { tag: nameOne, id: one },
-        { tag: nameTwo, id: two }
-      ]
-    };
-
-    return api.sendMessage(msg, threadID, () => fs.unlinkSync(img), messageID);
-  } catch (error) {
-    console.error("❌ BRO command error:", error);
-
-    const errorMsg =
-`❌ 𝗕𝗥𝗢 𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗘𝗥𝗥𝗢𝗥 ❌
-
-📌 *Kuch to garbar hai!*
-💥 Error Details:
-${error.message || error.toString()}
-
-🔧 Agar ye bar bar ho raha hai, toh developer ko contact karein.
-
-🛠 Command: 'bro'
-👨‍💻 Dev: uzairrajput`;
-
-    return api.sendMessage(errorMsg, threadID, messageID);
-  }
+  return api.sendMessage(msg, threadID, () => fs.unlinkSync(img), messageID);
 };
 
-// 🔕 Command run part empty hi rahega
+// 🔕 Manual command use disabled
 module.exports.run = () => {};
