@@ -30,7 +30,21 @@ module.exports.onLoad = async () => {
 // 👑 DP ko circle me convert karega
 async function circle(imagePath) {
   const img = await jimp.read(imagePath);
-  img.circle();
+  const size = img.bitmap.width;
+
+  const mask = await new jimp(size, size, 0x00000000);
+  mask.scan(0, 0, size, size, function (x, y, idx) {
+    const radius = size / 2;
+    const centerX = radius;
+    const centerY = radius;
+    const dx = x - centerX;
+    const dy = y - centerY;
+    if (dx * dx + dy * dy <= radius * radius) {
+      this.bitmap.data[idx + 3] = 255;
+    }
+  });
+
+  img.mask(mask, 0, 0);
   return await img.getBufferAsync("image/png");
 }
 
@@ -68,21 +82,21 @@ module.exports.handleEvent = async function ({ event, api }) {
   const mentionIDs = Object.keys(mentions || {});
   if (mentionIDs.length !== 1 || !body) return;
 
-  // ✅ Sirf tab chalega jab exact "bro" likha ho (na jyada na kam)
-  const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
+  const exactMatch = /\bbro\b/i.test(body);
   if (!exactMatch) return;
 
-  const one = senderID;
-  const two = mentionIDs[0];
-  const userInfo = await api.getUserInfo([one, two]);
+  try {
+    const one = senderID;
+    const two = mentionIDs[0];
+    const userInfo = await api.getUserInfo([one, two]);
 
-  const nameOne = userInfo[one]?.name || "You";
-  const nameTwo = userInfo[two]?.name || "Friend";
+    const nameOne = userInfo[one]?.name || "You";
+    const nameTwo = userInfo[two]?.name || "Friend";
 
-  const img = await makeImage({ one, two });
+    const img = await makeImage({ one, two });
 
-  const msg = {
-    body:
+    const msg = {
+      body:
 `┏━━━━༺🖤༻━━━━┓ 🖤 ✧ 𝐁𝐄𝐒𝐓𝐈𝐄 𝐕𝐈𝐁𝐄𝐒 ✧ 🖤
 ┗━━━━༺🖤༻━━━━┛
 \n● ──────────────────── ●\n
@@ -93,14 +107,31 @@ module.exports.handleEvent = async function ({ event, api }) {
 🫶 𝐃𝐨𝐬𝐭𝐢 𝐡𝐨 𝐭𝐨𝐡 𝐚𝐢𝐬𝐢 — 𝐣𝐨 𝐝𝐢𝐥 𝐬𝐞 𝐧𝐢𝐛𝐡𝐞 💞
 
 \n● ──────────────────── ●\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
-    attachment: fs.createReadStream(img),
-    mentions: [
-      { tag: nameOne, id: one },
-      { tag: nameTwo, id: two }
-    ]
-  };
+      attachment: fs.createReadStream(img),
+      mentions: [
+        { tag: nameOne, id: one },
+        { tag: nameTwo, id: two }
+      ]
+    };
 
-  return api.sendMessage(msg, threadID, () => fs.unlinkSync(img), messageID);
+    return api.sendMessage(msg, threadID, () => fs.unlinkSync(img), messageID);
+  } catch (error) {
+    console.error("❌ BRO command error:", error);
+
+    const errorMsg =
+`❌ 𝗕𝗥𝗢 𝗖𝗢𝗠𝗠𝗔𝗡𝗗 𝗘𝗥𝗥𝗢𝗥 ❌
+
+📌 *Kuch to garbar hai!*
+💥 Error Details:
+${error.message || error.toString()}
+
+🔧 Agar ye bar bar ho raha hai, toh developer ko contact karein.
+
+🛠 Command: 'bro'
+👨‍💻 Dev: uzairrajput`;
+
+    return api.sendMessage(errorMsg, threadID, messageID);
+  }
 };
 
 // 🔕 Command run part empty hi rahega
