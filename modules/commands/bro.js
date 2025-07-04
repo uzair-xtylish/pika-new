@@ -4,99 +4,95 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "bro",
-  version: "1.0.0",
+  name: "bro", // 🔐 Sirf is command se chalega
+  version: "7.3.3",
   hasPermssion: 0,
-  credits: "uzairrajput",
-  description: "Create stylish bro image with one mention",
+  credits: "uzairrajput", // 🔒 Lock yahi hai
+  description: "Create stylish bestie image when user mentions one person",
   commandCategory: "image",
-  usages: "bro @mention",
-  cooldowns: 5
+  usages: "[@mention]",
+  cooldowns: 5,
+  dependencies: { axios: "", "fs-extra": "", path: "", jimp: "" }
 };
 
+// 📂 Jab command load ho to image folder ready ho jaye
 module.exports.onLoad = async () => {
-  const dir = path.join(__dirname, "uzair", "mtx");
+  const dir = __dirname + `/uzair/mtx/`;
   const imgPath = path.join(dir, "mtxbro.jpg");
+
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const imgData = (await axios.get("https://i.ibb.co/YBCmHChb/mtxbro.jpg", { responseType: "arraybuffer" })).data;
-    fs.writeFileSync(imgPath, imgData);
+    const img = (await axios.get("https://i.ibb.co/YBCmHChb/mtxbro.jpg", { responseType: "arraybuffer" })).data;
+    fs.writeFileSync(imgPath, Buffer.from(img));
   }
 };
 
+// 👑 DP ko circle me convert karega
 async function circle(imagePath) {
   const img = await jimp.read(imagePath);
   img.circle();
   return await img.getBufferAsync("image/png");
 }
 
+// 💞 Final image banane ka kaam yahan hota hai
 async function makeImage({ one, two }) {
-  const basePath = path.join(__dirname, "uzair", "mtx");
+  const basePath = path.resolve(__dirname, "uzair", "mtx");
   const bg = await jimp.read(path.join(basePath, "mtxbro.jpg"));
-  const pathFinal = path.join(basePath, `bro_${one}_${two}.png`);
+  const pathFinal = path.join(basePath, `mtxbro_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
 
-  const getAvatar = async (uid, filePath) => {
-    const avatar = (await axios.get(`https://graph.facebook.com/${uid}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" })).data;
-    fs.writeFileSync(filePath, avatar);
-  };
+  const avatar1 = (await axios.get(`https://graph.facebook.com/${one}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" })).data;
+  const avatar2 = (await axios.get(`https://graph.facebook.com/${two}/picture?width=512&height=512&access_token=6628568379|c1e620fa708a1d5696fb991c1bde5662`, { responseType: "arraybuffer" })).data;
 
-  await Promise.all([
-    getAvatar(one, pathOne),
-    getAvatar(two, pathTwo)
-  ]);
+  fs.writeFileSync(pathOne, Buffer.from(avatar1));
+  fs.writeFileSync(pathTwo, Buffer.from(avatar2));
 
   const circle1 = await jimp.read(await circle(pathOne));
   const circle2 = await jimp.read(await circle(pathTwo));
 
-  bg.composite(circle1.resize(770, 770), 408, 531);
-  bg.composite(circle2.resize(735, 735), 2106, 548);
+  bg.composite(circle1.resize(388, 388), 613, 826);
+  bg.composite(circle2.resize(390, 390), 1324, 826);
 
   const buffer = await bg.getBufferAsync("image/png");
   fs.writeFileSync(pathFinal, buffer);
   fs.unlinkSync(pathOne);
   fs.unlinkSync(pathTwo);
+
   return pathFinal;
 }
 
+// 💌 Jab koi message bheje jisme ek mention ho aur "bestie" likha ho
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
-  if (!body || !mentions || Object.keys(mentions).length !== 1) return;
+  const mentionIDs = Object.keys(mentions || {});
+  if (mentionIDs.length !== 1 || !body) return;
 
-  // ✅ Only trigger if message starts with "bro"
-  if (!body.toLowerCase().startsWith("bro")) return;
+  // ✅ Sirf tab chalega jab exact "bro" likha ho (na jyada na kam)
+  const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
+  if (!exactMatch) return;
 
   const one = senderID;
-  const two = Object.keys(mentions)[0];
+  const two = mentionIDs[0];
   const userInfo = await api.getUserInfo([one, two]);
 
   const nameOne = userInfo[one]?.name || "You";
-  const nameTwo = userInfo[two]?.name || "Bro";
+  const nameTwo = userInfo[two]?.name || "Friend";
 
   const img = await makeImage({ one, two });
 
   const msg = {
     body:
-`✧─👑 𝐁𝐑𝐎 𝐕𝐈𝐁𝐄𝐒 👑─✧\n● ──────────────────── ●
-╭─── •🔥• ───╮
+`┏━━━━༺🖤༻━━━━┓ 🖤 ✧ 𝐁𝐄𝐒𝐓𝐈𝐄 𝐕𝐈𝐁𝐄𝐒 ✧ 🖤
+┗━━━━༺🖤༻━━━━┛
+\n● ──────────────────── ●\n
+👑 ${nameOne} ❤️ ${nameTwo}
+\n● ──────────────────── ●\n
+💖 𝐘𝐞 𝐥𝐨 𝐛𝐚𝐛𝐲 ~ 𝐌𝐢𝐥 𝐠𝐚𝐲𝐢 𝐓𝐄𝐑𝐈 𝐁𝐄𝐒𝐓𝐈𝐄 ✨
 
-👬 𝐌𝐘 𝐁𝐑𝐎𝐒 👬  
-❤️ ${nameOne}  
-❤️ ${nameTwo}
+🫶 𝐃𝐨𝐬𝐭𝐢 𝐡𝐨 𝐭𝐨𝐡 𝐚𝐢𝐬𝐢 — 𝐣𝐨 𝐝𝐢𝐥 𝐬𝐞 𝐧𝐢𝐛𝐡𝐞 💞
 
-╰─── •🔥• ───╯
-● ──────────────────── ●
-💪 𝑻𝒆𝒓𝒂 𝒔𝒂𝒕𝒉 𝒉𝒐 𝒕𝒐 𝒉𝒂𝒓 𝒋𝒂𝒏𝒈 𝒋𝒊𝒕 𝒍𝒖𝒏  
-🔥 𝑩𝒓𝒐, 𝒕𝒖 𝒎𝒆𝒓𝒊 𝒔𝒉𝒂𝒏 𝒉𝒂𝒊
-
-🛡️ 𝑯𝒂𝒎𝒆𝒔𝒉𝒂 𝒔𝒂𝒕𝒉 𝒓𝒉𝒏𝒂, 𝒎𝒆𝒓𝒂 𝒚𝒂𝒓 𝒉𝒂𝒊 𝒕𝒖  
-🎯 𝑩𝒓𝒐 𝒕𝒆𝒓𝒂 𝒚𝒂𝒓 𝒉𝒂𝒎𝒆𝒔𝒉𝒂 𝒂𝒑𝒏𝒆 𝒔𝒂𝒕𝒉
-
-● ──────────────────── ●
-╭─━━──༺༻──━━─╮  
-⚡ 𝑴𝑨𝑫𝑬 𝑩𝒀 𝐔ʑʌī𝐑 ┼•🔥•  
-╰─━━──༺༻──━━─╯`,
+\n● ──────────────────── ●\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
     attachment: fs.createReadStream(img),
     mentions: [
       { tag: nameOne, id: one },
@@ -107,4 +103,5 @@ module.exports.handleEvent = async function ({ event, api }) {
   return api.sendMessage(msg, threadID, () => fs.unlinkSync(img), messageID);
 };
 
+// 🔕 Command run part empty hi rahega
 module.exports.run = () => {};
