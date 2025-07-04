@@ -22,7 +22,7 @@ module.exports.onLoad = async () => {
 
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const img = (await axios.get("https://i.ibb.co/93tJS6KK/brother.jpg", { responseType: "arraybuffer" })).data;
+    const img = (await axios.get("https://i.ibb.co/vx9YVgr9/4b49b9f2dc03a541149d834f0ca787d4-1.jpg", { responseType: "arraybuffer" })).data;
     fs.writeFileSync(imgPath, Buffer.from(img));
   }
 };
