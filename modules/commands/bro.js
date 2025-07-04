@@ -4,26 +4,21 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "bro",
-  version: "1.0.0",
+  name: "bro", // 🔐 Sirf is command se chalega
+  version: "7.3.3",
   hasPermssion: 0,
-  credits: "uzairrajput",
-  description: "Create stylish bro image when user mentions one person",
+  credits: "uzairrajput", // 🔒 Lock yahi hai
+  description: "Create stylish bestie image when user mentions one person",
   commandCategory: "image",
   usages: "[@mention]",
   cooldowns: 5,
-  dependencies: {
-    axios: "",
-    "fs-extra": "",
-    path: "",
-    jimp: ""
-  }
+  dependencies: { axios: "", "fs-extra": "", path: "", jimp: "" }
 };
 
-// 🔄 Preload image when bot starts
+// 📂 Jab command load ho to image folder ready ho jaye
 module.exports.onLoad = async () => {
   const dir = __dirname + `/uzair/mtx/`;
-  const imgPath = path.join(dir, "brother.jpg");
+  const imgPath = path.join(dir, "mtxbestie.jpg");
 
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
@@ -32,18 +27,18 @@ module.exports.onLoad = async () => {
   }
 };
 
-// 👤 Convert avatar to circle
+// 👑 DP ko circle me convert karega
 async function circle(imagePath) {
   const img = await jimp.read(imagePath);
   img.circle();
   return await img.getBufferAsync("image/png");
 }
 
-// 🖼️ Generate final image
+// 💞 Final image banane ka kaam yahan hota hai
 async function makeImage({ one, two }) {
   const basePath = path.resolve(__dirname, "uzair", "mtx");
-  const bg = await jimp.read(path.join(basePath, "brother.jpg"));
-  const pathFinal = path.join(basePath, `brother_${one}_${two}.png`);
+  const bg = await jimp.read(path.join(basePath, "mtxbestie.jpg"));
+  const pathFinal = path.join(basePath, `bestie_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
 
@@ -56,8 +51,8 @@ async function makeImage({ one, two }) {
   const circle1 = await jimp.read(await circle(pathOne));
   const circle2 = await jimp.read(await circle(pathTwo));
 
-  bg.composite(circle1.resize(190, 190), 110, 120); // Adjust X/Y
-  bg.composite(circle2.resize(190, 190), 320, 120);
+  bg.composite(circle1.resize(388, 388), 613, 826);
+  bg.composite(circle2.resize(390, 390), 1324, 826);
 
   const buffer = await bg.getBufferAsync("image/png");
   fs.writeFileSync(pathFinal, buffer);
@@ -67,12 +62,13 @@ async function makeImage({ one, two }) {
   return pathFinal;
 }
 
-// 📩 Handle message trigger
+// 💌 Jab koi message bheje jisme ek mention ho aur "bro" likha ho
 module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   const mentionIDs = Object.keys(mentions || {});
   if (mentionIDs.length !== 1 || !body) return;
 
+  // ✅ Sirf tab chalega jab exact "bro" likha ho (na jyada na kam)
   const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
   if (!exactMatch) return;
 
@@ -81,12 +77,22 @@ module.exports.handleEvent = async function ({ event, api }) {
   const userInfo = await api.getUserInfo([one, two]);
 
   const nameOne = userInfo[one]?.name || "You";
-  const nameTwo = userInfo[two]?.name || "Brother";
+  const nameTwo = userInfo[two]?.name || "Friend";
 
   const img = await makeImage({ one, two });
 
   const msg = {
-    body: `💙 𝗕𝗥𝗢𝗧𝗛𝗘𝗥𝗛𝗢𝗢𝗗 💙\n\n👑 ${nameOne} 🤝 ${nameTwo}\n\n🖤 𝗣𝘂𝗿𝗲 𝗕𝗿𝗼 𝗩𝗶𝗯𝗲𝘀 ✨\n\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
+    body:
+`┏━━━━༺🖤༻━━━━┓ 🖤 ✧ 𝐁𝐄𝐒𝐓𝐈𝐄 𝐕𝐈𝐁𝐄𝐒 ✧ 🖤
+┗━━━━༺🖤༻━━━━┛
+\n● ──────────────────── ●\n
+👑 ${nameOne} ❤️ ${nameTwo}
+\n● ──────────────────── ●\n
+💖 𝐘𝐞 𝐥𝐨 𝐛𝐚𝐛𝐲 ~ 𝐌𝐢𝐥 𝐠𝐚𝐲𝐢 𝐓𝐄𝐑𝐈 𝐁𝐄𝐒𝐓𝐈𝐄 ✨
+
+🫶 𝐃𝐨𝐬𝐭𝐢 𝐡𝐨 𝐭𝐨𝐡 𝐚𝐢𝐬𝐢 — 𝐣𝐨 𝐝𝐢𝐥 𝐬𝐞 𝐧𝐢𝐛𝐡𝐞 💞
+
+\n● ──────────────────── ●\n𒁍⃝𝐌𝐀𝐃𝐄 𝐁𝐘 𝐔ʑʌīī𝐑┼•__🦋•`,
     attachment: fs.createReadStream(img),
     mentions: [
       { tag: nameOne, id: one },
@@ -97,5 +103,5 @@ module.exports.handleEvent = async function ({ event, api }) {
   return api.sendMessage(msg, threadID, () => fs.unlinkSync(img), messageID);
 };
 
-// 🔕 Manual command use disabled
+// 🔕 Command run part empty hi rahega
 module.exports.run = () => {};
