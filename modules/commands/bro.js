@@ -4,7 +4,7 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "test", // 🔐 Sirf is command se chalega
+  name: "bro", // 🔐 Sirf is command se chalega
   version: "7.3.3",
   hasPermssion: 0,
   credits: "uzairrajput", // 🔒 Lock yahi hai
@@ -22,7 +22,7 @@ module.exports.onLoad = async () => {
 
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const img = (await axios.get("https://i.ibb.co/jvM9DhL1/mtxbestie.jpg", { responseType: "arraybuffer" })).data;
+    const img = (await axios.get("https://i.ibb.co/93tJS6KK/brother.jpg", { responseType: "arraybuffer" })).data;
     fs.writeFileSync(imgPath, Buffer.from(img));
   }
 };
@@ -69,7 +69,7 @@ module.exports.handleEvent = async function ({ event, api }) {
   if (mentionIDs.length !== 1 || !body) return;
 
   // ✅ Sirf tab chalega jab exact "bestie" likha ho (na jyada na kam)
-  const exactMatch = body.toLowerCase().split(/\s+/).includes("text");
+  const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
   if (!exactMatch) return;
 
   const one = senderID;
