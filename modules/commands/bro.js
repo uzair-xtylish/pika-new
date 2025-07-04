@@ -4,7 +4,7 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "sis", // 🔐 Sirf is command se chalega
+  name: "bro", // 🔐 Sirf is command se chalega
   version: "7.3.3",
   hasPermssion: 0,
   credits: "uzairrajput", // 🔒 Lock yahi hai
@@ -18,11 +18,11 @@ module.exports.config = {
 // 📂 Jab command load ho to image folder ready ho jaye
 module.exports.onLoad = async () => {
   const dir = __dirname + `/uzair/mtx/`;
-  const imgPath = path.join(dir, "sister.png");
+  const imgPath = path.join(dir, "bro.jpg");
 
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const img = (await axios.get("https://i.ibb.co/CKLd0GL0/sister.png", { responseType: "arraybuffer" })).data;
+    const img = (await axios.get("https://i.ibb.co/GvzXPxfp/bro.jpg", { responseType: "arraybuffer" })).data;
     fs.writeFileSync(imgPath, Buffer.from(img));
   }
 };
@@ -37,8 +37,8 @@ async function circle(imagePath) {
 // 💞 Final image banane ka kaam yahan hota hai
 async function makeImage({ one, two }) {
   const basePath = path.resolve(__dirname, "uzair", "mtx");
-  const bg = await jimp.read(path.join(basePath, "sister.png"));
-  const pathFinal = path.join(basePath, `sis_${one}_${two}.png`);
+  const bg = await jimp.read(path.join(basePath, "bro.jpg"));
+  const pathFinal = path.join(basePath, `bro_${one}_${two}.png`);
   const pathOne = path.join(basePath, `avt_${one}.png`);
   const pathTwo = path.join(basePath, `avt_${two}.png`);
 
@@ -68,8 +68,8 @@ module.exports.handleEvent = async function ({ event, api }) {
   const mentionIDs = Object.keys(mentions || {});
   if (mentionIDs.length !== 1 || !body) return;
 
-  // ✅ Sirf tab chalega jab exact "sis" likha ho (na jyada na kam)
-  const exactMatch = body.toLowerCase().split(/\s+/).includes("sis");
+  // ✅ Sirf tab chalega jab exact "bro" likha ho (na jyada na kam)
+  const exactMatch = body.toLowerCase().split(/\s+/).includes("bro");
   if (!exactMatch) return;
 
   const one = senderID;
