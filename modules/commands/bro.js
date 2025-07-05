@@ -51,7 +51,7 @@ async function makeImage({ one, two }) {
   const circle2 = await jimp.read(await circle(pathTwo));
 
   bg.composite(circle1.resize(371, 371), 113, 190);
-  bg.composite(circle2.resize(374, 374), 785, 195);
+  bg.composite(circle2.resize(374, 374), 784, 195);
 
   const buffer = await bg.getBufferAsync("image/png");
   fs.writeFileSync(pathFinal, buffer);
