@@ -4,11 +4,11 @@ const path = require("path");
 const jimp = require("jimp");
 
 module.exports.config = {
-  name: "bro",
+  name: "brother",
   version: "1.0.0",
   hasPermssion: 0,
   credits: "uzairrajput",
-  description: "Create stylish bestie image with one mention",
+  description: "Create stylish brother image with one mention",
   commandCategory: "image",
   usages: "@mention",
   cooldowns: 5
@@ -19,7 +19,7 @@ module.exports.onLoad = async () => {
   const imgPath = path.join(dir, "bro.jpeg");
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   if (!fs.existsSync(imgPath)) {
-    const imgData = (await axios.get("https://i.ibb.co/NdBHfJ7Q/mtxbstie.jpg", { responseType: "arraybuffer" })).data;
+    const imgData = (await axios.get("https://i.ibb.co/ZpnnTP1F/bro.jpg", { responseType: "arraybuffer" })).data;
     fs.writeFileSync(imgPath, imgData);
   }
 };
@@ -50,8 +50,8 @@ async function makeImage({ one, two }) {
   const circle1 = await jimp.read(await circle(pathOne));
   const circle2 = await jimp.read(await circle(pathTwo));
 
-  bg.composite(circle1.resize(900, 900), 404, 724);
-  bg.composite(circle2.resize(886, 886), 1922, 738);
+  bg.composite(circle1.resize(100, 100), 104, 124);
+  bg.composite(circle2.resize(106, 106), 622, 138);
 
   const buffer = await bg.getBufferAsync("image/png");
   fs.writeFileSync(pathFinal, buffer);
