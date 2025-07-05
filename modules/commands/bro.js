@@ -64,7 +64,7 @@ module.exports.handleEvent = async function ({ event, api }) {
   const { threadID, messageID, senderID, mentions, body } = event;
   if (!body || !mentions || Object.keys(mentions).length !== 1) return;
 
-  // ✅ Check if body starts with "bro"
+  // ✅ Check if body starts with "bro" 
   if (!body.toLowerCase().startsWith("bro")) return;
 
   const one = senderID;
